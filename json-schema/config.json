@@ -1,0 +1,6 @@
+{
+  "scales": [
+    {"type": "linear"},
+    {"type": "ordinal"}
+  ]
+}
