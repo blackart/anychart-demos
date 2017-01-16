@@ -9,12 +9,12 @@ anychart.onDocumentReady(function() {
 
     for (var i = 0, len = rects.length; i < len; i++) {
       var item = rects[i];
-      goog.disposeAll(item.layer, item.rect);
+      goog.disposeAll(item.layer);
     }
 
     rects = [];
 
-    for (i = 0, len = 10000; i < len; i++) {
+    for (i = 0, len = 1; i < len; i++) {
       var l2 = {};
       l2.layer = layer.layer();
       l2.rect = l2.layer.rect(10, 10, 300, 300);
@@ -22,5 +22,5 @@ anychart.onDocumentReady(function() {
     }
     stage.resume();
   }
-  setInterval(q, 50);
+  setInterval(q, 1000);
 });

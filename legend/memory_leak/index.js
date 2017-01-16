@@ -46,7 +46,7 @@ app.directive('ngDetailByIndex', ['$timeout', '$filter', '$document', '$compile'
           if ($scope.table != undefined) {
             $scope.table.addData(result);
           }
-        }, 5000);
+        }, 50);
         $scope.tables = {};
         $scope.tabID = 1;
         $scope.element = $element;
