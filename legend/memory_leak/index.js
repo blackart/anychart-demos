@@ -46,7 +46,7 @@ app.directive('ngDetailByIndex', ['$timeout', '$filter', '$document', '$compile'
           if ($scope.table != undefined) {
             $scope.table.addData(result);
           }
-        }, 50);
+        }, 5000);
         $scope.tables = {};
         $scope.tabID = 1;
         $scope.element = $element;
@@ -71,6 +71,7 @@ app.directive('ngDetailByIndex', ['$timeout', '$filter', '$document', '$compile'
           currentPlot.legend().itemsTextFormatter(function(obj) {
             return this.seriesName;
           });
+          currentPlot.legend().paginator(false);
           indexSeriesList = {};
           if ($scope.table == undefined) {
             $scope.table = anychart.data.table('time', 'MMddyyyy');
