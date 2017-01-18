@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
 <head>
-  <script src="../../contrib/closure-library/closure/goog/base.js"></script>
+  <script src="../../libs/closure-library/closure/goog/base.js"></script>
   <script src="../../src/deps.js"></script>
   <meta charset="utf-8">
   <script>
-    goog.require('anychart.modules.anychart');
-    goog.require('anychart.themes.defaultTheme');
+      goog.require('anychart.themes.defaultTheme');
+      goog.require('anychart.modules.anychart');
     goog.require('goog.color.names');
   </script>
   <script src="index.js"></script>
@@ -105,8 +105,8 @@
             {name: 'item 2'}
 
         ];
-        var legend = anychart.ui.legend();
-        legend.itemsProvider(data);
+        var legend = anychart.standalones.legend();
+        legend.itemsSource(data);
         legend.title().text('Complex_test').orientation('left');
         legend.titleSeparator().orientation(anychart.enums.Orientation.LEFT);
 

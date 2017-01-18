@@ -23,8 +23,8 @@ var generateData = function(map, opt_min, opt_max) {
 
 anychart.onDocumentReady(function() {
   chart = anychart.map();
-  chart.crs(anychart.enums.MapProjections.AUGUST);
-  chart.geoData('anychart.maps.world_source');
+  // chart.crs(anychart.enums.MapProjections.AUGUST);
+  chart.geoData('anychart.maps.australia');
   // chart.geoData('anychart.maps.world');
   // chart.geoData('anychart.maps.france');
   chart.interactivity()
