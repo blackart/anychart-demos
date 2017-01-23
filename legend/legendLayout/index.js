@@ -63,7 +63,7 @@ anychart.onDocumentReady(function() {
   chart1 = anychart.line();
 
   // turn on chart animation
-  chart1.animation(true);
+  chart1.animation(false);
 
   var cboc_corpBlue = "#006792";
   var cboc_blue = "#00b6de";
@@ -88,6 +88,7 @@ anychart.onDocumentReady(function() {
   series_2.hoverMarkers().enabled(true).type('circle').size(4);
   series_2.tooltip().position('right').anchor('left').offsetX(5).offsetY(5);
   series_2.stroke('2 green');
+  series_2.legendItem().iconStroke('none');
 
   var series_3 = chart1.area(seriesData_3);
   series_3.name(fieldNames[2]);
@@ -129,9 +130,29 @@ anychart.onDocumentReady(function() {
   chart1.xAxis().labels().fontFamily("Arial").fontSize(12);
 
   // turn the legend on
-  chart1.legend().enabled(true).fontFamily("Arial").fontSize(12).padding([10, 20, 20, 0]);
-  var legend1 = chart1.legend();
-  legend1.iconSize(8); // sets hover cursor
+  chart1.legend()
+      .enabled(true)
+      .fontFamily("Arial")
+      .fontSize(12)
+      .padding(0)
+      .margin(0)
+      .align('left')
+
+  legend1 = chart1.legend();
+  legend1.iconSize(200); // sets hover cursor
+  legend1.fontSize(15)
+  legendTitle = legend1.title();
+  legendTitle
+      // .align('center')
+      .padding(20)
+      .fontSize(20)
+      .orientation('left')
+      .rotation(0)
+      .enabled(true)
+      .text('Legend');
+
+
+
 
   var chart1grid = chart1.grid();
   chart1grid.enabled(true);
