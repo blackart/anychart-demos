@@ -6,13 +6,18 @@ anychart.onDocumentLoad(function() {
 
   var rect = stage.rect().setBounds(stage.getBounds()).stroke('2 black');
   var data = [
-    {name: 'item 1'},
-    {name: 'item 2'},
-    {name: 'item 3'},
-    {name: 'item 4'},
-    {name: 'item 5'},
-    {name: 'item 6'},
-    {name: 'item 7'}
+    {name: 'item 1', iconType: 'line'},
+    {name: 'item 2', iconType: 'splinearea'},
+    {name: 'item 3', iconType: 'stepline'},
+    {name: 'item 12', iconType: 'steparea'},
+    {name: 'item 4', iconType: 'circle'},
+    {name: 'item 5', iconType: 'triangleup'},
+    {name: 'item 6', iconType: 'star5'},
+    {name: 'item 7', iconType: 'bubble'},
+    {name: 'item 8', iconType: 'column'},
+    {name: 'item 9', iconType: 'rangesteparea'},
+    {name: 'item 10', iconType: 'rangecolumn'},
+    {name: 'item 11', iconType: 'candlestick'}
   ];
 
   legend = anychart.standalones.legend();
@@ -21,7 +26,7 @@ anychart.onDocumentLoad(function() {
   legendTitle = legend.title()
       .enabled(true)
       .text('Complex_test')
-      .padding(0)
+      .padding(0, 10, 0, 5)
       .rotation(0)
       .orientation('left');
 
@@ -43,7 +48,7 @@ anychart.onDocumentLoad(function() {
       // .padding(5, 15);
       .padding(10);
 
-  // legend.width(300);
+  legend.width(300);
   legend.height(200);
 
   legend.tooltip().background()
