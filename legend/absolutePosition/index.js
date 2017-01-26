@@ -276,25 +276,35 @@ anychart.onDocumentLoad(function() {
   };
 
   var stage = anychart.graphics.create('container', '100%', '100%');
-  stage.suspend();
-
   chart = anychart.map();
-
+  chart.geoData('anychart.maps.world_source')
 
   var seriesCount = governmentTypes.length;
   for (var i = 0; i < seriesCount; i++) {
     var data = country_government_data.filter('value', filterConstructor(governmentTypes[i]));
     var series = chart.choropleth(data);
     series.name(governmentTypes[i]);
-    // series.geoIdField('iso_a2');
   }
 
 
-  chart.geoData('anychart.maps.world_source')
-
-  legend = chart.legend();
 
 
+
+
+
+  legend = chart.legend()
+      .enabled(true)
+      .position('right')
+      // .align('center')
+      .iconTextSpacing(5)
+      .itemsLayout('vertical')
+      .itemsSpacing('10')
+      .margin(10)
+      // .width(300)
+      // .height(200)
+      // .margin(20, 0)
+      // .padding(5, 15)
+      .padding(10);
 
   legendTitle = legend.title()
       .enabled(true)
@@ -306,27 +316,23 @@ anychart.onDocumentLoad(function() {
   legend.titleSeparator()
       .orientation(anychart.enums.Orientation.RIGHT);
 
-  legend
+  legend.background()
       .enabled(true)
-      // .position('top')
-      // .align('center')
-      .background().enabled(1).fill({keys: ['yellow .7', 'green .5'], angle: -90}).cornerType('roundinner').corners(10).stroke('4 pink');
+      .fill({keys: ['yellow .7', 'green .5'], angle: -90})
+      .cornerType('roundinner')
+      .corners(10)
+      .stroke('4 pink');
 
-  legend
-      .iconTextSpacing(5)
-      .itemsLayout('vertical')
-      .itemsSpacing('10')
-      .margin(10)
-      // .margin(20, 0)
-      // .padding(5, 15);
-      .padding(10);
 
-  // legend.width(300);
-  // legend.height(200);
+
+
+
+
+
+
+
 
   chart.container(stage).draw();
-
-  stage.resume();
 });
 
 

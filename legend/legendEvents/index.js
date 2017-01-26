@@ -1,12 +1,14 @@
+var data, chart, series;
 anychart.onDocumentReady(function() {
-  var chart = anychart.column();
-  var series = chart.column([
+  data = [
     {x:"John", value: 10000},
     {x:"Jake", value: 12000},
     {x:"Peter", value: 18000},
     {x:"James", value: 11000},
     {x:"Mary", value: 9000}
-  ]);
+  ];
+  chart = anychart.column();
+  series = chart.column(data);
 
   var legend = chart.legend();
   legend.enabled(true);
@@ -17,6 +19,7 @@ anychart.onDocumentReady(function() {
   // legend.listen("legendItemMouseOut", function() {
   //   console.log("mouse out")
   // });
+
   legend.listen("legendItemClick", function() {
     console.log("click")
   });
