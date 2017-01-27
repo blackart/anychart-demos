@@ -1,17 +1,13 @@
 var data, chart, series;
 anychart.onDocumentReady(function() {
-  data = [
-    {x:"John", value: 10000},
-    {x:"Jake", value: 12000},
-    {x:"Peter", value: 18000},
-    {x:"James", value: 11000},
-    {x:"Mary", value: 9000}
-  ];
   chart = anychart.column();
-  series = chart.column(data);
+  chart.column([16, 30, 45, 12, 5]);
+  chart.column([1, 51, 23, 64, 12]);
+  series = chart.column([18, 25, 10, 20, 35]);
+  legend = chart.legend()
+      .align('center')
+      .enabled(true);
 
-  var legend = chart.legend();
-  legend.enabled(true);
 
   // legend.listen("legendItemMouseOver", function(){
   //   console.log("mouse over");

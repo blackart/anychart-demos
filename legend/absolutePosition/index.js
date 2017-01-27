@@ -294,10 +294,10 @@ anychart.onDocumentLoad(function() {
 
   legend = chart.legend()
       .enabled(true)
-      .position('right')
+      .position('top')
       // .align('center')
       .iconTextSpacing(5)
-      .itemsLayout('vertical')
+      .itemsLayout('horizontal')
       .itemsSpacing('10')
       .margin(10)
       // .width(300)
