@@ -31,7 +31,9 @@
 
     <script src="../../../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../../../src/deps.js"></script>
-    <script src="../../../../proj4.js"></script>
+    <!--<script src="../../../../proj4.js"></script>-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
 
     <script>
         goog.require('anychart.themes.defaultTheme');
@@ -45,11 +47,11 @@
             overflow-y: scroll;
         }
         #container {
-            width: 65%;
-            height: 100%;
+            width: 800px;
+            height: 600px;
             /*width: 400px;*/
             /*height: 300px;*/
-            /*border: 1px solid #000;*/
+            border: 1px solid #000;
         }
     </style>
     <script src="http://cdn.anychart.com/geodata/1.2.0/custom/world_source/world_source.js"></script>
