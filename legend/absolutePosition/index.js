@@ -348,6 +348,10 @@ function t_align(value) {
   legendTitle.align(value);
 }
 
+function drag(value) {
+  legend.drag(value);
+}
+
 function positionMode(value) {
   legend.positionMode(value);
 }
