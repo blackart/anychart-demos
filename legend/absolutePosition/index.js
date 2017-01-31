@@ -320,7 +320,7 @@ anychart.onDocumentLoad(function() {
       .enabled(true)
       .fill({keys: ['yellow .7', 'green .5'], angle: -90})
       .cornerType('roundinner')
-      .corners(10)
+      .corners(20)
       .stroke('4 pink');
 
 
