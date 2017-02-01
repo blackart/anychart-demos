@@ -25,29 +25,29 @@ function drawChart(container, geodata) {
   // chart.geoData('anychart.maps.france');
   // chart.geoData('anychart.maps.australia');
 
-  // var series = chart.choropleth(generateData(chart));
-  //
-  // var scale = anychart.scales.ordinalColor([
-  //   {less: 1907},
-  //   {from: 1907, to: 1920},
-  //   {from: 1920, to: 1940},
-  //   {from: 1940, to: 1950},
-  //   {from: 1950, to: 1960},
-  //   {from: 1960, to: 1970},
-  //   {from: 1970, to: 1980},
-  //   {greater: 1980}
-  // ]);
-  //
-  // series.labels()
-  //     .enabled(true)
-  //     .textFormatter('{%id}');
-  //
-  // scale.colors(['#42a5f5', '#64b5f6', '#90caf9', '#ffa726', '#fb8c00', '#f57c00', '#ef6c00', '#e65100']);
-  // series.colorScale(scale);
+  var series = chart.choropleth(generateData(chart));
+
+  var scale = anychart.scales.ordinalColor([
+    {less: 1907},
+    {from: 1907, to: 1920},
+    {from: 1920, to: 1940},
+    {from: 1940, to: 1950},
+    {from: 1950, to: 1960},
+    {from: 1960, to: 1970},
+    {from: 1970, to: 1980},
+    {greater: 1980}
+  ]);
+
+  series.labels()
+      .enabled(true)
+      .textFormatter('{%id}');
+
+  scale.colors(['#42a5f5', '#64b5f6', '#90caf9', '#ffa726', '#fb8c00', '#f57c00', '#ef6c00', '#e65100']);
+  series.colorScale(scale);
 
 
 
-  var series = chart.marker(anychart.data.set(airportsData));
+  // var series = chart.marker(anychart.data.set(airportsData));
 
 
 
