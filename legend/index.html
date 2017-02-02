@@ -50,6 +50,9 @@
             title orientation
         </td>
         <td>
+            separator
+        </td>
+        <td>
             title flip 90
         </td>
         <td>
@@ -103,6 +106,12 @@
                 <tr>
                     <td><input type="button" value="vertical" onclick="lay(this.value)"/></td>
                 </tr>
+                <tr>
+                    <td><input type="button" value="eHorizontal" onclick="lay(this.value)"/></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="eVertical" onclick="lay(this.value)"/></td>
+                </tr>
             </table>
         </td>
         <td>
@@ -120,6 +129,25 @@
                 <tr>
                     <td></td>
                     <td><input type="button" value="bottom" onclick="t_orientation(this.value)"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="top" onclick="s_orientation(this.value)"/></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="left" onclick="s_orientation(this.value)"/></td>
+                    <td></td>
+                    <td><input type="button" value="right" onclick="s_orientation(this.value)"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="bottom" onclick="s_orientation(this.value)"/></td>
                     <td></td>
                 </tr>
             </table>

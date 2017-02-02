@@ -1,4 +1,4 @@
-var legend, chart, legendTitle;
+var legend, chart;
 
 anychart.onDocumentLoad(function() {
   var stage = anychart.graphics.create('container', 400, 300);
@@ -23,15 +23,18 @@ anychart.onDocumentLoad(function() {
   legend = anychart.standalones.legend();
 
   legend.items(data);
-  legendTitle = legend.title()
+  legend.title()
       .enabled(true)
       .text('Complex_test')
       .padding(0, 10, 0, 5)
-      .rotation(0)
-      .orientation('left');
+      // .rotation(0)
+      // .orientation('left');
 
   legend.titleSeparator()
-      .orientation(anychart.enums.Orientation.RIGHT);
+      .enabled(true)
+      .stroke('red')
+      .margin(20)
+      // .orientation(anychart.enums.Orientation.RIGHT);
 
   legend
       .position('top')
@@ -41,15 +44,15 @@ anychart.onDocumentLoad(function() {
 
   legend
       .iconTextSpacing(5)
-      .itemsLayout('vertical')
+      .itemsLayout('h')
       .itemsSpacing('10')
       .margin(10)
       // .margin(20, 0)
       // .padding(5, 15);
       .padding(10);
 
-  legend.width(300);
-  legend.height(200);
+  // legend.width(270);
+  // legend.height(200);
 
   legend.tooltip().background()
       .stroke('2 red')
@@ -62,15 +65,19 @@ anychart.onDocumentLoad(function() {
 
 
 function t_flip90() {
-  legendTitle.rotation((legendTitle.rotation() || 0) + 90);
+  legend.title().rotation((legendTitle.rotation() || 0) + 90);
 }
 
 function t_orientation(value) {
-  legendTitle.orientation(value);
+  legend.title().orientation(value);
+}
+
+function s_orientation(value) {
+  legend.titleSeparator().orientation(value);
 }
 
 function t_align(value) {
-  legendTitle.align(value);
+  legend.title().align(value);
 }
 
 function pos(value) {
