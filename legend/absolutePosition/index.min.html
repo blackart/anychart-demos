@@ -3,32 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <title>AnyChart sample</title>
+    <script src="../../../out/anychart-bundle.min.js"></script>
+    <script src="http://cdn.anychart.com/geodata/1.2.0/custom/world_source/world_source.js"></script>
+    <script src="index.js"></script>
     <style>
-        html, body, #container {
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        input[type=button] {
+            width: 70px;
+        }
+
+        tr {
+            text-align: center;
+        }
+
+        table {
+            margin: 0 20px;
+        }
+
+        #container {
+            border: 1px solid;
             width: 100%;
-            height: 400px;
-            margin: 0;
-            padding: 0;
+            height: 600px;
         }
     </style>
-    <!--<script src="https://cdn.anychart.com/js/7.12.0/anychart-bundle.min.js"></script>-->
-
-    <script src="../../../out/anychart-bundle.min.js"></script>
-
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
-    <script src="//cdn.anychart.com/csv-data/csco-daily.js"></script>
-    <link rel="stylesheet" href="https://cdn.anychart.com/css/7.12.0/anychart-ui.min.css"/>
 </head>
 <body>
-
-<div ng-app="myModule">
-    <div ng-detail-by-index>
-
-        <div></div>
-
-    </div>
-</div>
-
+<div id="container"></div>
+<table>
+    <tr>
+        <td>
+            position
+        </td>
+        <td>
+            position mode
+        </td>
+        <td>
+            align
+        </td>
+        <td>
+            layout
+        </td>
+        <td>
+            drag
+        </td>
+        <td>
+            title orientation
+        </td>
+        <td>
+            title flip 90
+        </td>
+        <td>
+            title align
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="top" onclick="pos(this.value)"/></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="left" onclick="pos(this.value)"/></td>
+                    <td></td>
+                    <td><input type="button" value="right" onclick="pos(this.value)"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="bottom" onclick="pos(this.value)"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td><input type="button" value="inside" onclick="positionMode(this.value)"/></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="outside" onclick="positionMode(this.value)"/></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="top" onclick="ali(this.value)"/></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="left" onclick="ali(this.value)"/></td>
+                    <td><input type="button" value="center" onclick="ali(this.value)"/></td>
+                    <td><input type="button" value="right" onclick="ali(this.value)"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="bottom" onclick="ali(this.value)"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td><input type="button" value="horizontal" onclick="lay(this.value)"/></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="vertical" onclick="lay(this.value)"/></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td><input type="button" value="on" onclick="drag(true)"/></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="off" onclick="drag(false)"/></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="top" onclick="t_orientation(this.value)"/></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="left" onclick="t_orientation(this.value)"/></td>
+                    <td></td>
+                    <td><input type="button" value="right" onclick="t_orientation(this.value)"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="bottom" onclick="t_orientation(this.value)"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td><input type="button" value="flip90" onclick="t_flip90()"/></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="top" onclick="t_align(this.value)"/></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="left" onclick="t_align(this.value)"/></td>
+                    <td><input type="button" value="center" onclick="t_align(this.value)"/></td>
+                    <td><input type="button" value="right" onclick="t_align(this.value)"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="bottom" onclick="t_align(this.value)"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
+</html>
 </html>

@@ -318,10 +318,10 @@ anychart.onDocumentLoad(function() {
 
   legend.background()
       .enabled(true)
-      .fill({keys: ['yellow .7', 'green .5'], angle: -90})
+      .fill({keys: ['yellow .3', 'green .2'], angle: -90})
       .cornerType('roundinner')
       .corners(20)
-      .stroke('4 pink');
+      .stroke('2 pink');
 
 
 
