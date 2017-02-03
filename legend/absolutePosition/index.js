@@ -1,5 +1,9 @@
 var legend, chart, legendTitle;
 
+var randomExt = function(a, b) {
+  return Math.round(Math.random() * (b - a + 1) + a);
+};
+
 anychart.onDocumentLoad(function() {
   var governmentTypes = [
     'Single-party state',
@@ -297,21 +301,22 @@ anychart.onDocumentLoad(function() {
       .position('top')
       // .align('center')
       .iconTextSpacing(5)
-      .itemsLayout('horizontal')
-      .itemsSpacing('10')
+      .itemsLayout('ehorizontal')
+      .width(500)
+      .itemsSpacing(10)
       .margin(10)
       // .width(300)
       // .height(200)
       // .margin(20, 0)
       // .padding(5, 15)
-      .padding(10);
+      .padding(0);
 
   legendTitle = legend.title()
       .enabled(true)
       .text('Legend')
       .padding(5, 10, 5, 5)
-      .rotation(0)
-      .orientation('left');
+      // .rotation(0)
+      .orientation('top');
 
   legend.titleSeparator()
       .orientation(anychart.enums.Orientation.RIGHT);
@@ -319,8 +324,8 @@ anychart.onDocumentLoad(function() {
   legend.background()
       .enabled(true)
       .fill({keys: ['yellow .3', 'green .2'], angle: -90})
-      .cornerType('roundinner')
-      .corners(20)
+      // .cornerType('roundinner')
+      // .corners(20)
       .stroke('2 pink');
 
 
@@ -366,4 +371,12 @@ function ali(value) {
 
 function lay(value) {
   legend.itemsLayout(value);
+}
+
+function addSeries() {
+  chart.marker([{lat: randomExt(-80, 80), lon: randomExt(-170, 170)}]);
+}
+
+function removeSeries() {
+  chart.removeSeriesAt(randomExt(0, chart.getSeriesCount() - 1))
 }

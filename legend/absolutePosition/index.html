@@ -20,6 +20,7 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            overflow-y: scroll;
         }
 
         input[type=button] {
@@ -68,6 +69,9 @@
         </td>
         <td>
             title align
+        </td>
+        <td>
+            series
         </td>
     </tr>
     <tr>
@@ -127,6 +131,9 @@
                 <tr>
                     <td><input type="button" value="vertical" onclick="lay(this.value)"/></td>
                 </tr>
+                <tr>
+                    <td><input type="button" value="eHorizontal" onclick="lay(this.value)"/></td>
+                </tr>
             </table>
         </td>
         <td>
@@ -181,6 +188,16 @@
                     <td></td>
                     <td><input type="button" value="bottom" onclick="t_align(this.value)"/></td>
                     <td></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td><input type="button" value="addSeries" onclick="addSeries()"/></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="removeSeries" onclick="removeSeries()"/></td>
                 </tr>
             </table>
         </td>
