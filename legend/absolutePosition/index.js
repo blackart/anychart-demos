@@ -302,14 +302,16 @@ anychart.onDocumentLoad(function() {
       // .align('center')
       .iconTextSpacing(5)
       .itemsLayout('ehorizontal')
-      .width(500)
+      // .width(500)
       .itemsSpacing(10)
       .margin(10)
-      // .width(300)
-      // .height(200)
+      .drag(true)
+      .width(400)
+      .height(100)
       // .margin(20, 0)
-      // .padding(5, 15)
-      .padding(0);
+      .padding(5, 15)
+      // .padding(0)
+      .margin(0);
 
   legendTitle = legend.title()
       .enabled(true)
