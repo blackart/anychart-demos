@@ -290,6 +290,10 @@ anychart.onDocumentLoad(function() {
     series.name(governmentTypes[i]);
   }
 
+  chart
+      .margin(0)
+      .padding(10);
+
 
 
 
@@ -301,30 +305,36 @@ anychart.onDocumentLoad(function() {
       .position('top')
       // .align('center')
       .iconTextSpacing(5)
-      .itemsLayout('ehorizontal')
-      // .width(500)
+      // .itemsLayout('h')
+      .itemsLayout('evertical')
+      // .itemsLayout('ehorizontal')
       .itemsSpacing(10)
-      .margin(10)
-      .drag(true)
-      .width(400)
+      .drag(false)
+      .width(600)
       .height(100)
       // .margin(20, 0)
-      .padding(5, 15)
       // .padding(0)
-      .margin(0);
+      .padding(0)
+      .margin(0)
+
 
   legendTitle = legend.title()
       .enabled(true)
-      .text('Legend')
-      .padding(5, 10, 5, 5)
-      // .rotation(0)
-      .orientation('top');
+      // .text('Legend')
+      .padding(0)
+      .rotation(0)
+      .orientation('left')
+      // .text('Candidates in Russian Federation by 2010 year. In sibirean district by wooomans.')
+      .letterSpacing('2px')
+      .margin(20)
+      .fontSize(11);
 
   legend.titleSeparator()
       .orientation(anychart.enums.Orientation.RIGHT);
 
   legend.background()
       .enabled(true)
+      // .enabled(false)
       .fill({keys: ['yellow .3', 'green .2'], angle: -90})
       // .cornerType('roundinner')
       // .corners(20)
@@ -342,9 +352,16 @@ anychart.onDocumentLoad(function() {
   chart.container(stage).draw();
 });
 
+function l_enabled() {
+  legend.enabled(!legend.enabled());
+}
 
 function t_flip90() {
   legendTitle.rotation((legendTitle.rotation() || 0) + 90);
+}
+
+function t_enable() {
+  legend.title().enabled(!legend.title().enabled());
 }
 
 function t_orientation(value) {

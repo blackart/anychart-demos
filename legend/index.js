@@ -1,64 +1,29 @@
 var legend, chart;
 
 anychart.onDocumentLoad(function() {
-  var stage = anychart.graphics.create('container', 400, 300);
+  var stage = anychart.graphics.create('container', 600, 300);
   stage.suspend();
 
-  var rect = stage.rect().setBounds(stage.getBounds()).stroke('2 black');
-  var data = [
-    {name: 'item 1', iconType: 'line'},
-    {name: 'item 2', iconType: 'splinearea'},
-    {name: 'item 3', iconType: 'stepline'},
-    {name: 'item 12', iconType: 'steparea'},
-    {name: 'item 4', iconType: 'circle'},
-    {name: 'item 5', iconType: 'triangleup'},
-    {name: 'item 6', iconType: 'star5'},
-    {name: 'item 7', iconType: 'bubble'},
-    {name: 'item 8', iconType: 'column'},
-    {name: 'item 9', iconType: 'rangesteparea'},
-    {name: 'item 10', iconType: 'rangecolumn'},
-    {name: 'item 11', iconType: 'candlestick'}
-  ];
-
-  legend = anychart.standalones.legend();
-
-  legend.items(data);
-  legend.title()
+  chart = anychart.line([1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]);
+  chart.getSeries(0).name('veryvery\n\rlongtext');
+  chart.getSeries(1).name('s2');
+  chart.getSeries(2).name('s3');
+  chart.getSeries(3).name('asdhfiuhef iuhwiefhiwuhfw iuwehfsdfsf');
+  chart.legend({enabled: true});
+  chart.legend()
+      .itemsFormatter(function(items) {
+        items[3]['maxWidth'] = 70;
+        items[3]['textOverflow'] = anychart.graphics.vector.Text.TextOverflow.ELLIPSIS;
+        return items;
+      });
+  chart.legend().iconSize(5);
+  chart.legend().title()
+      .padding(10)
       .enabled(true)
-      .text('Complex_test')
-      .padding(0, 10, 0, 5)
-      // .rotation(0)
-      // .orientation('left');
+      .orientation('left')
+      .rotation(0)
 
-  legend.titleSeparator()
-      .enabled(true)
-      .stroke('red')
-      .margin(20)
-      // .orientation(anychart.enums.Orientation.RIGHT);
-
-  legend
-      .position('top')
-      .align('right')
-      // .parentBounds(rect.getBounds())
-      .background().enabled(1).fill({keys: ['yellow', 'green .7'], angle: -90}).cornerType('roundinner').corners(10).stroke('4 pink');
-
-  legend
-      .iconTextSpacing(5)
-      .itemsLayout('h')
-      .itemsSpacing('10')
-      .margin(10)
-      // .margin(20, 0)
-      // .padding(5, 15);
-      .padding(10);
-
-  // legend.width(270);
-  // legend.height(200);
-
-  legend.tooltip().background()
-      .stroke('2 red')
-      .fill('pink');
-
-  legend.container(stage).draw();
+  chart.container(stage).draw();
 
   stage.resume();
 });
