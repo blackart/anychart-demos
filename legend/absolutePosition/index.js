@@ -287,7 +287,7 @@ anychart.onDocumentLoad(function() {
   for (var i = 0; i < seriesCount; i++) {
     var data = country_government_data.filter('value', filterConstructor(governmentTypes[i]));
     var series = chart.choropleth(data);
-    series.name(governmentTypes[i]);
+    // series.name(governmentTypes[i]);
   }
 
   chart
@@ -301,9 +301,10 @@ anychart.onDocumentLoad(function() {
 
 
   legend = chart.legend()
+      .zIndex(1000)
       .enabled(true)
       .position('top')
-      // .align('center')
+      .align('left')
       .iconTextSpacing(5)
       // .itemsLayout('h')
       .itemsLayout('evertical')
@@ -312,8 +313,10 @@ anychart.onDocumentLoad(function() {
       .drag(true)
       .positionMode('inside')
       .position('bottom')
-      // .width(300)
-      // .height(300)
+      // .width(600)
+      .maxWidth(600)
+      // .height(200)
+      .maxHeight(200)
       // .margin(20, 0)
       // .padding(0)
       .padding(5, 10)
@@ -324,7 +327,7 @@ anychart.onDocumentLoad(function() {
       .enabled(true)
       // .text('Legend')
       .padding(0)
-      .rotation(0)
+      // .rotation(0)
       .orientation('left')
       // .text('Candidates in Russian Federation by 2010 year. In sibirean district by wooomans.')
       .letterSpacing('2px')
@@ -338,6 +341,7 @@ anychart.onDocumentLoad(function() {
       .enabled(true)
       // .enabled(false)
       .fill({keys: ['yellow .3', 'green .2'], angle: -90})
+      // .fill('green')
       // .cornerType('roundinner')
       // .corners(20)
       .stroke('2 pink');
@@ -399,5 +403,6 @@ function addSeries() {
 }
 
 function removeSeries() {
-  chart.removeSeriesAt(randomExt(0, chart.getSeriesCount() - 1))
+  // chart.removeSeriesAt(randomExt(0, chart.getSeriesCount() - 1));
+  chart.removeSeriesAt(chart.getSeriesCount()-1);
 }
