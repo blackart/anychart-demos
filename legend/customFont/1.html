@@ -1,0 +1,107 @@
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fontfaceobserver/2.0.7/fontfaceobserver.js"></script>
+
+    <script src="../../../libs/closure-library/closure/goog/base.js"></script>
+    <script src="../../../src/deps.js"></script>
+    <meta charset="utf-8">
+    <script>
+        goog.require('anychart.themes.defaultTheme');
+        goog.require('anychart.modules.anychart_bundle');
+    </script>
+
+    <style>
+        #container {
+            max-width:95%;
+            height:auto;
+        }
+
+        @font-face {
+            font-family: 'Gotham-Bold-JS';
+            /*src: url('Gotham-Bold.eot');*/
+            src: url('Gotham-Bold.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Gotham-Medium-JS';
+            /*src: url('Gotham-Medium.eot');*/
+            src: url('Gotham-Medium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    var fontLoad = new FontFaceObserver('Gotham-Medium-JS');
+
+    fontLoad.load().then(function () {
+        anychart.onDocumentReady(function() {
+            var data = [
+                ['11-Jan-2016', 0.972248,0.772783,0,-0.00347339],
+                ['12-Jan-2016', 0.964597,0.708502,0.000643294,0.00427254],
+                ['13-Jan-2016', 0.92834,0.560018,-0.0121076,-0.0266458],
+                ['14-Jan-2016', 0.929461,0.410885,0.00140998,0.0115022],
+                ['15-Jan-2016', 0.952196,0.397674,-0.00931442,-0.0147828],
+                ['19-Jan-2016', 0.972584,0.386157,-0.00655953,-0.00530933],
+                ['20-Jan-2016', 0.98458,0.355715,-0.00594256,-0.00638199],
+                ['21-Jan-2016', 0.851271,0.486184,0.00376398,0.00151816],
+                ['22-Jan-2016', 0.953976,0.542241,0.011029,0.0247201],
+                ['25-Jan-2016', 0.963852,0.56736,-0.013854,-0.0204825],
+                ['26-Jan-2016', 0.973945,0.599176,0.0147124,0.022421],
+                ['27-Jan-2016', 0.975864,0.601198,-0.00795814,-0.00999886],
+                ['28-Jan-2016', 0.987254,0.603853,0,0],
+                ['29-Jan-2016', 0.999449,0.671788,0.0212088,0.0323654],
+                ['01-Feb-2016', 0.997168,0.667533,0.000753255,-0.000667037],
+                ['02-Feb-2016', 0.967455,0.565026,-0.00645161,-0.0211369],
+                ['03-Feb-2016', 0.90179,0.511543,-0.00357143,0.00670531],
+                ['04-Feb-2016', 0.883192,0.502285,0,0.007338],
+                ['05-Feb-2016', -0.033635,-0.00973271,0.00434452,-0.0210691],
+                ['08-Feb-2016', -0.254612,-0.0845967,0.00497459,-0.0179737],
+                ['09-Feb-2016', -0.915011,-0.237617,0.000753255,-0.00279785],
+                ['10-Feb-2016', -0.340186,-0.0809911,0.0072043,0.00315642],
+                ['11-Feb-2016', 0.171082,0.0500803,0,-0.0138678],
+                ['12-Feb-2016', -0.514781,-0.167483,-0.00501762,0.0186717],
+                ['16-Feb-2016', -0.421787,-0.126102,-0.00139485,0.0216937],
+                ['17-Feb-2016', -0.424614,-0.252887,-0.0165467,0.0155558],
+                ['18-Feb-2016', -0.49388,-0.243271,0.00294985,-0.00245975],
+                ['19-Feb-2016', -0.583955,-0.429915,0.00359477,0],
+                ['22-Feb-2016', -0.606606,-0.482861,-0.00651254,0.013562],
+                ['23-Feb-2016', -0.957747,-1.0832,0.0152955,-0.00884662],
+                ['24-Feb-2016', -0.865342,-0.787314,0.00581083,0.00624791],
+                ['25-Feb-2016', -0.813244,-0.695584,0.00567027,0.0113095]
+            ];
+            anychart.licenseKey("counterpointmutualfunds-44413f41-aeb7dd8f");
+            var chart = anychart.stock();
+            var dataset = anychart.data.table();
+            dataset.addData(data,1);
+
+            var plot = chart.plot(0);
+            var legend = plot.legend();
+            legend.enabled(true);
+            legend.itemsLayout('vertical');
+            legend.itemsSpacing(1);
+            legend.fontFamily('Gotham-Medium-JS');
+
+            plot.line(dataset.mapAs({'value': 2})).stroke("#696969",4).name("5 Day Beta");
+            plot.column(dataset.mapAs({'value': 1})).name("5 Day Correlation").fill("#97d700");
+
+            legend.titleFormatter(function(){
+                return ""
+            });
+
+            var title = chart.title();
+            title.enabled(false);
+            title.text('Tactical Equity to S&P 400 Midcap Index 5 Day Rolling Correlation and Beta');
+            title.fontFamily('Gotham-Medium-JS');
+            title.fontSize(18);
+
+            chart.container('container');
+            chart.draw();
+        });
+    });
+</script>
+</body>
+</html>

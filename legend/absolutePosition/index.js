@@ -309,12 +309,14 @@ anychart.onDocumentLoad(function() {
       .itemsLayout('evertical')
       // .itemsLayout('ehorizontal')
       .itemsSpacing(10)
-      .drag(false)
-      .width(600)
-      .height(100)
+      .drag(true)
+      .positionMode('inside')
+      .position('bottom')
+      // .width(300)
+      // .height(300)
       // .margin(20, 0)
       // .padding(0)
-      .padding(0)
+      .padding(5, 10)
       .margin(0)
 
 
@@ -326,7 +328,7 @@ anychart.onDocumentLoad(function() {
       .orientation('left')
       // .text('Candidates in Russian Federation by 2010 year. In sibirean district by wooomans.')
       .letterSpacing('2px')
-      .margin(20)
+      .margin(0, 10, 0, 0)
       .fontSize(11);
 
   legend.titleSeparator()
