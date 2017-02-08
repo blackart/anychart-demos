@@ -284,7 +284,7 @@ anychart.onDocumentLoad(function() {
   chart.geoData('anychart.maps.world_source')
 
   var seriesCount = governmentTypes.length;
-  for (var i = 0; i < seriesCount; i++) {
+  for (var i = 0; i < 2; i++) {
     var data = country_government_data.filter('value', filterConstructor(governmentTypes[i]));
     var series = chart.choropleth(data);
     // series.name(governmentTypes[i]);
@@ -307,35 +307,38 @@ anychart.onDocumentLoad(function() {
       .align('left')
       .iconTextSpacing(5)
       // .itemsLayout('h')
-      .itemsLayout('evertical')
+      .itemsLayout('horizontal')
+      // .itemsLayout('evertical')
       // .itemsLayout('ehorizontal')
       .itemsSpacing(10)
       .drag(true)
       .positionMode('inside')
       .position('bottom')
       // .width(600)
-      .maxWidth(600)
+      .maxWidth(500)
       // .height(200)
-      .maxHeight(200)
+      .maxHeight(300)
       // .margin(20, 0)
-      // .padding(0)
-      .padding(5, 10)
+      .padding(0)
+      // .padding(5, 10)
       .margin(0)
 
 
   legendTitle = legend.title()
       .enabled(true)
       // .text('Legend')
-      .padding(0)
+      // .padding(0)
       // .rotation(0)
-      .orientation('left')
-      // .text('Candidates in Russian Federation by 2010 year. In sibirean district by wooomans.')
+      .orientation('top')
+      .text('Candidates in Russian Federation by 2010 year. In sibirean district by wooomans.')
       .letterSpacing('2px')
-      .margin(0, 10, 0, 0)
+      .margin(0, 0, 0, 0)
       .fontSize(11);
 
   legend.titleSeparator()
-      .orientation(anychart.enums.Orientation.RIGHT);
+      .stroke('red')
+      .enabled(true)
+      .orientation('top');
 
   legend.background()
       .enabled(true)
