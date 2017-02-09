@@ -286,10 +286,10 @@ anychart.onDocumentLoad(function() {
   chart.geoData('anychart.maps.world_source')
 
   var seriesCount = governmentTypes.length;
-  for (var i = 0; i < governmentTypes.length; i++) {
+  for (var i = 0; i < 5; i++) {
     var data = country_government_data.filter('value', filterConstructor(governmentTypes[i]));
     var series = chart.choropleth(data);
-    // series.name(governmentTypes[i]);
+    series.name(governmentTypes[i]);
   }
 
   chart
@@ -307,19 +307,19 @@ anychart.onDocumentLoad(function() {
       .position('top')
       .align('left')
       .iconTextSpacing(5)
-      // .itemsLayout('h')
-      .itemsLayout('vertical')
-      // .itemsLayout('horizontal')
+      // .itemsLayout('vertical')
+      .itemsLayout('horizontal')
       // .itemsLayout('evertical')
       // .itemsLayout('ehorizontal')
       .itemsSpacing(10)
+      // .iconSize(30)
       .drag(true)
       .positionMode('inside')
       .position('bottom')
-      // .width(600)
-      .maxWidth(500)
-      .height(50)
-      .maxHeight(300)
+      // .width(100)
+      .maxWidth('100%')
+      // .height(50)
+      // .maxHeight(300)
       // .margin(20, 0)
       .padding(0)
       // .padding(5, 10)
@@ -331,7 +331,7 @@ anychart.onDocumentLoad(function() {
       // .text('Legend')
       // .padding(0)
       .rotation(0)
-      .orientation('top')
+      .orientation('left')
       .text('Candidates in Russian Federation by 2010 year. In sibirean district by wooomans.')
       .letterSpacing('2px')
       .margin(0, 0, 0, 0)

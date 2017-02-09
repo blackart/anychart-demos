@@ -16,7 +16,7 @@ anychart.onDocumentLoad(function() {
         items[3]['textOverflow'] = anychart.graphics.vector.Text.TextOverflow.ELLIPSIS;
         return items;
       });
-  chart.legend().iconSize(5);
+  chart.legend().iconSize(30);
   chart.legend().title()
       .padding(10)
       .enabled(true)
