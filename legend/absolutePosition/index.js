@@ -303,7 +303,7 @@ anychart.onDocumentLoad(function() {
 
 
   legend = chart.legend()
-      .enabled(true)
+      .enabled(false)
       .position('top')
       .align('left')
       .iconTextSpacing(5)
@@ -317,9 +317,9 @@ anychart.onDocumentLoad(function() {
       .positionMode('inside')
       .position('bottom')
       // .width(100)
-      .maxWidth(20)
+      .maxWidth(500)
       // .height(50)
-      // .maxHeight(300)
+      .maxHeight(300)
       // .margin(20, 0)
       .padding(0)
       // .padding(5, 10)
@@ -351,10 +351,29 @@ anychart.onDocumentLoad(function() {
       // .corners(20)
       .stroke('2 pink');
 
+  chart.background(true);
 
 
+  var body = document.getElementsByTagName('body')[0];
 
-
+  chart.listen(anychart.enums.EventType.DRAG_EARLY_CANCEL, function(e) {
+    console.log(e);
+  });
+  chart.listen(anychart.enums.EventType.DRAG_START, function(e) {
+    console.log(e);
+    body.style.cursor = 'move';
+  });
+  chart.listen(anychart.enums.EventType.DRAG_BEFORE, function(e) {
+    console.log(e);
+  });
+  chart.listen(anychart.enums.EventType.DRAG, function(e) {
+    console.log(e);
+    // body.style.cursor = 'pointer';
+  });
+  chart.listen(anychart.enums.EventType.DRAG_END, function(e) {
+    console.log(e);
+    body.style.cursor = '';
+  });
 
 
 
