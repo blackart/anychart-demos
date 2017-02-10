@@ -83,8 +83,10 @@ function drawChart(bounds, geodata, title) {
 
 function drawCharts(id) {
   stage.suspend();
-  chart1.geoData(Convertor.convert(gg[id][0]))
-  chart1.getSeries(0).data(generateData(chart1));
+
+  // chart1.geoData(Convertor.convert(gg[id][0]))
+  // chart1.getSeries(0).data(generateData(chart1));
+
   chart2.geoData(gg[id][1])
   chart2.getSeries(0).data(generateData(chart2));
   stage.resume();
@@ -96,10 +98,20 @@ anychart.onDocumentReady(function() {
   stage.credits(false);
   stage.suspend();
 
-  chart1 = drawChart(anychart.math.rect(0, 0, '50%', '100%'), Convertor.convert(geoData['world'][0]), 'Highcharts geo data');
+  // chart1 = drawChart(anychart.math.rect(0, 0, '50%', '100%'), Convertor.convert(geoData['world'][0]), 'Highcharts geo data');
   chart2 = drawChart(anychart.math.rect('50%', 0, '50%', '100%'),  geoData['world'][1], 'Anychart geo data');
 
   stage.resume();
+
+  chart2.listen(anychart.enums.EventType.ZOOM_START, function(e) {
+    console.log(e);
+  });
+  chart2.listen(anychart.enums.EventType.ZOOM_END, function(e) {
+    console.log(e);
+  });
+  chart2.listen(anychart.enums.EventType.ZOOM, function(e) {
+    console.log(e);
+  });
 
 
   $('#geo_data').on('change', function() {
