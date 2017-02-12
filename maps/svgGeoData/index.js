@@ -79,10 +79,10 @@ var createMap = function(name, id, callback) {
 
   $.ajax({
     type: 'GET',
-    // url: 'test.svg',
+    url: 'test.svg',
     // url: 'chart.svg',
     // url: 'column.svg',
-    url: 'pie.svg',
+    // url: 'pie.svg',
     // url: 'Boeing-737-300.svg',
     // url: 'Airbus-A380.svg',
     // dataType: 'text',
@@ -187,14 +187,14 @@ var createMap = function(name, id, callback) {
 
 $(document).ready(function() {
   var theme = anychart.theme();
-  theme['map']['defaultSeriesSettings']['base']['fill'] = theme['chart']['defaultSeriesSettings']['barLike']['fill'];
-  theme['map']['defaultSeriesSettings']['base']['hoverFill'] = theme['chart']['defaultSeriesSettings']['barLike']['hoverFill'];
-  theme['map']['defaultSeriesSettings']['base']['selectFill'] = theme['chart']['defaultSeriesSettings']['base']['selectFill'];
-  theme['map']['defaultSeriesSettings']['base']['stroke'] = theme['chart']['defaultSeriesSettings']['base']['stroke'];
-  theme['map']['defaultSeriesSettings']['base']['hoverStroke'] = theme['chart']['defaultSeriesSettings']['base']['hoverStroke'];
-  theme['map']['defaultSeriesSettings']['base']['selectStroke'] = theme['chart']['defaultSeriesSettings']['base']['selectStroke'];
-  anychart.theme(theme);
-
+  // theme['map']['defaultSeriesSettings']['base']['fill'] = theme['chart']['defaultSeriesSettings']['barLike']['fill'];
+  // theme['map']['defaultSeriesSettings']['base']['hoverFill'] = theme['chart']['defaultSeriesSettings']['barLike']['hoverFill'];
+  // theme['map']['defaultSeriesSettings']['base']['selectFill'] = theme['chart']['defaultSeriesSettings']['base']['selectFill'];
+  // theme['map']['defaultSeriesSettings']['base']['stroke'] = theme['chart']['defaultSeriesSettings']['base']['stroke'];
+  // theme['map']['defaultSeriesSettings']['base']['hoverStroke'] = theme['chart']['defaultSeriesSettings']['base']['hoverStroke'];
+  // theme['map']['defaultSeriesSettings']['base']['selectStroke'] = theme['chart']['defaultSeriesSettings']['base']['selectStroke'];
+  // anychart.theme(theme);
+  //
   stage = anychart.graphics.create('container');
 
   createMap('name', 'id', function(id, map) {
