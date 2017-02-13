@@ -22,30 +22,18 @@ var generateData = function(map, opt_min, opt_max) {
 };
 
 anychart.onDocumentReady(function() {
-  chart = anychart.map();
-  // chart.crs(anychart.enums.MapProjections.AUGUST);
-  chart.geoData('anychart.maps.australia');
-  // chart.geoData('anychart.maps.world');
-  // chart.geoData('anychart.maps.france');
-  chart.interactivity()
-      .zoomOnMouseWheel(true)
-      .keyboardZoomAndMove(true)
-      .zoomOnDoubleClick(true);
-
-
-  chart.axes(true);
-  chart.grids(true);
-
-  var choropleth = chart.choropleth(generateData(chart));
-  choropleth.labels(true);
-
+  chart = anychart.cartesian();
+  chart.line([50, 25, 43]);
+  chart.line([50, 25, 43]);
+  chart.legend(true);
+  chart.legend().listen(anychart.enums.EventType.LEGEND_ITEM_CLICK, function(e) {
+    console.log('click', goog.getUid(e.originalEvent.domTarget))
+  });
+  chart.legend().listen(anychart.enums.EventType.LEGEND_ITEM_MOUSE_DOWN, function(e) {
+    console.log('down', goog.getUid(e.originalEvent.domTarget))
+  });
+  chart.legend().listen(anychart.enums.EventType.LEGEND_ITEM_MOUSE_UP, function(e) {
+    console.log('up', goog.getUid(e.originalEvent.domTarget))
+  });
   chart.container('container').draw();
-
-  // chart.listen('chartdraw', function() {
-  //   var json = chart.toJson();
-  //   chart.dispose();
-  //   chart2 = anychart.fromJson(json);
-  //   chart2.overlapMode(true);
-  //   chart2.container('container').draw();
-  // });
 });

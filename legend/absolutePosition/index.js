@@ -303,7 +303,7 @@ anychart.onDocumentLoad(function() {
 
 
   legend = chart.legend()
-      .enabled(false)
+      .enabled(true)
       .position('top')
       .align('left')
       .iconTextSpacing(5)
@@ -356,15 +356,9 @@ anychart.onDocumentLoad(function() {
 
   var body = document.getElementsByTagName('body')[0];
 
-  chart.listen(anychart.enums.EventType.DRAG_EARLY_CANCEL, function(e) {
-    console.log(e);
-  });
   chart.listen(anychart.enums.EventType.DRAG_START, function(e) {
     console.log(e);
     body.style.cursor = 'move';
-  });
-  chart.listen(anychart.enums.EventType.DRAG_BEFORE, function(e) {
-    console.log(e);
   });
   chart.listen(anychart.enums.EventType.DRAG, function(e) {
     console.log(e);
@@ -375,6 +369,16 @@ anychart.onDocumentLoad(function() {
     body.style.cursor = '';
   });
 
+
+  chart.legend().listen(anychart.enums.EventType.LEGEND_ITEM_CLICK, function(e) {
+    console.log('click', goog.getUid(e.originalEvent.domTarget))
+  });
+  chart.legend().listen(anychart.enums.EventType.LEGEND_ITEM_MOUSE_DOWN, function(e) {
+    console.log('down', goog.getUid(e.originalEvent.domTarget))
+  });
+  chart.legend().listen(anychart.enums.EventType.LEGEND_ITEM_MOUSE_UP, function(e) {
+    console.log('up', goog.getUid(e.originalEvent.domTarget))
+  });
 
 
 
