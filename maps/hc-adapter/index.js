@@ -60,23 +60,23 @@ function drawChart(bounds, geodata, title) {
   series.colorScale(scale);
 
 
-  // var startConnectorCoords = [46.73, 2.49]
-  // var dataSetConnector = anychart.data.set([]);
-  // var dataSetMarker = anychart.data.set([]);
-  //
-  // chart.connector(dataSetConnector);
-  // var markerSeries = chart.marker(dataSetMarker);
-  // markerSeries.type('circle');
-  // markerSeries.labels().textFormatter(function() {return 'Clicked at - lat: ' + this['lat'] + ' long: ' + this['long'];});
-  // chart.listen("click", function(e) {
-  //   var localCord = chart.globalToLocal(e.clientX, e.clientY);
-  //
-  //   // Trying to get coordinate at latitude/longitude values.
-  //   var latLong = chart.inverseTransform(localCord.x, localCord.y);
-  //
-  //   dataSetConnector.data([{points: [startConnectorCoords[0], startConnectorCoords[1], latLong.lat, latLong.long]}]);
-  //   dataSetMarker.data([{lat: latLong.lat.toFixed(2), long: latLong.long.toFixed(2)}]);
-  // });
+  var startConnectorCoords = [46.73, 2.49]
+  var dataSetConnector = anychart.data.set([]);
+  var dataSetMarker = anychart.data.set([]);
+
+  chart.connector(dataSetConnector);
+  var markerSeries = chart.marker(dataSetMarker);
+  markerSeries.type('circle');
+  markerSeries.labels().textFormatter(function() {return 'Clicked at - lat: ' + this['lat'] + ' long: ' + this['long'];});
+  chart.listen("click", function(e) {
+    var localCord = chart.globalToLocal(e.clientX, e.clientY);
+
+    // Trying to get coordinate at latitude/longitude values.
+    var latLong = chart.inverseTransform(localCord.x, localCord.y);
+
+    dataSetConnector.data([{points: [startConnectorCoords[0], startConnectorCoords[1], latLong.lat, latLong.long]}]);
+    dataSetMarker.data([{lat: latLong.lat.toFixed(2), long: latLong.long.toFixed(2)}]);
+  });
 
   chart.container(stage).draw();
 
@@ -86,8 +86,8 @@ function drawChart(bounds, geodata, title) {
 function drawCharts(id) {
   stage.suspend();
 
-  // chart1.geoData(Convertor.convert(gg[id][0]))
-  // chart1.getSeries(0).data(generateData(chart1));
+  chart1.geoData(Convertor.convert(gg[id][0]))
+  chart1.getSeries(0).data(generateData(chart1));
 
   chart2.geoData(gg[id][1])
   chart2.getSeries(0).data(generateData(chart2));
@@ -100,8 +100,9 @@ anychart.onDocumentReady(function() {
   stage.credits(false);
   stage.suspend();
 
-  // chart1 = drawChart(anychart.math.rect(0, 0, '50%', '100%'), Convertor.convert(geoData['world'][0]), 'Highcharts geo data');
+  chart1 = drawChart(anychart.math.rect(0, 0, '50%', '100%'), Convertor.convert(geoData['world'][0]), 'Highcharts geo data');
   chart2 = drawChart(anychart.math.rect('50%', 0, '50%', '100%'),  geoData['world'][1], 'Anychart geo data');
+  // chart2 = drawChart(anychart.math.rect(0, 0, '100%', '100%'),  geoData['world'][1], 'Anychart geo data');
 
   stage.resume();
 
