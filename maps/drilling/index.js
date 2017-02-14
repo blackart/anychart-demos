@@ -163,6 +163,16 @@ $(document).ready(function() {
     //   }
     // });
 
+    // chart.listen(anychart.enums.EventType.ZOOM_START, function(e) {
+    //   console.log(e.type);
+    // });
+    // chart.listen(anychart.enums.EventType.ZOOM_END, function(e) {
+    //   console.log(e.type);
+    // });
+    // chart.listen(anychart.enums.EventType.ZOOM, function(e) {
+    //   console.log(e.type, e.from, e.to, e.current);
+    // });
+
     series = chart.getSeriesAt(0);
 
     var scale = anychart.scales.ordinalColor([
