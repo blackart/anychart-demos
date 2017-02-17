@@ -131,6 +131,12 @@ $(document).ready(function() {
   createMap('world', 'world', function(pointId, map) {
     chart = map;
 
+    chart.listen('click', function(e) {
+      // var localCoords = chart.globalToLocal(e.clientX, e.clientY);
+      // console.log([e.clientX, e.clientY], localCoords);
+      // chart.zoomTo(10, localCoords.x, localCoords.y);
+    });
+
     chart.listen('pointClick', drilldown);
     chart.interactivity().selectionMode(anychart.enums.SelectionMode.DRILL_DOWN);
 
