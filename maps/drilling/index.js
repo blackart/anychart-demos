@@ -134,6 +134,8 @@ $(document).ready(function() {
     chart.listen('pointClick', drilldown);
     chart.interactivity().selectionMode(anychart.enums.SelectionMode.DRILL_DOWN);
 
+    chart.legend(true);
+
     // var a = $('<a>World Map</a>');
     // a.attr({'id': 'null', 'href': '#'});
     // a.bind('click', function() {chart.drillTo(this.id)});
