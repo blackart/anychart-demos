@@ -32,6 +32,8 @@ anychart.onDocumentReady(function() {
   // chart.geoData(Convertor.convert(Highcharts.maps['custom/world-palestine-highres']));
   chart.geoData('anychart.maps.world');
 
+  chart.interactivity().zoomOnMouseWheel(true);
+
   chart.listen('pointClick', function(e) {
     chart.zoomToFeature(e.point.get("id"));
   });
