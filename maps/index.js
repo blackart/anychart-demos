@@ -24,19 +24,21 @@ var chart;
 anychart.onDocumentReady(function() {
   chart = anychart.map();
 
-  // chart.choropleth(choroplethData);
+  var s = chart.choropleth(choroplethData);
+  s.selectFill('red');
+  s.hatchFill('confetti');
   chart.connector(connectorData);
-  // chart.bubble(bubbleData);
-  // chart.marker(markerData);
+  chart.bubble(bubbleData);
+  chart.marker(markerData);
 
   // chart.geoData(Convertor.convert(Highcharts.maps['custom/world-palestine-highres']));
   chart.geoData('anychart.maps.world');
 
   chart.interactivity().zoomOnMouseWheel(true);
 
-  chart.listen('pointClick', function(e) {
-    chart.zoomToFeature(e.point.get("id"));
-  });
+  // chart.listen('pointClick', function(e) {
+  //   chart.zoomToFeature(e.point.get("id"));
+  // });
 
   chart.listen('click', function(e) {
     var coords = chart.globalToLocal(e.clientX, e.clientY);
