@@ -11,8 +11,9 @@ var connectorData = [
 ];
 
 var bubbleData = [
-  {name: "Brasil", long: -51.1, lat: -13.2, size: 2},
-  {name: "Alaska", long: -152.6, lat: 65.6, size: 5}
+  // {name: "Brasil", long: -51.1, lat: -13.2, size: 2},
+  // {name: "Alaska", long: -152.6, lat: 65.6, size: 5},
+  {name: "USA", long: -100, lat: 40, size: 2}
 ];
 
 var markerData = [
@@ -27,9 +28,17 @@ anychart.onDocumentReady(function() {
   var s = chart.choropleth(choroplethData);
   s.selectFill('red');
   s.hatchFill('confetti');
+
   chart.connector(connectorData);
-  chart.bubble(bubbleData);
-  chart.marker(markerData);
+
+  s = chart.bubble(bubbleData);
+  s.selectFill('blue');
+  s.hatchFill(true);
+
+  s = chart.marker(markerData);
+  s.size(20);
+  s.selectFill('green');
+  s.hatchFill(true);
 
   // chart.geoData(Convertor.convert(Highcharts.maps['custom/world-palestine-highres']));
   chart.geoData('anychart.maps.world');
