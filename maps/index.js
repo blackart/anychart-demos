@@ -1,47 +1,65 @@
 var choroplethData = [
-  {'id': 'DE'},
-  {'id': 'IT'},
-  {'id': 'ES'},
-  {'id': 'CN'},
-  {'id': 'AU'}
+  {'id': 'DE', value: 10},
+  {'id': 'IT', value: 15},
+  {'id': 'ES', value: 20},
+  {'id': 'CN', value: 30},
+  {'id': 'AU', value: 40},
+  {'id': 'BR', value: 11},
+  {'id': 'CH', value: 37},
+  {'id': 'AT', value: 11},
 ];
 
 var connectorData = [
-    {points: [51.471655, -0.453467, -26.136894, 28.241114], label: {enabled: true, anchor: 'top'}}
+    {points: [73.9685374010375, -42.82239429736773, 59.23289776233006, 74.83196842523009], label: {enabled: true, anchor: 'top'}}
 ];
 
 var bubbleData = [
   // {name: "Brasil", long: -51.1, lat: -13.2, size: 2},
-  // {name: "Alaska", long: -152.6, lat: 65.6, size: 5},
+  {name: "Alaska", long: -152.6, lat: 65.6, size: 5},
   {name: "USA", long: -100, lat: 40, size: 2}
 ];
 
 var markerData = [
-  {name: "USA", long: -100, lat: 40},
+  {name: "USA", long: 46.64964433121245, lat: -19.16849591321863},
 ];
 
 var chart;
 
 anychart.onDocumentReady(function() {
   chart = anychart.map();
+  chart.maxBubbleSize(30)
+  chart.minBubbleSize(15)
 
   var s = chart.choropleth(choroplethData);
   s.selectFill('red');
   s.hatchFill('confetti');
+  s.colorScale(anychart.scales.linearColor(['red', 'blue']));
+  s.labels()
+      .fontColor('grey')
+      .fontWeight('bold')
+      .enabled(true)
 
-  chart.connector(connectorData);
+  // s.colorScale(anychart.scales.ordinalColor([
+  //   {from: 0, to: 15},
+  //   {from: 15, to: 20},
+  //   {from: 20, to: 40},
+  // ]));
 
-  s = chart.bubble(bubbleData);
-  s.selectFill('blue');
-  s.hatchFill(true);
-
-  s = chart.marker(markerData);
-  s.size(20);
-  s.selectFill('green');
-  s.hatchFill(true);
+  // chart.connector(connectorData);
+  //
+  // s = chart.bubble(bubbleData);
+  // s.selectFill('blue');
+  // s.hatchFill(true);
+  // s.labels(true);
+  //
+  // s = chart.marker(markerData);
+  // s.size(20);
+  // s.selectFill('green');
+  // s.hatchFill(true);
 
   // chart.geoData(Convertor.convert(Highcharts.maps['custom/world-palestine-highres']));
   chart.geoData('anychart.maps.world');
+  chart.colorRange(true);
 
   chart.interactivity().zoomOnMouseWheel(true);
 
