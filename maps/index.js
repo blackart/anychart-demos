@@ -34,6 +34,7 @@ anychart.onDocumentReady(function() {
   s.selectFill('red');
   s.hatchFill('confetti');
   s.colorScale(anychart.scales.linearColor(['red', 'blue']));
+  s.markers(true);
   s.labels()
       .fontColor('grey')
       .fontWeight('bold')
@@ -45,17 +46,19 @@ anychart.onDocumentReady(function() {
   //   {from: 20, to: 40},
   // ]));
 
-  // chart.connector(connectorData);
-  //
-  // s = chart.bubble(bubbleData);
-  // s.selectFill('blue');
-  // s.hatchFill(true);
-  // s.labels(true);
-  //
-  // s = chart.marker(markerData);
-  // s.size(20);
-  // s.selectFill('green');
-  // s.hatchFill(true);
+  chart.connector(connectorData);
+
+  s = chart.bubble(bubbleData);
+  s.markers(true);
+  s.selectFill('blue');
+  s.hatchFill(true);
+  s.labels(true);
+
+  s = chart.marker(markerData);
+  s.markers(true);
+  s.size(20);
+  s.selectFill('green');
+  s.hatchFill(true);
 
   // chart.geoData(Convertor.convert(Highcharts.maps['custom/world-palestine-highres']));
   chart.geoData('anychart.maps.world');
