@@ -26,56 +26,59 @@ var markerData = [
 var chart;
 
 anychart.onDocumentReady(function() {
-  chart = anychart.map();
-  chart.maxBubbleSize(30)
-  chart.minBubbleSize(15)
+  var stage = anychart.graphics.create('container', 500, 450);
 
-  var s = chart.choropleth(choroplethData);
-  s.selectFill('red');
-  s.hatchFill('confetti');
-  s.colorScale(anychart.scales.linearColor(['red', 'blue']));
-  s.markers(true);
-  s.labels()
-      .fontColor('grey')
-      .fontWeight('bold')
-      .enabled(true)
+  // chart1 = anychart.map();
+  // chart1.geoData(anychart.maps.canada);
+  // chart1.axes(true);
+  // chart1.crosshair(true);
+  // chart1.crosshair().xLabel().axisIndex(0);
+  // chart1.crosshair().yLabel().axisIndex(1);
+  // chart1.bounds(0,0,'50%', '50%');
+  // chart1.container(stage).draw();
+  //
+  // chart2 = anychart.map();
+  // chart2.geoData(anychart.maps.canada).crs('fahey');
+  // chart2.crosshair().enabled(true)
+  //     .xStroke('red')
+  //     .yStroke('#B800F5');
+  // chart2.bounds('50%',0,'50%', '50%');
+  // chart2.container(stage).draw();
+  //
+  // chart3 = anychart.map();
+  // chart3.geoData(anychart.maps.canada).crs('mercator');
+  // chart3.crosshair().enabled(true)
+  //     .xLabel()
+  //     .fontSize(7)
+  //     .padding(3)
+  //     .anchor('rightBottom')
+  //     .fontColor('#1A0099');
+  // chart3.crosshair().yLabel()
+  //     .padding(2)
+  //     .offsetY(-1)
+  //     .offsetX(5)
+  //     .fontColor('#FF3366') // красный
+  //     .fontSize(4);
+  // chart3.bounds(0,'50%', '50%', '50%');
+  // chart3.container(stage).draw();
 
-  // s.colorScale(anychart.scales.ordinalColor([
-  //   {from: 0, to: 15},
-  //   {from: 15, to: 20},
-  //   {from: 20, to: 40},
-  // ]));
-
-  chart.connector(connectorData);
-
-  s = chart.bubble(bubbleData);
-  s.markers(true);
-  s.selectFill('blue');
-  s.hatchFill(true);
-  s.labels(true);
-
-  s = chart.marker(markerData);
-  s.markers(true);
-  s.size(20);
-  s.selectFill('green');
-  s.hatchFill(true);
-
-  // chart.geoData(Convertor.convert(Highcharts.maps['custom/world-palestine-highres']));
-  chart.geoData('anychart.maps.world');
-  chart.colorRange(true);
-
-  chart.interactivity().zoomOnMouseWheel(true);
-
-  // chart.listen('pointClick', function(e) {
-  //   chart.zoomToFeature(e.point.get("id"));
-  // });
-
-  chart.listen('click', function(e) {
-    var coords = chart.globalToLocal(e.clientX, e.clientY);
-    var latlon = chart.scale().inverseTransform(coords.x, coords.y);
-
-    console.log(latlon);
-  });
-
-  chart.container('container').draw();
+  var dataSet4 = anychart.data.set([
+    {'id': 'IE.5551', size: 2},
+    {'id': 'IE.GY', size: 3},
+    {'id': 'IE.DN', size: 5},
+    {'id': 'IE.MH',  size: 10, fill: 'green'},
+    {'id': 'IE.491', size: 2}
+  ]);
+  var dataSetForChart4 = dataSet4.mapAs({id: "id"});
+  chart4 = anychart.map();
+  chart4.geoData(anychart.maps.ireland);
+  series4 = chart4.bubble(dataSetForChart4);
+  // series4.geoIdField('id');
+  // chart4.crosshair().enabled(true)
+  //                .displayMode('sticky') // work
+  //     .displayMode('float');
+  // color4 = chart4.crosshair().yLabel()
+  //     .fontColor();
+  chart4.bounds('50%','50%','50%', '50%');
+  chart4.container(stage).draw();
 });
