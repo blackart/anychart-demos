@@ -26,7 +26,7 @@ var markerData = [
 var chart;
 
 anychart.onDocumentReady(function() {
-  var stage = anychart.graphics.create('container', 500, 450);
+  var stage = anychart.graphics.create('container');
 
   // chart1 = anychart.map();
   // chart1.geoData(anychart.maps.canada);
@@ -62,23 +62,17 @@ anychart.onDocumentReady(function() {
   // chart3.bounds(0,'50%', '50%', '50%');
   // chart3.container(stage).draw();
 
-  var dataSet4 = anychart.data.set([
-    {'id': 'IE.5551', size: 2},
-    {'id': 'IE.GY', size: 3},
-    {'id': 'IE.DN', size: 5},
-    {'id': 'IE.MH',  size: 10, fill: 'green'},
-    {'id': 'IE.491', size: 2}
+  var dataSet = anychart.data.set([
+    {lat:42.15, long:9.18,   fill: 'yellow', size: 10},//korsika
+    {lat:43.61, long:3.9,    fill: 'yellow', size: 10},//monpelie
+    {lat:16.27, long:-61.62, fill: 'yellow', size: 10},//Guadeloupe
+    {lat:4.12, long:-53.10,  fill: 'yellow', size: 10},//Guyane
+    {lat:-21.12, long:55.57, fill: 'yellow', size: 10},//La Réunion
+    {lat:14.65, long:-60.99, fill: 'yellow', size: 10},//Martinique
+    {lat:-12.79, long:-45.15,fill: 'yellow', size: 10}//Mayotte
   ]);
-  var dataSetForChart4 = dataSet4.mapAs({id: "id"});
-  chart4 = anychart.map();
-  chart4.geoData(anychart.maps.ireland);
-  series4 = chart4.bubble(dataSetForChart4);
-  // series4.geoIdField('id');
-  // chart4.crosshair().enabled(true)
-  //                .displayMode('sticky') // work
-  //     .displayMode('float');
-  // color4 = chart4.crosshair().yLabel()
-  //     .fontColor();
-  chart4.bounds('50%','50%','50%', '50%');
-  chart4.container(stage).draw();
+  chart = anychart.map();
+  chart.geoData(anychart.maps.france);
+  chart.bubble(dataSet);
+  chart.container(stage).draw();
 });
