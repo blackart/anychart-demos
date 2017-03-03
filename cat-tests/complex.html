@@ -1,0 +1,177 @@
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="x-cat-tags" content="projections anyMap"/>
+    <script src="../../libs/closure-library/closure/goog/base.js"></script>
+<script src="../../src/deps.js"></script>
+<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
+<script>
+    goog.require("anychart.themes.defaultTheme");
+    goog.require("anychart.modules.anychart_bundle");
+</script>
+    <script src="utils/anytest.min.js"></script>
+    <script src="http://tests.anychart.com/static/sessions/560/branch/out/local-cdn/geodata/v2/australia.js"></script>
+    <script src="http://tests.anychart.com/static/sessions/560/branch/out/local-cdn/proj4.js"></script>
+</head>
+<body>
+<div id="container"></div>
+</body>
+<script>
+    var chart, projection;
+    anychart.onDocumentLoad(function() {
+        anytest.setUp(500, 400);
+
+        dataSet = anychart.data.set([
+            {id: "AU.CT", value: 15, title: "Australian Capital Territory"},
+            {id: "AU.VI", value: 23, title: "Victoria"},
+            {id: "AU.WA", value: 86, title: "Western Australia"},
+            {id: "AU.QL", value: 16, title: "Queensland"},
+            {id: "AU.NS", value: 32, title: "New South Wales"},
+            {id: "AU.NT", value: 64, title: "Northern Territory"},
+            {id: "AU.TS", value: 28, title: "Tasmania"},
+            {id: "AU.SA", value: 45, title: "South Australian"}
+        ]);
+        dataSetForSeries = dataSet.mapAs({id: "id"});
+
+        dataSet2 = anychart.data.set([
+            {name: "Australian Capital Territory", lat: -35.50, long: 148.95},
+            {name: "Victoria",                     lat: -37.051,long: 144.12},
+            {name: "Western Australia",            lat: -26.54, long: 122.15},
+            {name: "Queensland",                   lat: -22.87, long: 144.22},
+            {name: "New South Wales",              lat: -32.622,long: 146.24},
+            {name: "Northern Territory",           lat: -19.55, long: 133.59},
+            {name: "Tasmania",                     lat: -41.9,  long: 146.47},
+            {name: "South Australian",             lat: -30.03, long: 134.86}
+        ]);
+
+        dataSet3 = anychart.data.set([
+            {id: "AU.CT", size: 15, lat: -35.50, long: 148.95},
+            {id: "AU.VI", size: 23, lat: -37.051,long: 144.12},
+            {id: "AU.WA", size: 86, lat: -26.54, long: 122.15},
+            {id: "AU.QL", size: 16, lat: -22.87, long: 144.22},
+            {id: "AU.NS", size: 32, lat: -32.622,long: 146.24},
+            {id: "AU.NT", size: 64, lat: -19.55, long: 133.59},
+            {id: "AU.TS", size: 28, lat: -41.9,  long: 146.47},
+            {id: "AU.SA", size: 45, lat: -30.03, long: 134.86}
+        ]);
+
+        dataSet4 = anychart.data.set([
+            {points:[-19.55, 133.59, -26.54, 122.15]},
+            {points:[-19.55, 133.59, -30.03, 134.86]},
+            {points:[-19.55, 133.59, -22.87, 144.22]},
+            {points:[-19.55, 133.59, -32.62, 146.24]},
+            {points:[-19.55, 133.59, -37.05, 144.12]},
+            {points:[-19.55, 133.59, -41.9, 146.47]}
+        ]);
+
+        chart = anychart.map();
+        chart.crsAnimation().duration(100);
+        chart.geoData(anychart.maps.australia);
+        series1 = chart.choropleth(dataSetForSeries);
+        series2 = chart.bubble(dataSet3);
+        series3 = chart.marker(dataSet2);
+        series4 = chart.connector(dataSet4);
+
+        var deltaT = 300;
+        anytest.drawInStage(chart).stageListen(function(){
+            anytest.step(function(){
+                anytest.CAT.getScreen();
+                chart.crs('bonne');
+            });
+            anytest.step(function(){
+                anytest.CAT.getScreen('projBonne', -1);
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'bonne', true);
+                chart.crs('eckert1');
+            });
+            anytest.step(function(){
+                anytest.CAT.getScreen('projEckert1', -1, 'projBonne');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'eckert1', true);
+                chart.crs('eckert3');
+            });
+            anytest.step(function(){
+                anytest.CAT.getScreen('projEckert3', -1, 'projEckert1');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'eckert3', true);
+                chart.crs('fahey');
+            });
+            anytest.step(function(){
+                anytest.CAT.getScreen('projFahey', -1, 'projEckert3');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'fahey', true);
+                chart.crs('hammer');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.CAT.getScreen('projHammer', -1, 'projFahey');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'hammer', true);
+                chart.crs('aitoff');
+            },true, deltaT);
+            anytest.step(function(){
+                anytest.CAT.getScreen('projAitoff', -1, 'projHammer');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'aitoff', true);
+                chart.crs('mercator');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.CAT.getScreen('projMercator', -1, 'projAitoff');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'mercator', true);
+                chart.crs('orthographic');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.CAT.getScreen('projOrthographic', -1, 'projMercator');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'orthographic', true);
+                chart.crs('robinson');
+            },true, deltaT);
+            anytest.step(function(){
+                anytest.CAT.getScreen('projRobinson', -1, 'projOrthographic');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'robinson', true);
+                chart.crs('wagner6');
+            }, true,deltaT);
+            anytest.step(function(){
+                anytest.CAT.getScreen('projWagner6', -1, 'projRobinson');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'wagner6', true);
+                chart.crs('wsg84');
+            },true,deltaT);
+            anytest.step(function(){
+                anytest.CAT.getScreen('projWsg84', -1, 'wagner6');
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'wsg84', true);
+                chart.crs('equirectangular');
+            },true,deltaT);
+            anytest.step(function(){
+                anytest.CAT.getScreen('projEquirectangular', 1, 'projWsg84'); // для Кати равны
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'equirectangular', true);
+                chart.crs('august');
+            },true,deltaT);
+            anytest.step(function(){
+                anytest.CAT.getScreen('projAugust', -1, 'projEquirectangular'); // add -1
+            }, true, deltaT);
+            anytest.step(function(){
+                anytest.asserts.equal(chart.crs(), 'august', true);
+                chart.crs('+proj=lcc +lat_1=-18 +lat_2=-36 +lat_0=0 +lon_0=134 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
+            },true,deltaT);
+            anytest.exit();
+        }).charts4modes('chart');
+        chart['at_exclude_R-CHART']=1;
+        stage.resume();
+    });
+</script>
+</html>
