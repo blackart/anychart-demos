@@ -10,8 +10,21 @@ var choroplethData = [
 ];
 
 var connectorData = [
-    {points: [73.9685374010375, -42.82239429736773, 59.23289776233006, 74.83196842523009], label: {enabled: true, anchor: 'top'}}
+  {points: [73.9685374010375, -42.82239429736773, 59.23289776233006, 74.83196842523009], label: {enabled: true, anchor: 'top'}}
 ];
+
+var connectorData2 = [
+  {points: [33.901682468113314, -33.76298326545277, 50.63459159718123, 46.31327384679112], label: {enabled: true, anchor: 'top'}}
+];
+
+var connectorData1 = [
+  {
+    points: [53.80909182931279, -24.023273297126586, 80.43043269877023, 66.78369963621455],
+    label: {enabled: true, anchor: 'top', position: .4},
+    marker: {position: .4}
+  }
+];
+
 
 var bubbleData = [
   // {name: "Brasil", long: -51.1, lat: -13.2, size: 2},
@@ -26,53 +39,80 @@ var markerData = [
 var chart;
 
 anychart.onDocumentReady(function() {
-  var stage = anychart.graphics.create('container');
-
-  // chart1 = anychart.map();
-  // chart1.geoData(anychart.maps.canada);
-  // chart1.axes(true);
-  // chart1.crosshair(true);
-  // chart1.crosshair().xLabel().axisIndex(0);
-  // chart1.crosshair().yLabel().axisIndex(1);
-  // chart1.bounds(0,0,'50%', '50%');
-  // chart1.container(stage).draw();
-  //
-  // chart2 = anychart.map();
-  // chart2.geoData(anychart.maps.canada).crs('fahey');
-  // chart2.crosshair().enabled(true)
-  //     .xStroke('red')
-  //     .yStroke('#B800F5');
-  // chart2.bounds('50%',0,'50%', '50%');
-  // chart2.container(stage).draw();
-  //
-  // chart3 = anychart.map();
-  // chart3.geoData(anychart.maps.canada).crs('mercator');
-  // chart3.crosshair().enabled(true)
-  //     .xLabel()
-  //     .fontSize(7)
-  //     .padding(3)
-  //     .anchor('rightBottom')
-  //     .fontColor('#1A0099');
-  // chart3.crosshair().yLabel()
-  //     .padding(2)
-  //     .offsetY(-1)
-  //     .offsetX(5)
-  //     .fontColor('#FF3366') // красный
-  //     .fontSize(4);
-  // chart3.bounds(0,'50%', '50%', '50%');
-  // chart3.container(stage).draw();
-
-  var dataSet = anychart.data.set([
-    {lat:42.15, long:9.18,   fill: 'yellow', size: 10},//korsika
-    {lat:43.61, long:3.9,    fill: 'yellow', size: 10},//monpelie
-    {lat:16.27, long:-61.62, fill: 'yellow', size: 10},//Guadeloupe
-    {lat:4.12, long:-53.10,  fill: 'yellow', size: 10},//Guyane
-    {lat:-21.12, long:55.57, fill: 'yellow', size: 10},//La Réunion
-    {lat:14.65, long:-60.99, fill: 'yellow', size: 10},//Martinique
-    {lat:-12.79, long:-45.15,fill: 'yellow', size: 10}//Mayotte
-  ]);
   chart = anychart.map();
-  chart.geoData(anychart.maps.france);
-  chart.bubble(dataSet);
-  chart.container(stage).draw();
+  chart.maxBubbleSize(30);
+  chart.minBubbleSize(15);
+
+  var s = chart.choropleth(choroplethData);
+  s.selectFill('red');
+  s.hatchFill('confetti');
+  s.colorScale(anychart.scales.linearColor(['red', 'blue']));
+  s.markers(true);
+  s.labels()
+      .fontColor('green')
+      .fontWeight('bold')
+      .enabled(true)
+
+  // s.colorScale(anychart.scales.ordinalColor([
+  //   {from: 0, to: 15},
+  //   {from: 15, to: 20},
+  //   {from: 20, to: 40},
+  // ]));
+
+  s = chart.connector(connectorData2);
+  s
+      .fill('black')
+      .curvature(0)
+      .startSize(20)
+      .endSize(0)
+      .labels(   {'fontColor': 'red', enabled: false})
+
+  s = chart.connector(connectorData);
+  s
+      .startSize(15)
+      .endSize(25)
+      .hatchFill('confetti')
+
+  s = chart.connector(connectorData1);
+  s
+      .startSize(20)
+      .endSize(0)
+      .hatchFill('confetti')
+
+  s = chart.bubble(bubbleData);
+  s.markers(true);
+  s.selectFill('blue');
+  s.hatchFill(true);
+  s.labels(true);
+
+  s = chart.marker(markerData);
+  s.markers(true);
+  s.size(20);
+  s.selectFill('green');
+  s.hatchFill(true);
+
+  // chart.geoData(Convertor.convert(Highcharts.maps['custom/world-palestine-highres']));
+  chart.geoData('anychart.maps.world');
+  chart.colorRange(true);
+
+  // chart.callout(0)
+  //     .items(['AU', 'CN'])
+  //     .orientation('right')
+  //     .enabled(true);
+
+
+  chart.interactivity().zoomOnMouseWheel(true);
+
+  // chart.listen('pointClick', function(e) {
+  //   chart.zoomToFeature(e.point.get("id"));
+  // });
+
+  chart.listen('click', function(e) {
+    var coords = chart.globalToLocal(e.clientX, e.clientY);
+    var latlon = chart.scale().inverseTransform(coords.x, coords.y);
+
+    console.log(latlon);
+  });
+
+  chart.container('container').draw();
 });
