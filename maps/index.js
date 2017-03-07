@@ -86,7 +86,6 @@ anychart.onDocumentReady(function() {
   s.labels(true);
 
   s = chart.marker(markerData);
-  s.markers(true);
   s.size(20);
   s.selectFill('green');
   s.hatchFill(true);
@@ -109,7 +108,7 @@ anychart.onDocumentReady(function() {
 
   chart.listen('click', function(e) {
     var coords = chart.globalToLocal(e.clientX, e.clientY);
-    var latlon = chart.scale().inverseTransform(coords.x, coords.y);
+    var latlon = chart.inverseTransform(coords.x, coords.y);
 
     console.log(latlon);
   });
