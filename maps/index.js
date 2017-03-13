@@ -6,7 +6,7 @@ var choroplethData = [
   {'id': 'AU', value: 40},
   {'id': 'BR', value: 11},
   {'id': 'CH', value: 37},
-  {'id': 'AT', value: 11},
+  {'id': 'AT', value: 11}
 ];
 
 var connectorData = [
@@ -39,79 +39,31 @@ var markerData = [
 var chart;
 
 anychart.onDocumentReady(function() {
+  var dataSet = anychart.data.set([
+    {id: "AU.CT", value: 15, title: "Australian Capital Territory"},
+    {id: "AU.VI", value: 23, title: "Victoria"},
+    {id: "AU.WA", value: 86, title: "Western Australia"},
+    {id: "AU.QL", value: 16, title: "Queensland"},
+    {id: "AU.NS", value: 32, title: "New South Wales"},
+    {id: "AU.NT", value: 64, title: "Northern Territory"},
+    {id: "AU.TS", value: 28, title: "Tasmania"},
+    {id: "AU.SA", value: 45, title: "South Australian"}
+  ]);
+
+  var dataSetForSeries = dataSet.mapAs({id: "id"});
+
   chart = anychart.map();
-  chart.maxBubbleSize(30);
-  chart.minBubbleSize(15);
-
-  var s = chart.choropleth(choroplethData);
-  s.selectFill('red');
-  s.hatchFill('confetti');
-  s.colorScale(anychart.scales.linearColor(['red', 'blue']));
-  s.markers(true);
-  s.labels()
-      .fontColor('green')
-      .fontWeight('bold')
+  chart.geoData(anychart.maps.australia);
+  var series = chart.choropleth(dataSetForSeries);
+  series.geoIdField("code_hasc")
+      .tooltip(null)
+      .labels()
       .enabled(true)
-
-  // s.colorScale(anychart.scales.ordinalColor([
-  //   {from: 0, to: 15},
-  //   {from: 15, to: 20},
-  //   {from: 20, to: 40},
-  // ]));
-
-  s = chart.connector(connectorData2);
-  s
-      .fill('black')
-      .curvature(0)
-      .startSize(20)
-      .endSize(0)
-      .labels(   {'fontColor': 'red', enabled: false})
-
-  s = chart.connector(connectorData);
-  s
-      .startSize(15)
-      .endSize(25)
-      .hatchFill('confetti')
-
-  s = chart.connector(connectorData1);
-  s
-      .startSize(20)
-      .endSize(0)
-      .hatchFill('confetti')
-
-  s = chart.bubble(bubbleData);
-  s.markers(true);
-  s.selectFill('blue');
-  s.hatchFill(true);
-  s.labels(true);
-
-  s = chart.marker(markerData);
-  s.size(20);
-  s.selectFill('green');
-  s.hatchFill(true);
-
-  // chart.geoData(Convertor.convert(Highcharts.maps['custom/world-palestine-highres']));
-  chart.geoData('anychart.maps.world');
-  chart.colorRange(true);
-
-  // chart.callout(0)
-  //     .items(['AU', 'CN'])
-  //     .orientation('right')
-  //     .enabled(true);
-
-
-  chart.interactivity().zoomOnMouseWheel(true);
-
-  // chart.listen('pointClick', function(e) {
-  //   chart.zoomToFeature(e.point.get("id"));
-  // });
-
-  chart.listen('click', function(e) {
-    var coords = chart.globalToLocal(e.clientX, e.clientY);
-    var latlon = chart.inverseTransform(coords.x, coords.y);
-
-    console.log(latlon);
-  });
+      .fontColor('red')
+      .anchor('left');
+  series.selectLabels({fontSize: 25, fontColor: 'purple', background: {fill: 'yellow'}});
+  chart.callout(0).items(["AU.CT","AU.WA","AU.NS"]);
+  chart.bounds('50%',0,'50%', '50%');
 
   chart.container('container').draw();
 });
