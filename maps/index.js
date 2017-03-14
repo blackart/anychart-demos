@@ -38,32 +38,26 @@ var markerData = [
 
 var chart;
 
-anychart.onDocumentReady(function() {
+anychart.onDocumentReady(function(){
   var dataSet = anychart.data.set([
-    {id: "AU.CT", value: 15, title: "Australian Capital Territory"},
-    {id: "AU.VI", value: 23, title: "Victoria"},
-    {id: "AU.WA", value: 86, title: "Western Australia"},
-    {id: "AU.QL", value: 16, title: "Queensland"},
-    {id: "AU.NS", value: 32, title: "New South Wales"},
-    {id: "AU.NT", value: 64, title: "Northern Territory"},
-    {id: "AU.TS", value: 28, title: "Tasmania"},
-    {id: "AU.SA", value: 45, title: "South Australian"}
+    {"id": "33063", "value": 192, fill: 'red'},
+    {lat:42.15, long:9.18, fill: 'yellow'},
   ]);
 
-  var dataSetForSeries = dataSet.mapAs({id: "id"});
-
-  chart = anychart.map();
-  chart.geoData(anychart.maps.australia);
-  var series = chart.choropleth(dataSetForSeries);
-  series.geoIdField("code_hasc")
-      .tooltip(null)
-      .labels()
-      .enabled(true)
-      .fontColor('red')
-      .anchor('left');
-  series.selectLabels({fontSize: 25, fontColor: 'purple', background: {fill: 'yellow'}});
-  chart.callout(0).items(["AU.CT","AU.WA","AU.NS"]);
-  chart.bounds('50%',0,'50%', '50%');
-
+  chart = anychart.markerMap();
+  chart.geoData('anychart.maps.france');
+  chart.marker(dataSet);
+  chart.getSeries(0).geoIdField("insee_cl");
   chart.container('container').draw();
+
+  chart.listen('chartdraw',function(){
+    var xml = chart.toXml();
+    var xmlL = chart.toXml(0,1);
+    xmlS = chart.toXml(0,0);
+    if (xmlL==xmlS) console.log('FAIL equal');
+    else console.log('xmlL=',xmlL.length,'xmlS=', xmlS.length);
+    chart.dispose();
+    chart = anychart.fromXml(xmlL);
+    chart.container('container').draw();
+  });
 });
