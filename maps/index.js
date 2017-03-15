@@ -40,24 +40,30 @@ var chart;
 
 anychart.onDocumentReady(function(){
   var dataSet = anychart.data.set([
-    {"id": "33063", "value": 192, fill: 'red'},
-    {lat:42.15, long:9.18, fill: 'yellow'},
+    {x: 0, value: 20, label: {fontFamily: 'Comic Sans'}},
+    {x: 1, value: 30, hoverLabel: {fontColor: 'red'}},
+    {x: 2, value: 40, selectLabel: {fontSize: 60}},
+    {x: 3, value: 50},
+    {x: 4, value: 60},
+    {x: 5, value: 70}
   ]);
 
-  chart = anychart.markerMap();
-  chart.geoData('anychart.maps.france');
-  chart.marker(dataSet);
-  chart.getSeries(0).geoIdField("insee_cl");
+  chart = anychart.column(dataSet);
+
+  var series = chart.getSeries(0);
+  series.labels()
+      .fontWeight('bold')
+      .fontSize(25)
+      .enabled(true);
+  series.hoverLabels()
+      .fontColor('green')
+      .fontStyle('italic');
+  series.selectLabels()
+      .rotation(45);
+
+
   chart.container('container').draw();
 
-  chart.listen('chartdraw',function(){
-    var xml = chart.toXml();
-    var xmlL = chart.toXml(0,1);
-    xmlS = chart.toXml(0,0);
-    if (xmlL==xmlS) console.log('FAIL equal');
-    else console.log('xmlL=',xmlL.length,'xmlS=', xmlS.length);
-    chart.dispose();
-    chart = anychart.fromXml(xmlL);
-    chart.container('container').draw();
-  });
+  series.select([2, 5]);
+  series.hover([1, 4]);
 });
