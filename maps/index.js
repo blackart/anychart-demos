@@ -49,9 +49,12 @@ anychart.onDocumentReady(function(){
   ]);
 
   chart = anychart.column(dataSet);
+  chart.xAxis(0, false);
+  chart.yAxis(0, false);
 
   var series = chart.getSeries(0);
   series.labels()
+      .adjustFontSize(true)
       .fontWeight('bold')
       .fontSize(25)
       .enabled(true);

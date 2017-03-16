@@ -7,7 +7,7 @@ Convertor.convert = function(data) {
     this.singleton = new Convertor();
   }
   return this.singleton.convert_(data);
-}
+};
 
 Convertor.prototype.checkHitZone = function(x, y, polygon) {
   var i, j, rel1, rel2, c = false;
@@ -21,6 +21,71 @@ Convertor.prototype.checkHitZone = function(x, y, polygon) {
   }
 
   return c;
+};
+
+Convertor.prototype.coordsIterator = function(features, callback) {
+  var coord, coord_, point;
+  var i, j, k, l;
+  var len, len_, len__, len___;
+
+  for (i = 0, len = features.length; i < len; i++) {
+    var feature = features[i];
+    var coordinates = feature['geometry']['coordinates'];
+    var is_multi = feature['geometry']['type'] == 'MultiPolygon';
+    if (is_multi) {
+      for (j = 0, len_ = coordinates.length; j < len_; j++) {
+        coord = coordinates[j];
+        for (k = 0, len__ = coord.length; k < len__; k++) {
+          coord_ = coord[k];
+          for (l = 0, len___ = coord_.length; l < len___; l++) {
+            point = coord_[l];
+            callback(point);
+          }
+        }
+      }
+    } else {
+      for (j = 0, len = coordinates.length; j < len; j++) {
+        coord = coordinates[j];
+        for (l = 0, len_ = coord.length; l < len_; l++) {
+          point = coord[l];
+          callback(point);
+        }
+      }
+    }
+  }
+};
+
+Convertor.prototype.scaleCoords = function(features) {
+  var max_x = -Number.MAX_VALUE;
+  var min_x = Number.MAX_VALUE;
+  var max_y = -Number.MAX_VALUE;
+  var min_y = Number.MAX_VALUE;
+
+  this.coordsIterator(features, function(point) {
+    if (point[0] > max_x)
+      max_x = point[0];
+    if (point[0] < min_x)
+      min_x = point[0];
+    if (point[1] > max_y)
+      max_y = point[1];
+    if (point[1] < min_y)
+      min_y = point[1];
+  });
+
+  var magic_number = 9999;
+  var scale_min_x = Math.abs(magic_number / min_x);
+  var scale_max_x = Math.abs(magic_number / max_x);
+  var scale_min_y = Math.abs(magic_number / min_y);
+  var scale_max_y = Math.abs(magic_number / max_y);
+
+  var multi = Math.min(scale_min_x, scale_max_x, scale_min_y, scale_max_y);
+
+  this.coordsIterator(features, function(point) {
+    point[0] = Math.round(point[0] * multi);
+    point[1] = Math.round(point[1] * multi);
+  });
+
+  return multi
 };
 
 Convertor.prototype.hcConvert = function(coord, tx) {
@@ -43,9 +108,30 @@ Convertor.prototype.hcConvert = function(coord, tx) {
     y: ((y - (targetTx.jsonmarginY || 0)) / (targetTx.jsonres || 1))
   };
 
+
+  // x = normalized.x;
+  // y = normalized.y;
+  //
+  // var xoffset = -targetTx.xoffset * targetTx.scale + (targetTx.xpan || 0);
+  // var yoffset = -targetTx.yoffset * targetTx.scale - (targetTx.ypan || 0);
+
+  // x -= xoffset || 0;
+  // y -= yoffset || 0;
+  //
+  // var scale = targetTx.scale;
+  // var crs = targetTx.crs;
+  //
+  //to wsg84 from any CRS
+  // var p = window['proj4'](crs).inverse([x / scale, y / scale]);
+  //to CRS from wsg84
+  // var p = window['proj4'](crs).forward([x / scale, y / scale]);
+  // coord[0] = p[0];
+  // coord[1] = p[1];
+
+
   coord[0] = normalized.x;
   coord[1] = normalized.y;
-}
+};
 
 Convertor.prototype.convert_ = function(data) {
   this.data = data;
@@ -129,7 +215,7 @@ Convertor.prototype.convert_ = function(data) {
   }
 
   return data;
-}
+};
 
 Convertor.prototype.transformCoords = function(geosonGeometry) {
   var coord,
@@ -216,7 +302,7 @@ Convertor.prototype.transformCoords = function(geosonGeometry) {
       } else {
         var geometries = geosonGeometry['geometries'];
         for (i = 0, len = geometries.length; i < len; i++) {
-          this.transformCoords_(geometries[i]);
+          this.transformCoords(geometries[i]);
         }
       }
       break;
@@ -227,9 +313,9 @@ Convertor.prototype.transformCoords = function(geosonGeometry) {
       break;
   }
   return null;
-}
+};
 
 Convertor.prototype.transformProp = function(properties) {
   properties['middle-x'] = properties['hc-middle-x'];
   properties['middle-y'] = properties['hc-middle-y'];
-}
+};
