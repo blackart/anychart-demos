@@ -45,16 +45,21 @@ anychart.onDocumentReady(function(){
     {x: 2, value: 40, selectLabel: {fontSize: 60}},
     {x: 3, value: 50},
     {x: 4, value: 60},
-    {x: 5, value: 70}
+    {x: 5, value: 70},
+    {x: 5, value: 80},
+    {x: 5, value: 90},
+    {x: 5, value: 100},
   ]);
 
   chart = anychart.column(dataSet);
   chart.xAxis(0, false);
   chart.yAxis(0, false);
 
+  chart.labels()
+      .fontOpacity(.3)
+
   var series = chart.getSeries(0);
   series.labels()
-      .adjustFontSize(true)
       .fontWeight('bold')
       .fontSize(25)
       .enabled(false);
