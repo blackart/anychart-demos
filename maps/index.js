@@ -40,8 +40,8 @@ var chart;
 
 anychart.onDocumentReady(function(){
   var dataSet = anychart.data.set([
-    {x: 0, value: 20, label: {fontFamily: 'Comic Sans'}},
-    {x: 1, value: 30, hoverLabel: {fontColor: 'red'}},
+    {x: 0, value: 20, label: {fontFamily: 'Comic Sans', enabled: true}},
+    {x: 1, value: 30, hoverLabel: {fontColor: 'red', enabled: true}},
     {x: 2, value: 40, selectLabel: {fontSize: 60}},
     {x: 3, value: 50},
     {x: 4, value: 60},
@@ -57,7 +57,7 @@ anychart.onDocumentReady(function(){
       .adjustFontSize(true)
       .fontWeight('bold')
       .fontSize(25)
-      .enabled(true);
+      .enabled(false);
   series.hoverLabels()
       .fontColor('green')
       .fontStyle('italic');
