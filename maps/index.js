@@ -40,15 +40,15 @@ var chart;
 
 anychart.onDocumentReady(function(){
   var dataSet = anychart.data.set([
-    {x: 0, value: 20, label: {fontFamily: 'Comic Sans', enabled: true}},
-    {x: 1, value: 30, hoverLabel: {fontColor: 'red', enabled: true}},
-    {x: 2, value: 40, selectLabel: {fontSize: 60}},
-    {x: 3, value: 50},
-    {x: 4, value: 60},
-    {x: 5, value: 70},
-    {x: 5, value: 80},
-    {x: 5, value: 90},
-    {x: 5, value: 100},
+    // {x: 0, value: 20, label: {fontFamily: 'Comic Sans', enabled: true}},
+    // {x: 1, value: 30, hoverLabel: {fontColor: 'red', enabled: true}},
+    // {x: 2, value: 40, selectLabel: {fontSize: 60}},
+    // {x: 3, value: 50},
+    // {x: 4, value: 60},
+    // {x: 5, value: 70},
+    // {x: 6, value: 80, label: {fontOpacity: 1}},
+    {x: 7, value: 90, hoverLabel: {fontOpacity: 1}},
+    // {x: 8, value: 100, selectLabel: {fontOpacity: 1}}
   ]);
 
   chart = anychart.column(dataSet);
@@ -56,13 +56,13 @@ anychart.onDocumentReady(function(){
   chart.yAxis(0, false);
 
   chart.labels()
-      .fontOpacity(.3)
+      .fontOpacity(.3);
 
   var series = chart.getSeries(0);
   series.labels()
       .fontWeight('bold')
       .fontSize(25)
-      .enabled(false);
+      .enabled(true);
   series.hoverLabels()
       .fontColor('green')
       .fontStyle('italic');
@@ -72,6 +72,6 @@ anychart.onDocumentReady(function(){
 
   chart.container('container').draw();
 
-  series.select([2, 5]);
-  series.hover([1, 4]);
+  series.hover([1, 4, 7]);
+  series.select([2, 5, 8]);
 });
