@@ -1,27 +1,27 @@
 <html>
 <head>
-  <meta charset="utf-8">
-  <script src="../../../../libs/closure-library/closure/goog/base.js"></script>
-  <script src="../../../../src/deps.js"></script>
-  <script>
-    goog.require('anychart.modules.anymap');
-    goog.require('anychart.themes.v6');
-    goog.require('anychart.themes.defaultTheme');
-  </script>
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
 
-  <!--<script src="http://cdn.anychart.com/geodata/countries/usa/usa_mainland.js"></script>-->
-  <script src="http://cdn.anychart.com/geodata/countries/aus/australia.js"></script>
-  <script src="index.js"></script>
-  <style>
-    html, body, #container {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
-  </style>
+    <script src="../../../../libs/closure-library/closure/goog/base.js"></script>
+    <script src="../../../../src/deps.js"></script>
+    <script>
+      goog.require('anychart.themes.defaultTheme');
+      goog.require('anychart.modules.anychart_bundle');
+    </script>
+
+    <script src="http://cdn.anychart.com/geodata/1.2.0/countries/australia/australia.js"></script>
+    <script src="index.js"></script>
+    <style>
+        html, body, #container {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-  <div id="container"></div>
+<div id="container"></div>
 </body>
 </html>
 

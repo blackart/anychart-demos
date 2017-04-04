@@ -50,7 +50,7 @@ anychart.onDocumentReady(function() {
   map.getSeries(0)
       .colorScale(currentColorScale);
 
-  series = map.bubble(dataForSeries);
+  series = map.marker(dataForSeries);
   series
       .labels(true)
       .markers(true)
