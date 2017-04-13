@@ -108,36 +108,38 @@ Convertor.prototype.hcConvert = function(coord, tx) {
     y: ((y - (targetTx.jsonmarginY || 0)) / (targetTx.jsonres || 1))
   };
 
+  coord[0] = normalized.x;
+  coord[1] = normalized.y;
+
 
   // x = normalized.x;
   // y = normalized.y;
-  //
+  // //
   // var xoffset = -targetTx.xoffset * targetTx.scale + (targetTx.xpan || 0);
   // var yoffset = -targetTx.yoffset * targetTx.scale - (targetTx.ypan || 0);
-
+  //
   // x -= xoffset || 0;
   // y -= yoffset || 0;
   //
   // var scale = targetTx.scale;
   // var crs = targetTx.crs;
   //
-  //to wsg84 from any CRS
+  //
+  // //to wsg84 from any CRS
   // var p = window['proj4'](crs).inverse([x / scale, y / scale]);
+
   //to CRS from wsg84
   // var p = window['proj4'](crs).forward([x / scale, y / scale]);
+
   // coord[0] = p[0];
   // coord[1] = p[1];
-
-
-  coord[0] = normalized.x;
-  coord[1] = normalized.y;
 };
 
 Convertor.prototype.convert_ = function(data) {
   this.data = data;
   this.tx = data['hc-transform'];
 
-  var i, len;
+  var i, len, ratio;
 
   switch (data['type']) {
     case 'FeatureCollection':
@@ -153,6 +155,7 @@ Convertor.prototype.convert_ = function(data) {
             feature['properties']['id'] = feature['id'];
           this.transformProp(feature['properties']);
         }
+        // ratio = this.scaleCoords(features);
       }
       break;
 
@@ -213,6 +216,7 @@ Convertor.prototype.convert_ = function(data) {
 
     data['ac-tx'][txName] = tx_;
   }
+  // data['ac-tx']['ac-ratio'] = ratio;
 
   return data;
 };
