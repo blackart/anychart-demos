@@ -10,4 +10,4 @@ anychart.onDocumentLoad(function() {
 
   chart.container(stage).draw();
   stage.resume();
-})
+});
