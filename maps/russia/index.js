@@ -40,9 +40,9 @@ function drawChart(bounds, geodata, title) {
   chart.crosshair(true);
 
   chart.axes(true);
-  // chart.scale()
-  //     .maximumX(180)
-  //     .minimumX(-7)
+  chart.scale()
+      .maximumX(180)
+      .minimumX(-7)
   //     .maximumY(73)
   //     .minimumY(28);
 
@@ -108,7 +108,7 @@ anychart.onDocumentReady(function() {
   stage.credits(false);
   stage.suspend();
 
-  // chart1 = drawChart(anychart.math.rect(0, 0, '100%', '100%'), Convertor.convert(geoData['russia'][0]), 'Highcharts geo data');
+  chart1 = drawChart(anychart.math.rect(0, 0, '100%', '100%'), Convertor.convert(geoData['russia'][0]), 'Highcharts geo data');
   chart1 = drawChart(anychart.math.rect(0, 0, '100%', '100%'), geoData['russia'][1], 'Anychart geo data');
   // chart2 = drawChart(anychart.math.rect('50%', 0, '50%', '100%'),  geoData['world'][1], 'Anychart geo data');
   // chart2 = drawChart(anychart.math.rect(0, 0, '100%', '100%'),  geoData['world'][1], 'Anychart geo data');

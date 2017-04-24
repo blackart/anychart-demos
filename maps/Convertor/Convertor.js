@@ -2,10 +2,11 @@ function Convertor() {
 
 };
 
-Convertor.convert = function(data) {
+Convertor.convert = function(data, opt_mode) {
   if (!this.singleton) {
     this.singleton = new Convertor();
   }
+  this.mode = opt_mode || 'short';
   return this.singleton.convert_(data);
 };
 
@@ -31,7 +32,7 @@ Convertor.prototype.coordsIterator = function(features, callback) {
   for (i = 0, len = features.length; i < len; i++) {
     var feature = features[i];
     var coordinates = feature['geometry']['coordinates'];
-    var is_multi = feature['geometry']['type'] == 'MultiPolygon';
+    var is_multi = feature['geometry']['type'] === 'MultiPolygon';
     if (is_multi) {
       for (j = 0, len_ = coordinates.length; j < len_; j++) {
         coord = coordinates[j];
@@ -103,29 +104,47 @@ Convertor.prototype.hcConvert = function(coord, tx) {
   if (!targetTx)
     targetTx = tx.default;
 
-  var normalized = {
-    x: ((x - (targetTx.jsonmarginX || 0)) / (targetTx.jsonres || 1)),
-    y: ((y - (targetTx.jsonmarginY || 0)) / (targetTx.jsonres || 1))
-  };
+  x = (x - (targetTx.jsonmarginX || 0)) / (targetTx.jsonres || 1);
+  y = (y - (targetTx.jsonmarginY || 0)) / (targetTx.jsonres || 1);
 
-  // coord[0] = normalized.x;
-  // coord[1] = normalized.y;
+  if (this.mode === 'short') {
+    coord[0] = x;
+    coord[1] = y;
+  } else {
+    var xoffset = -targetTx.xoffset * targetTx.scale + (targetTx.xpan || 0);
+    var yoffset = -targetTx.yoffset * targetTx.scale - (targetTx.ypan || 0);
 
+    x -= xoffset || 0;
+    y -= yoffset || 0;
 
-  x = normalized.x;
-  y = normalized.y;
-  //
-  var xoffset = -targetTx.xoffset * targetTx.scale + (targetTx.xpan || 0);
-  var yoffset = -targetTx.yoffset * targetTx.scale - (targetTx.ypan || 0);
+    var scale = targetTx.scale;
+    var crs = targetTx.crs;
+    var p;
 
-  x -= xoffset || 0;
-  y -= yoffset || 0;
+    if (this.mode === 'full') {
+      coord[0] = x / scale;
+      coord[1] = y / scale;
+    } else if (this.mode === 'from_crs_to_wsg') {
+      p = window['proj4'](crs).inverse([x / scale, y / scale]);
+      coord[0] = p[0];
+      coord[1] = p[1];
+    } else if (this.mode === 'from_wsg_to_crs') {
+      p = window['proj4'](crs).forward([x / scale, y / scale]);
+      coord[0] = p[0];
+      coord[1] = p[1];
+    }
+  }
 
-  var scale = targetTx.scale;
-  var crs = targetTx.crs;
-  //
-  //
-  // //to wsg84 from any CRS
+  // var xoffset = -targetTx.xoffset * targetTx.scale + (targetTx.xpan || 0);
+  // var yoffset = -targetTx.yoffset * targetTx.scale - (targetTx.ypan || 0);
+
+  // x -= xoffset || 0;
+  // y -= yoffset || 0;
+
+  // var scale = targetTx.scale;
+  // var crs = targetTx.crs;
+
+  //to wsg84 from any CRS
   // var p = window['proj4'](crs).inverse([x / scale, y / scale]);
 
   //to CRS from wsg84
@@ -134,8 +153,8 @@ Convertor.prototype.hcConvert = function(coord, tx) {
   // coord[0] = p[0];
   // coord[1] = p[1];
 
-  coord[0] = x / scale;
-  coord[1] = y / scale;
+  // coord[0] = x / scale;
+  // coord[1] = y / scale;
 };
 
 Convertor.prototype.convert_ = function(data) {
@@ -158,7 +177,8 @@ Convertor.prototype.convert_ = function(data) {
             feature['properties']['id'] = feature['id'];
           this.transformProp(feature['properties']);
         }
-        ratio = this.scaleCoords(features);
+        if (this.mode === 'full')
+          ratio = this.scaleCoords(features);
       }
       break;
 
@@ -205,32 +225,33 @@ Convertor.prototype.convert_ = function(data) {
           ' \'LineString\', \'Polygon\', \'MultiPolygon\', \'Feature\', \'FeatureCollection\' or \'GeometryCollection\'.');
   }
 
-  data['ac-tx'] = {
-    'default': {
-      crs: '+proj=laea +lat_0=90 +lon_0=90 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
-      // crs: 'wsg84',
-      scale: ratio,
-      xoffset: 0,
-      yoffset: 0
-    }
-  };
-  //
-  // for (var txName in this.tx) {
-  //   var tx_ = this.tx[txName];
-  //
-  //   tx_.xoffset = -tx_.xoffset * tx_.scale + (tx_.xpan || 0);
-  //   tx_.yoffset = -tx_.yoffset * tx_.scale - (tx_.ypan || 0);
-  //
-  //   if (tx_.hitZone) {
-  //     this.transformCoords(tx_.hitZone);
-  //     tx_.heatZone = tx_.hitZone.coordinates[0];
-  //   }
-  //
-  //   data['ac-tx'][txName] = tx_;
-  // }
-  // data['ac-tx']['ac-ratio'] = ratio;
+  if (this.mode === 'full') {
+    data['ac-tx'] = {
+      'default': {
+        crs: this.tx.default.crs,
+        scale: ratio,
+        xoffset: 0,
+        yoffset: 0
+      }
+    };
+  } else if (this.mode === 'short') {
+    for (var txName in this.tx) {
+      var tx_ = this.tx[txName];
 
-  console.log(JSON.stringify(data));
+      tx_.xoffset = -tx_.xoffset * tx_.scale + (tx_.xpan || 0);
+      tx_.yoffset = -tx_.yoffset * tx_.scale - (tx_.ypan || 0);
+
+      if (tx_.hitZone) {
+        this.transformCoords(tx_.hitZone);
+        tx_.heatZone = tx_.hitZone.coordinates[0];
+      }
+
+      data['ac-tx'][txName] = tx_;
+    }
+    data['ac-tx']['ac-ratio'] = ratio;
+  }
+
+  // console.log(JSON.stringify(data));
 
   return data;
 };
