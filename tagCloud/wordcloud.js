@@ -113,6 +113,9 @@ function draw(t, e) {
       .duration(750)
       .attr("transform", "translate(" + [w >> 1, h >> 1] + ")scale(" + scale + ")");
 }
+
+
+
 function downloadPNG() {
   d3.event.preventDefault();
   var t = document.createElement("canvas")
@@ -472,29 +475,35 @@ function downloadSVG() {
 
 
 
-var unicodePunctuationRe = "!-#%-*,-/:;?@\\[-\\]_{}\xa1\xa7\xab\xb6\xb7\xbb\xbf\u037e\u0387\u055a-\u055f\u0589\u058a\u05be\u05c0\u05c3\u05c6\u05f3\u05f4\u0609\u060a\u060c\u060d\u061b\u061e\u061f\u066a-\u066d\u06d4\u0700-\u070d\u07f7-\u07f9\u0830-\u083e\u085e\u0964\u0965\u0970\u0af0\u0df4\u0e4f\u0e5a\u0e5b\u0f04-\u0f12\u0f14\u0f3a-\u0f3d\u0f85\u0fd0-\u0fd4\u0fd9\u0fda\u104a-\u104f\u10fb\u1360-\u1368\u1400\u166d\u166e\u169b\u169c\u16eb-\u16ed\u1735\u1736\u17d4-\u17d6\u17d8-\u17da\u1800-\u180a\u1944\u1945\u1a1e\u1a1f\u1aa0-\u1aa6\u1aa8-\u1aad\u1b5a-\u1b60\u1bfc-\u1bff\u1c3b-\u1c3f\u1c7e\u1c7f\u1cc0-\u1cc7\u1cd3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205e\u207d\u207e\u208d\u208e\u2329\u232a\u2768-\u2775\u27c5\u27c6\u27e6-\u27ef\u2983-\u2998\u29d8-\u29db\u29fc\u29fd\u2cf9-\u2cfc\u2cfe\u2cff\u2d70\u2e00-\u2e2e\u2e30-\u2e3b\u3001-\u3003\u3008-\u3011\u3014-\u301f\u3030\u303d\u30a0\u30fb\ua4fe\ua4ff\ua60d-\ua60f\ua673\ua67e\ua6f2-\ua6f7\ua874-\ua877\ua8ce\ua8cf\ua8f8-\ua8fa\ua92e\ua92f\ua95f\ua9c1-\ua9cd\ua9de\ua9df\uaa5c-\uaa5f\uaade\uaadf\uaaf0\uaaf1\uabeb\ufd3e\ufd3f\ufe10-\ufe19\ufe30-\ufe52\ufe54-\ufe61\ufe63\ufe68\ufe6a\ufe6b\uff01-\uff03\uff05-\uff0a\uff0c-\uff0f\uff1a\uff1b\uff1f\uff20\uff3b-\uff3d\uff3f\uff5b\uff5d\uff5f-\uff65",
-    fill = d3.scale.category20b(), w = 960, h = 600, words = [], max, scale = 1, complete = 0, keyword = "", tags,
-    fontSize, maxLength = 30, fetcher, statusText = d3.select("#status"),
-    layout = d3.layout.cloud().timeInterval(10).size([w, h]).fontSize(function(t) {
+var unicodePunctuationRe = "!-#%-*,-/:;?@\\[-\\]_{}\xa1\xa7\xab\xb6\xb7\xbb\xbf\u037e\u0387\u055a-\u055f\u0589\u058a\u05be\u05c0\u05c3\u05c6\u05f3\u05f4\u0609\u060a\u060c\u060d\u061b\u061e\u061f\u066a-\u066d\u06d4\u0700-\u070d\u07f7-\u07f9\u0830-\u083e\u085e\u0964\u0965\u0970\u0af0\u0df4\u0e4f\u0e5a\u0e5b\u0f04-\u0f12\u0f14\u0f3a-\u0f3d\u0f85\u0fd0-\u0fd4\u0fd9\u0fda\u104a-\u104f\u10fb\u1360-\u1368\u1400\u166d\u166e\u169b\u169c\u16eb-\u16ed\u1735\u1736\u17d4-\u17d6\u17d8-\u17da\u1800-\u180a\u1944\u1945\u1a1e\u1a1f\u1aa0-\u1aa6\u1aa8-\u1aad\u1b5a-\u1b60\u1bfc-\u1bff\u1c3b-\u1c3f\u1c7e\u1c7f\u1cc0-\u1cc7\u1cd3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205e\u207d\u207e\u208d\u208e\u2329\u232a\u2768-\u2775\u27c5\u27c6\u27e6-\u27ef\u2983-\u2998\u29d8-\u29db\u29fc\u29fd\u2cf9-\u2cfc\u2cfe\u2cff\u2d70\u2e00-\u2e2e\u2e30-\u2e3b\u3001-\u3003\u3008-\u3011\u3014-\u301f\u3030\u303d\u30a0\u30fb\ua4fe\ua4ff\ua60d-\ua60f\ua673\ua67e\ua6f2-\ua6f7\ua874-\ua877\ua8ce\ua8cf\ua8f8-\ua8fa\ua92e\ua92f\ua95f\ua9c1-\ua9cd\ua9de\ua9df\uaa5c-\uaa5f\uaade\uaadf\uaaf0\uaaf1\uabeb\ufd3e\ufd3f\ufe10-\ufe19\ufe30-\ufe52\ufe54-\ufe61\ufe63\ufe68\ufe6a\ufe6b\uff01-\uff03\uff05-\uff0a\uff0c-\uff0f\uff1a\uff1b\uff1f\uff20\uff3b-\uff3d\uff3f\uff5b\uff5d\uff5f-\uff65";
+var fill = d3.scale.category20b(), w = 960, h = 600, words = [], max, scale = 1, complete = 0, keyword = "", tags;
+var fontSize, maxLength = 30, fetcher, statusText = d3.select("#status");
+var layout = d3.layout.cloud()
+    .timeInterval(10)
+    .size([w, h])
+    .fontSize(function(t) {
       return fontSize(+t.value)
-    }).text(function(t) {
+    })
+    .text(function(t) {
       return t.key
-    }).on("word", progress).on("end", draw),
+    })
+    .on("word", progress)
+    .on("end", draw);
 
 
-    echoForm = d3.select("body").append("form").attr("action", "https://www.jasondavies.com/echo").attr("target", "_blank").attr("method", "POST"),
-    echoContentType = echoForm.append("input").attr("type", "hidden").attr("name", "content-type"),
-    echoInput = echoForm.append("input").attr("type", "hidden").attr("name", "echo"),
-    svg = d3.select("#vis").append("svg").attr("width", w).attr("height", h), background = svg.append("g"),
-    vis = svg.append("g").attr("transform", "translate(" + [w >> 1, h >> 1] + ")");
+var echoForm = d3.select("body").append("form").attr("action", "https://www.jasondavies.com/echo").attr("target", "_blank").attr("method", "POST");
+var echoContentType = echoForm.append("input").attr("type", "hidden").attr("name", "content-type");
+var echoInput = echoForm.append("input").attr("type", "hidden").attr("name", "echo");
+var svg = d3.select("#vis").append("svg").attr("width", w).attr("height", h), background = svg.append("g");
+var vis = svg.append("g").attr("transform", "translate(" + [w >> 1, h >> 1] + ")");
 
 
 
 d3.select("#download-svg").on("click", downloadSVG), d3.select("#download-png").on("click", downloadPNG);
 
 var form = d3.select("#form").on("submit", function() {
-  parseText(d3.select("#text").property("value")),
-      d3.event.preventDefault()
+  parseText(d3.select("#text").property("value"));
+  d3.event.preventDefault();
 });
 
 
@@ -502,8 +511,8 @@ var form = d3.select("#form").on("submit", function() {
 form.selectAll("input[type=number]").on("click.refresh", function() {
   this.value !== this.defaultValue && (generate(),
       this.defaultValue = this.value)
-}),
-    form.selectAll("input[type=radio], #font").on("change", generate);
+});
+form.selectAll("input[type=radio], #font").on("change", generate);
 
 
 
@@ -707,85 +716,119 @@ d3.select("#random-palette").on("click", function() {
         vis.selectAll("text").style("fill", function(t) {
           return fill(t.text.toLowerCase())
         })
-  }),
-      d3.event.preventDefault()
-}),
-    function() {
-      function t() {
-        c = +d3.select("#angle-count").property("value"),
-            u = Math.max(-90, Math.min(90, +d3.select("#angle-from").property("value"))),
-            i = Math.max(-90, Math.min(90, +d3.select("#angle-to").property("value"))),
-            e()
-      }
+  });
+  d3.event.preventDefault();
+})
 
-      function e() {
-        h.domain([0, c - 1]).range([u, i]);
-        var t = l.selectAll("path.angle").data([{
-          startAngle: u * d,
-          endAngle: i * d
-        }]);
-        t.enter().insert("path", "circle").attr("class", "angle").style("fill", "#fc0"),
-            t.attr("d", f);
-        var o = l.selectAll("line.angle").data(d3.range(c).map(h));
-        o.enter().append("line").attr("class", "angle"),
-            o.exit().remove(),
-            o.attr("transform", function(t) {
-              return "rotate(" + (90 + t) + ")"
-            }).attr("x2", function(t, e) {
-              return e && e !== c - 1 ? -r : -r - 5
-            });
-        var s = l.selectAll("path.drag").data([u, i]);
-        s.enter().append("path").attr("class", "drag").attr("d", "M-9.5,0L-3,3.5L-3,-3.5Z").call(d3.behavior.drag().on("drag", function(t, o) {
-          t = (o ? i : u) + 90;
-          var s = [-r * Math.cos(t * d), -r * Math.sin(t * d)]
-              , l = [d3.event.x, d3.event.y]
-              , c = ~~(Math.atan2(n(s, l), a(s, l)) / d);
-          t = Math.max(-90, Math.min(90, t + c - 90)),
-              c = i - u,
-              o ? (i = t,
-                  c > 360 ? u += c - 360 : 0 > c && (u = i)) : (u = t,
-                  c > 360 ? i += 360 - c : 0 > c && (i = u)),
-              e()
-        }).on("dragend", generate)),
-            s.attr("transform", function(t) {
-              return "rotate(" + (t + 90) + ")translate(-" + r + ")"
-            }),
-            layout.rotate(function() {
-              return h(~~(Math.random() * c))
-            }),
-            d3.select("#angle-count").property("value", c),
-            d3.select("#angle-from").property("value", u),
-            d3.select("#angle-to").property("value", i)
-      }
 
-      function n(t, e) {
-        return t[0] * e[1] - t[1] * e[0]
-      }
+(function() {
+  function t() {
+    c = +d3.select("#angle-count").property("value");
+    u = Math.max(-90, Math.min(90, +d3.select("#angle-from").property("value")));
+    i = Math.max(-90, Math.min(90, +d3.select("#angle-to").property("value")));
 
-      function a(t, e) {
-        return t[0] * e[0] + t[1] * e[1]
-      }
+    e();
+  }
 
-      var r = 40.5
-          , o = 35
-          , s = 20
-          ,
-          l = d3.select("#angles").append("svg").attr("width", 2 * (r + o)).attr("height", r + 1.5 * s).append("g").attr("transform", "translate(" + [r + o, r + s] + ")");
-      l.append("path").style("fill", "none").attr("d", ["M", -r, 0, "A", r, r, 0, 0, 1, r, 0].join(" ")),
-          l.append("line").attr("x1", -r - 7).attr("x2", r + 7),
-          l.append("line").attr("y2", -r - 7),
-          l.selectAll("text").data([-90, 0, 90]).enter().append("text").attr("dy", function(t, e) {
-            return 1 === e ? null : ".3em"
-          }).attr("text-anchor", function(t, e) {
-            return ["end", "middle", "start"][e]
-          }).attr("transform", function(t) {
-            return t += 90,
-            "rotate(" + t + ")translate(" + -(r + 10) + ")rotate(" + -t + ")translate(2)"
-          }).text(function(t) {
-            return t + "\xb0"
-          });
-      var u, i, c, d = Math.PI / 180, h = d3.scale.linear(), f = d3.svg.arc().innerRadius(0).outerRadius(r);
-      d3.selectAll("#angle-count, #angle-from, #angle-to").on("change", t).on("mouseup", t),
-          t(),
-          parseText(d3.select("#text").property("value"))
-    }();
+  function e() {
+    h.domain([0, c - 1]).range([u, i]);
+    var t = l.selectAll("path.angle").data([{
+      startAngle: u * d,
+      endAngle: i * d
+    }]);
+
+    t.enter()
+        .insert("path", "circle")
+        .attr("class", "angle")
+        .style("fill", "#fc0");
+    t.attr("d", f);
+
+    var o = l.selectAll("line.angle").data(d3.range(c).map(h));
+
+    o.enter().append("line").attr("class", "angle");
+    o.exit().remove();
+    o.attr("transform", function(t) {
+      return "rotate(" + (90 + t) + ")"
+    }).attr("x2", function(t, e) {
+      return e && e !== c - 1 ? -r : -r - 5
+    });
+
+    var s = l.selectAll("path.drag").data([u, i]);
+    s.enter().append("path")
+        .attr("class", "drag")
+        .attr("d", "M-9.5,0L-3,3.5L-3,-3.5Z")
+        .call(
+            d3.behavior.drag()
+                .on("drag", function(t, o) {
+                  t = (o ? i : u) + 90;
+                  var s = [-r * Math.cos(t * d), -r * Math.sin(t * d)];
+                  var l = [d3.event.x, d3.event.y];
+                  var c = ~~(Math.atan2(n(s, l), a(s, l)) / d);
+
+                  t = Math.max(-90, Math.min(90, t + c - 90));
+                  c = i - ul;
+                  o ? (i = t,
+                      c > 360 ? u += c - 360 : 0 > c && (u = i)) : (u = t,
+                      c > 360 ? i += 360 - c : 0 > c && (i = u)),
+                      e()
+                })
+                .on("dragend", generate)
+        );
+    s.attr("transform", function(t) {
+      return "rotate(" + (t + 90) + ")translate(-" + r + ")"
+    });
+
+
+    layout.rotate(function() {
+      return h(~~(Math.random() * c))
+    });
+
+
+    d3.select("#angle-count").property("value", c);
+    d3.select("#angle-from").property("value", u);
+    d3.select("#angle-to").property("value", i);
+  }
+
+  function n(t, e) {
+    return t[0] * e[1] - t[1] * e[0]
+  }
+
+  function a(t, e) {
+    return t[0] * e[0] + t[1] * e[1]
+  }
+
+  var r = 40.5;
+  var o = 35;
+  var s = 20;
+
+  var l = d3.select("#angles")
+      .append("svg")
+      .attr("width", 2 * (r + o))
+      .attr("height", r + 1.5 * s)
+      .append("g").attr("transform", "translate(" + [r + o, r + s] + ")");
+
+
+  l.append("path")
+      .style("fill", "none")
+      .attr("d", ["M", -r, 0, "A", r, r, 0, 0, 1, r, 0].join(" "));
+  l.append("line").attr("x1", -r - 7).attr("x2", r + 7);
+  l.append("line").attr("y2", -r - 7);
+
+  l.selectAll("text").data([-90, 0, 90]).enter().append("text").attr("dy", function(t, e) {
+    return 1 === e ? null : ".3em"
+  }).attr("text-anchor", function(t, e) {
+    return ["end", "middle", "start"][e]
+  }).attr("transform", function(t) {
+    return t += 90,
+    "rotate(" + t + ")translate(" + -(r + 10) + ")rotate(" + -t + ")translate(2)"
+  }).text(function(t) {
+    return t + "\xb0"
+  });
+
+
+  var u, i, c, d = Math.PI / 180, h = d3.scale.linear(), f = d3.svg.arc().innerRadius(0).outerRadius(r);
+
+  d3.selectAll("#angle-count, #angle-from, #angle-to").on("change", t).on("mouseup", t);
+  t();
+  parseText(d3.select("#text").property("value"));
+})();

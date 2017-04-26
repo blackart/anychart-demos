@@ -89,6 +89,32 @@ Convertor.prototype.scaleCoords = function(features) {
   return multi
 };
 
+Convertor.iterateProperties = function(data, callback) {
+  var i, len;
+
+  switch (data['type']) {
+    case 'FeatureCollection':
+      if (!data['features']) {
+        console.log('FeatureCollection object missing \'features\' member.');
+      } else {
+        var features = data['features'];
+        for (i = 0, len = features.length; i < len; i++) {
+          var feature = features[i];
+          callback.call(null, feature['properties'], feature);
+        }
+      }
+      break;
+
+    case 'Feature':
+      if (!(data['properties'] && data['geometry'])) {
+        console.log('Feature object missing \'properties\' or \'geometry\' member.');
+      } else {
+        callback.call(null, data['properties'], data);
+      }
+      break;
+  }
+};
+
 Convertor.prototype.hcConvert = function(coord, tx) {
   var x = coord[0];
   var y = coord[1];
