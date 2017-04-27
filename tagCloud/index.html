@@ -1,27 +1,22 @@
-<!DOCTYPE html>
-<html>
-<meta charset="utf-8">
+<html lang="en">
 <head>
-    <script src="https://d3js.org/d3.v3.js"></script>
-    <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
-    <script src="cloud.js"></script>
+    <meta charset="utf-8">
+    <!--<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>-->
+
+    <script src="../../libs/closure-library/closure/goog/base.js"></script>
+    <script src="../../src/deps.js"></script>
+
+    <script>
+      goog.require('anychart.themes.defaultTheme');
+      goog.require('anychart.modules.anychart_bundle');
+    </script>
+    <script src="index.js"></script>
 </head>
 <body>
-    <!--<canvas id="canvas"></canvas>-->
+<div id="container" style="border: 1px solid #000"></div>
 </body>
-<!--<script>-->
-    <!--function getCanvas() {-->
-      <!--var canvas = document.getElementById('canvas');-->
-      <!--var ctx = canvas.getContext('2d');-->
-      <!--return ctx;-->
-    <!--}-->
-    <!--function measureText(ctx) {-->
-      <!--var text = ctx.measureText('foo'); // TextMetrics object-->
-      <!--return text.width;-->
-    <!--}-->
-
-    <!--var ctx = getCanvas();-->
-    <!--measureText(ctx);-->
-<!--</script>-->
-<script src="index.js"></script>
 </html>
+
+
+
+
