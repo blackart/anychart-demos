@@ -9,7 +9,7 @@ anychart.onDocumentReady(function () {
 
     chart = anychart.tagCloud();
     chart.title('Top 250 word of Alice In Wounderland.');
-    chart.data(text, {mode: 'byWord', minLength: 4, maxItems: 250});
+    // chart.data(text, {mode: 'byWord', minLength: 4, maxItems: 250});
     chart.data([
       {"x": "poem", "value": 80, 'category': 'apply'},
       {"x": "peom", "value": 44, 'category': 'orange'},
@@ -20,10 +20,11 @@ anychart.onDocumentReady(function () {
       {"x": "opem", "value": 24, 'category': 'apply'},
       {"x": "omep", "value": 20, 'category': 'orange'},
       {"x": "mope", "value": 56, 'category': 'cherry'},
-      {"x": "mepo", "value": 12},
-      {"x": "pemo", "value": 10},
-      {"x": "pome", "value": 10}
+      {"x": "mepo", "value": 12, 'category': 'apply'},
+      {"x": "pemo", "value": 10, 'category': 'orange'},
+      {"x": "pome", "value": 10, 'category': 'cherry'}
     ], {mode: 'byWord', minLength: 4, maxItems: 250});
+
     chart.colorRange(true);
     // chart.colorScale(anychart.scales.linearColor(anychart.color.singleHueProgression('#3b5998')));
     chart.colorScale(anychart.scales.ordinalColor());
@@ -37,7 +38,7 @@ anychart.onDocumentReady(function () {
       //   return this.sourceValue * 1.1;
       // },
       // fontSize: '110%',
-      fill: 'red'
+      // fill: 'red'
     });
 
     chart.selected({
