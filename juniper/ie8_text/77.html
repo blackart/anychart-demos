@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--<script src="../../../libs/closure-library/closure/goog/base.js"></script>-->
+    <!--<script src="../../../src/deps.js"></script>-->
+    <!--<script>-->
+      <!--goog.require('anychart.themes.defaultTheme');-->
+      <!--goog.require('anychart.modules.anychart_bundle');-->
+    <!--</script>-->
+
+    <script src="../../../out/anychart-bundle.min.js"></script>
+
+    <!--<script src="http://cdn.anychart.com/js/latest/anychart-bundle.min.js"></script>-->
+
+    <script src="http://cdn.anychart.com/js/latest/data-adapter.dev.min.js"></script>
+    <style>
+        html,body,#container{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    anychart.onDocumentReady(function(){
+        //// DEFINE UTILS
+        if (window.DOMParser) {
+            parseXml = function(xmlStr) {
+                return ( new window.DOMParser() ).parseFromString(xmlStr, "text/xml");
+            };
+        } else if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
+            parseXml = function(xmlStr) {
+                var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
+                xmlDoc.async = "false";
+                xmlDoc.loadXML(xmlStr);
+                return xmlDoc;
+            };
+        } else {
+            parseXml = function() { return null; }
+        }
+
+        function createNoDataLabel(chart, callback){
+            var label = chart.label();
+            label.text('Click here to Discover Devices');
+            label.position('center');
+            label.anchor('center');
+            label.fontDecoration('underline');
+            label.fontColor('blue');
+            label.background('#fff');
+            label.listen('click', function(){
+                window[callback]();
+                label.enabled(false);
+            })
+        }
+
+        //// Create charts
+
+        var stage = anychart.graphics.create('container');
+        
+        var gauge = anychart.gauges.circular();
+        gauge.title('Overall System Condition');
+        gauge.startAngle(270);
+        gauge.sweepAngle(180);
+        gauge.fill('none').stroke('none');
+        gauge.axis({
+            labels: false,
+            scale: {
+                minimum: 0,
+                maximum: 100,
+                ticks: {interval: 10},
+                minorTicks: {interval: 5}
+            }
+        });
+        gauge.range(0, {
+            from: 0,
+            to: 30,
+            position: 'i',
+            fill: '#dd2c00 0.4',
+            startSize: 50,
+            endSize: 50,
+            radius: 98
+        });
+        gauge.range(1, {
+            from: 30,
+            to: 70,
+            position: 'i',
+            fill: '#ffa000 0.4',
+            startSize: 50,
+            endSize: 50,
+            radius: 98
+        });
+        gauge.range(2, {
+            from: 70,
+            to: 100,
+            position: 'i',
+            fill: '#009900 0.4',
+            startSize: 50,
+            endSize: 50,
+            radius: 98
+        });
+
+        gauge.label(1)
+                .text('Poor')
+                .fontColor('#212121')
+                .fontSize(14)
+                .offsetY('68%')
+                .offsetX(25)
+                .anchor('center');
+
+        gauge.label(2)
+                .text('Average')
+                .fontColor('#212121')
+                .fontSize(14)
+                .offsetY('68%')
+                .offsetX(90)
+                .anchor('center');
+
+        gauge.label(3)
+                .text('Good')
+                .fontColor('#212121')
+                .fontSize(14)
+                .offsetY('68%')
+                .offsetX(155)
+                .anchor('center');
+
+        gauge.cap()
+                .radius('3%')
+                .enabled(true)
+                .fill('#545f69');
+
+        gauge.needle()
+                .stroke('2 #545f69')
+                .startRadius('5%')
+                .endRadius('90%')
+                .startWidth('0.1%')
+                .endWidth('0.1%')
+                .middleWidth('0.1%');
+
+        gauge.bounds(0,0,'50%','100%');
+        gauge.container(stage);
+        gauge.draw();
+
+        var sys_health_nodes = anychart.line();
+        sys_health_nodes.title('Fabric Load History');
+        sys_health_nodes.xAxis({
+            title: 'Past 1 minute',
+            labels: false
+        });
+        sys_health_nodes.yAxis({
+            title: 'Average CPU usage',
+            labels: {format:'{%Value}{numDecimals:0}'}
+        });
+        sys_health_nodes.lineMarker({value:0, stroke:'red'});
+        sys_health_nodes.tooltip().format('{%Name} load: {%YValue}{numDecimals:0}');
+        sys_health_nodes.bounds('50%',0,'50%','50%');
+        sys_health_nodes.container(stage);
+        sys_health_nodes.draw();
+
+        var sys_health_active_users = anychart.line();
+        sys_health_active_users.title('Active Users History');
+        sys_health_active_users.xAxis({
+            title: 'Past 1 minute',
+            labels: false
+        });
+        sys_health_active_users.yAxis({
+            title: 'Active user count',
+            labels: {format:'{%Value}{numDecimals:0}'}
+        });
+        sys_health_active_users.lineMarker({value:0, stroke:'red'});
+        sys_health_active_users.tooltip().format('{%Name} users: {%YValue}{numDecimals:0}');
+        sys_health_active_users.bounds('50%','50%','50%','50%');
+        sys_health_active_users.container(stage);
+        sys_health_active_users.draw();
+
+        ////// Load file and settings data to charts
+        anychart.data.loadJsonFile('Overall_System_Condition.json', function(response){
+            var data = response.data.resultObject.data[0].xmldata;
+            var xml = parseXml(data);
+
+            var pointers = xml.getElementsByTagName('pointer');
+            var gaugeData = [];
+            for(var i=0;i<pointers.length;i++){
+                gaugeData.push(pointers[i].getAttribute('value'));
+            }
+
+            if (gaugeData.length == 0){
+                var callbackOnNoData = null;
+                var actions = xml.getElementsByTagName('action');
+                for(var j=0;j<actions.length;j++){
+                    var act = actions[j];
+                    if (act.attributes['function'] && act.getAttribute('function')=='onNoDataClick'){
+                        callbackOnNoData = act.getElementsByTagName('arg')[0].childNodes[0].nodeValue;
+                    }
+                }
+                if (callbackOnNoData) createNoDataLabel(gauge, callbackOnNoData);
+            } else gauge.data(gaugeData);
+        });
+
+        anychart.data.loadJsonFile('Active_Users_History.json', function(response){
+            var data = response.data.resultObject.data[0].xmldata;
+            var xml = parseXml(data);
+
+            // get data for series
+            sys_health_active_users.addSeries();
+            var Users = sys_health_active_users.getSeriesAt(0);
+            Users.name('Users');
+            Users.tooltip().format('Active users ({%Value}{numDecimals:0})');
+
+        });
+
+        anychart.data.loadJsonFile('Fabric_Load_History.json', function(response){
+            var data = response.data.resultObject.data[0].xmldata;
+            var xml = parseXml(data);
+
+            // get data for series
+            sys_health_nodes.addSeries();
+            var Load = sys_health_nodes.getSeriesAt(0);
+            Load.name('Load');
+            Load.tooltip().format('CPU usage({%Value}{numDecimals:0})');
+
+        });
+
+    });
+
+
+    function manageFabric(){}
+</script>
+</body>
+</html>
+

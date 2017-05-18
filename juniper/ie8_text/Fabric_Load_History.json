@@ -1,0 +1,10 @@
+{"data": { "resultObject":{
+
+  "data": [
+
+    {
+      "xmldata": "<anychart> <settings> <animation enabled=\"True\"/> </settings> <charts> <chart id=\"sys_health_nodes\" name=\"sys_health_nodes\" plot_type=\"CategorizedVertical\"> <chart_settings><title> <text>Fabric Load History</text> <font size=\"14\"/> <background enabled=\"false\"/> </title><axes> <x_axis tickmarks_placement=\"Center\"> <title enabled=\"true\" > <text>Past 1minute</text> </title> <labels enabled=\"false\"/> </x_axis> <y_axis><title enabled=\"true\"> <text>Average CPU usage</text> </title><labels> <format>{%Value}{numDecimals:0}</format> </labels><scale major_interval=\"10\"/> <major_grid enabled=\"False\"/> <minor_grid enabled=\"False\"/> </y_axis> </axes> <chart_background> <border enabled=\"false\" /><fill enabled=\"false\" /> </chart_background> <data_plot_background> <border enabled=\"false\" /> <fill enabled=\"false\" /> </data_plot_background> <legend enabled=\"false\" > <background enabled=\"false\" /><title enabled=\"false\" /> </legend> </chart_settings> <data_plot_settings default_series_type=\"Line\"><line_series> <tooltip_settings enabled=\"true\"> <format> {%Name} load: {%YValue}{numDecimals:0}</format> <position anchor=\"RightTop\" /> </tooltip_settings> </line_series> </data_plot_settings><data> <series id=\"Load\" name=\"Load\"> <tooltip enabled=\"true\"><format> CPU usage({%YValue}{numDecimals:0})</format> </tooltip> </series> </data> </chart> </charts></anychart>" }
+
+  ]}
+
+},"time": 1492423138837,"success": true}

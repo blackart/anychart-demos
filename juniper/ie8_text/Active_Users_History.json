@@ -1,0 +1,10 @@
+{"data": { "resultObject":{
+
+  "data": [
+
+    {
+      "xmldata": "<anychart> <settings> <animation enabled=\"True\"/> </settings> <charts> <chart id=\"sys_health_active_users-c\" name=\"sys_health_active_users-c\" plot_type=\"CategorizedVertical\"><chart_settings> <title> <text>Active Users History</text> <font size=\"14\"/> <background enabled=\"false\"/> </title> <axes> <x_axis tickmarks_placement=\"Center\"> <title enabled=\"true\" ><text>Past 1 minute</text> </title> <labels enabled=\"false\"/> </x_axis> <y_axis> <title enabled=\"true\"> <text>Active user count</text> </title> <labels><format>{%Value}{numDecimals:0}</format> </labels> <scale major_interval=\"1\"/> <major_grid enabled=\"False\"/> <minor_grid enabled=\"False\"/> </y_axis> </axes> <chart_background> <border enabled=\"false\" /> <fill enabled=\"false\" /> </chart_background> <data_plot_background> <border enabled=\"false\" /> <fill enabled=\"false\" /> </data_plot_background> </chart_settings><data_plot_settings default_series_type=\"Line\"> <line_series> <tooltip_settings enabled=\"true\"><format> {%Name} users: {%YValue}{numDecimals:0} </format> </tooltip_settings> </line_series></data_plot_settings> <data> <series id=\"Users\" name=\"Users?#?\"> <tooltip enabled=\"true\"><format>active users ({%YValue}{numDecimals:0})</format> </tooltip> </series> </data> </chart> </charts></anychart>" }
+
+  ]}
+
+},"time": 1492423138837,"success": true}
