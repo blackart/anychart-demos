@@ -1,76 +1,121 @@
-var chart;
-
+var generateData, getData;
 
 anychart.onDocumentReady(function () {
-//   var data = anychart.data.set([
-//     ['January', 1],
-//     ['February', 2],
-//     ['March', 3],
-//     ['April', 4],
-//     ['May', 5]
-//   ]);
-//   chart = anychart.line();
-//   chart.line(data);
-//   chart.yScale().minimum(0).maximum(10).ticks().interval(1);
-//   chart.yAxis()
-//       // .drawFirstLabel(false)
-//       // .drawLastLabel(false)
-//       .labels()
-//           .useHtml(true);
-//   // chart.xAxis(false);
-//
-//   lastLabelChecker = '';
-//   firstLabelChecker = '';
-//   var i = 0;
-//   chart.yAxis().labels().format(function() {
-//     if (this.value === 0) {
-//       firstLabelChecker += 'TextFormatter for first label called!<br>';
-//     }
-//     if (this.value === 10) {
-//       lastLabelChecker += 'TextFormatter for last label called! <br>';
-//     }
-//     i = i + 1;
-//     return  '<strong>' + this.value + '</strong>';
-//   });
-//
-//   chart.container('container').draw();
-//
-//   console.log(i);
+  var preloader = anychart.ui.preloader();
+  preloader.render();
 
-  var stage = anychart.graphics.create('container', 500, 400);
+  var general_data = getGeneralData();
+  var regions_data = getRegionsData();
 
-  chart = anychart.line();
-  line = chart.line([1, 2, 2]);
-  line.markers()
+  map = anychart.map();
+
+  map.unboundRegions()
       .enabled(true)
-      .fill('red')
-      .size(8);
-  line.legendItem().iconType('marker');
+      .fill('#E1E1E1')
+      .stroke('#D2D2D2');
 
-  line1 = chart.line([3, 4, 7]);
-  line1.markers()
+  // sets geo data
+  map.geoData(anychart.maps.china);
+
+  // sets title settings
+  map.title()
+      .useHtml(true)
       .enabled(true)
-      .size(8)
-      .type('CROSS')
-      .stroke('blue');
-  line1.legendItem().iconType('marker');
+      .padding([0, 0, 20, 0])
+      .text('ACME Online Shop Popularity in China by Region<br/><span style="color:#212121; font-size: 13px;">' +
+          'Popularity estimated by the number of orders in the last year. ' +
+          '<br> To drill up Press Backspace button or use context menu</span>');
 
-  line2 = chart.spline([2, 6, 8]);
-  line2.markers()
+  var menu = map.contextMenu();
+  // add item DrillUp for context menu
+  menu.itemsFormatter(function (items) {
+    var path = map.getDrilldownPath();
+
+    items.unshift({
+      text: 'Drill Up',
+      eventType: 'drillUp'
+    });
+
+    path.length <= 1 ? items[0].enabled = false : items[0].enabled = true;
+
+    return items
+  });
+
+  // sets settings for map chart
+  map.padding([10, 10, 10, 10]);
+  map.interactivity().selectionMode("none");
+
+  var series = map.choropleth(general_data)
+      .stroke('#fff9c4')
+      .colorScale(anychart.scales.linearColor('#fff9c4', '#fbc02d', '#e64a19', '#dd2c00'));
+  series.tooltip()
       .enabled(true)
-      .fill('blue .5')
-      .size(8)
-      .type('STAR4');
-  line2.legendItem().iconType('marker');
+      .useHtml(true)
+      .padding([8, 13, 10, 13])
+      .fontSize(13)
+      .titleFormat(function () {
+        return this.getData('name');
+      })
+      .format(function () {
+        return '<span style="font-size: 12px; color: #cbcbcb">Orders:</span> ' +
+            this.getData("value") + '<span style="font-size: 12px; color: #cbcbcb"></span>';
+      });
 
-  line3 = chart.spline([4, 1, 4]);
-  line3.markers()
-      .enabled(true)
-      .fill('green')
-      .size(5)
-      .type('star7');
-  line3.legendItem().iconType('marker');
+  map.colorRange(true);
 
-  chart.legend().enabled(true);
-  chart.container(stage).draw();
+  // create zoom controls
+  var zoomController = anychart.ui.zoom();
+  zoomController.render(map);
+
+  map.container('container');
+
+  map.draw();
+
+  map.listen('pointClick', function (evt) {
+    var point = evt.point;
+    var id = point.get('id');
+    var name = point.get('name');
+    var url_name = point.get('name').toLowerCase().replace(/\s/g, '_');
+
+    if (regions_data[id]) {
+      var url = 'https://cdn.anychart.com/geodata/1.2.0/china_areas/' + url_name + '/' + url_name + '.js';
+      $.ajax({
+        type: "GET",
+        url: url,
+        dataType: "script",
+        beforeSend: function () {
+          preloader.visible(true);
+        },
+        success: function () {
+          var geoData = 'anychart.maps.' + url_name;
+          var drillMap = anychart.map();
+          var drillDownTitle = 'Orders from ACME Online Shop in <span style="color:#212121; font-weight: bold">' + name + '</span><br/><span style="color:#212121; font-size: 13px;">Average number of orders by month. <br> To drill up Press Backspace button or use context menu</span>';
+          drillMap.padding([10, 10, 10, 10]);
+          drillMap.title().enabled(true).padding([0, 0, 20, 0]).useHtml(true).text(drillDownTitle);
+          drillMap.geoData(geoData);
+
+          var dataSet = anychart.data.set(regions_data[id]).mapAs();
+          var series = drillMap.choropleth(dataSet);
+          series.stroke('#fff9c4');
+          series.colorScale(anychart.scales.linearColor('#fff9c4', '#fbc02d', '#e64a19', '#dd2c00'));
+          series.tooltip().titleFormat(function () {
+            return this.getData('name');
+          });
+          series.tooltip().enabled(true).useHtml(true).padding([8, 13, 10, 13]).fontSize(13).format(function () {
+            return '<span style="font-size: 12px; color: #cbcbcb">Orders:</span> ' + this.getData("value") + '<span style="font-size: 12px; color: #cbcbcb"></span>';
+          });
+          map.drillTo(id, drillMap);
+          preloader.visible(false);
+        },
+        error: function (data) {
+          console.log('Error: ', data);
+        }
+      });
+    }
+  });
+
+  // event context-menu for drillUp click
+  menu.listen('drillUp', function () {
+    map.drillUp();
+  });
 });
