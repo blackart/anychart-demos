@@ -1,0 +1,87 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="x-cat-tags" content="tagCloud anyChart"/>
+    <script src="../../libs/closure-library/closure/goog/base.js"></script>
+    <script src="../../src/deps.js"></script>
+    <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
+    <script>
+      goog.require("anychart.themes.defaultTheme");
+      goog.require("anychart.modules.anychart_bundle");
+    </script>
+    <script src="./utils/anytest.min.js"></script>
+
+</head>
+<body>
+<div id="container"></div>
+</body>
+<script>
+  var chart1, chart2;
+  anychart.onDocumentLoad(function() {
+    anytest.setUp(600, 300);
+
+    chart1 = anychart.tagCloud();
+    chart1.data([
+      {"x": "poem", "value": 80, 'category': 'apply'},
+      {"x": "peom", "value": 44, 'category': 'orange'},
+      {"x": "moep", "value": 40, 'category': 'cherry'},
+      {"x": "meop", "value": 36, 'category': 'apply'},
+      {"x": "emop", "value": 32, 'category': 'orange'},
+      {"x": "epom", "value": 28, 'category': 'cherry'},
+      {"x": "opem", "value": 24, 'category': 'apply'},
+      {"x": "omep", "value": 20, 'category': 'orange'},
+      {"x": "mope", "value": 56, 'category': 'cherry'},
+      {"x": "mepo", "value": 12, 'category': 'apply'},
+      {"x": "pemo", "value": 10, 'category': 'orange'},
+      {"x": "pome", "value": 10, 'category': 'cherry'}
+    ]);
+    chart1.title('ordinal color');
+    chart1.legend(true);
+    chart1.colorRange(true);
+    chart1.colorScale(anychart.scales.ordinalColor().colors(['green', 'orange', '#DE3163']));
+
+    chart1.bounds(0, 0, '50%', '100%');
+    anytest.drawInStage(chart1);
+
+    chart2 = anychart.tagCloud();
+    chart2.data([
+      {"x": "poem", "value": 1},
+      {"x": "peom", "value": 2},
+      {"x": "moep", "value": 3},
+      {"x": "meop", "value": 4},
+      {"x": "emop", "value": 5},
+      {"x": "epom", "value": 6},
+      {"x": "opem", "value": 7},
+      {"x": "omep", "value": 8},
+      {"x": "mope", "value": 9},
+      {"x": "mepo", "value": 0},
+      {"x": "pemo", "value": 11},
+      {"x": "pome", "value": 10}
+    ]);
+    chart2.title('linear color');
+    chart2.colorRange(true);
+    chart2.colorScale(anychart.scales.linearColor('#FF9470', '#DBFF70'));
+    chart2.bounds('50%', 0, '50%', '100%');
+    anytest.drawInStage(chart2);
+
+    anytest.stageListen(function() {
+      anytest.step(function() {
+        anytest.CAT.getScreen();
+      });
+      anytest.step(function() {
+        chart1.colorScale(anychart.scales.linearColor('#FF9470', '#DBFF70'));
+        debugger;
+      });
+//      anytest.step(function() {
+//        anytest.CAT.getScreen('colorRangeChange', -1);
+//        chart1.colorScale(anychart.scales.ordinalColor().colors(['green', 'orange', '#DE3163']));
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.getScreen('def', 1);
+//      });
+      anytest.exit();
+    }).charts4modes("chart1", "chart2");
+    stage.resume();
+  });
+</script>
+</html>
