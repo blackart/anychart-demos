@@ -1,21 +1,29 @@
 anychart.onDocumentReady(function() {
-  var stage = anychart.graphics.create('container', 1000, 300);
+  stage = anychart.graphics.create('container', 1000, 800);
   stage.suspend();
 
-  var path = stage.path();
+  path = stage.path();
   path
       .moveTo(100, 200)
       .curveTo(200, 100, 300, 0, 400, 100)
       .curveTo(500, 200, 600, 300, 700, 200)
-      .curveTo(800, 100, 900, 100, 900, 100);
+      // .curveTo(800, 100, 900, 100, 900, 100);
+
+  // var path3 = stage.path();
+  // path3
+  //     .moveTo(100, 200)
+  //     .curveTo(200, 100, 300, 0, 400, 100)
+  //     .curveTo(500, 200, 600, 300, 700, 200)
+  //     .curveTo(800, 100, 900, 100, 900, 100);
 
 
   // var path2 = stage.path().deserialize(path.serializePathArgs());
 
-  var text = stage.text();
+  text = stage.text();
   text
       .path(path)
-  //     .x(300)
+      .x(0)
+      .y(0)
       .text('This is a long and Supercalifragilisticexpialidocious sentence. 次の単語グレートブリテンおよび北アイルランド連合王国で本当に大きな言葉 This is a long and Supercalifragilisticexpialidocious sentence. 次の単語グレートブリテンおよび北アイルランド連合王国で本当に大きな言葉 This is a long and Supercalifragilisticexpialidocious sentence. 次の単語グレートブリテンおよび北アイルランド連合王国で本当に大きな言葉 This is a long and Supercalifragilisticexpialidocious sentence. 次の単語グレートブリテンおよび北アイルランド連合王国で本当に大きな言葉')
       // .text('This is a long and Supercalifragilisticexpialidocious sentence. 次の単語グレートブリテンおよび北アイルランド連合王国で本当に大きな言葉')
   //     // .text('Если число протоновпротоновпротоновпротоновпротонов в ядре совпадает с числом электронов, то атом в целом оказывается электрически протоновпротоновпротоновпротоновпротонов.')
@@ -26,15 +34,38 @@ anychart.onDocumentReady(function() {
   //     // .height(60)
   //     .fontFamily('Times New Roman')
       .fontSize(16)
-  //     .wordWrap('normal')
-  //     // .textWrap('byLetter')
-  //     .textOverflow('...')
-  // // .hAlign('center');
+      .wordWrap('normal')
+      .wordBreak('keep-all')
+      .textOverflow('...')
+      .hAlign('middle')
+      .vAlign('middle');
   //
   // // stage.rect(300, 0, 200, 500);
   // stage.rect().setBounds(text.getBounds());
 
+  path2 = stage.path().deserialize(path.serializePathArgs());
+
   stage.resume();
+
+
+  text2 = stage.text();
+  text2
+      // .path(path)
+      .x(0)
+      .y(400)
+      .text('This is a long and Supercalifragilisticexpialidocious sentence. 次の単語グレートブリテンおよび北アイルランド連合王国で本当に大きな言葉 This is a long and Supercalifragilisticexpialidocious sentence. 次の単語グレートブリテンおよび北アイルランド連合王国で本当に大きな言葉 This is a long and Supercalifragilisticexpialidocious sentence. 次の単語グレートブリテンおよび北アイルランド連合王国で本当に大きな言葉 This is a long and Supercalifragilisticexpialidocious sentence. 次の単語グレートブリテンおよび北アイルランド連合王国で本当に大きな言葉')
+      .width(721.42)
+      // .textIndent(150)
+      // .height(60)
+      // .fontFamily('Times New Roman')
+      .fontSize(16)
+      .wordWrap('normal')
+      .wordBreak('keep-all')
+      // .textWrap('byLetter')
+      .textOverflow('...')
+      .hAlign('middle')
+      // .vAlign('middle');
+
 
   console.log(path.getLength());
   console.log(path.domElement().getTotalLength());
