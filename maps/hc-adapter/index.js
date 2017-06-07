@@ -33,11 +33,11 @@ function drawChart(bounds, geodata, title) {
   chart.interactivity().zoomOnMouseWheel(true);
   // chart.maxZoomLevel(3);
 
-  chart.scale()
-      .maximumX(40)
-      .minimumX(-29)
-      .maximumY(73)
-      .minimumY(28);
+  // chart.scale()
+  //     .maximumX(40)
+  //     .minimumX(-29)
+  //     .maximumY(73)
+  //     .minimumY(28);
 
   var series = chart.choropleth(generateData(chart));
 
@@ -86,7 +86,7 @@ function drawChart(bounds, geodata, title) {
 function drawCharts(id) {
   stage.suspend();
 
-  chart1.geoData(Convertor.convert(gg[id][0]))
+  chart1.geoData(Convertor.convert(gg[id][0]));
   chart1.getSeries(0).data(generateData(chart1));
 
   chart2.geoData(gg[id][1])

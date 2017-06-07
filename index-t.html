@@ -8,7 +8,7 @@
       goog.require('anychart.themes.defaultTheme');
       goog.require('anychart.modules.anychart_bundle');
     </script>
-
+    <script src="https://cdn.anychart.com/samples-data/tag-cloud/population-by-countries/data.js"></script>
     <script src="index-t.js"></script>
     <style>
         #text {
@@ -25,38 +25,8 @@
     </style>
 </head>
 <body>
-<!--<span id="text">Если число протоновпротоновпротоновпротоновпротонов в ядре совпадает с числом электронов, то атом в целом оказывается электрически протоновпротоновпротоновпротоновпротонов.</span>-->
 <div id="container"></div>
-<svg width='1000' height='300'
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink">
-    <defs>
-        <path id="MyPath"
-              d="
-             M 100 200
-             C 200 100 300 0 400 100
-             C 500 200 600 300 700 200
-             C 800 100 900 100 900 100"/>
-    </defs>
 
-    <use xlink:href="#MyPath" fill="none" stroke="red" />
-
-
-    <!--<text data-ac-wrapper-id="4" font-family="Times New Roman" font-size="16" fill="#000" direction="ltr"-->
-          <!--text-anchor="middle" x="340" y="14" style="opacity: 1;">-->
-        <!--<tspan x="337.5703125" dy="0">Flessibilit</tspan>-->
-        <!--<tspan dy="0">...</tspan>-->
-        <!--<tspan x="340" dy="17">al</tspan>-->
-        <!--<tspan x="338.8671875" dy="17">cambiame</tspan>-->
-        <!--<tspan dy="0">...</tspan>-->
-    <!--</text>-->
-
-    <text data-ac-wrapper-id="4" font-family="Times New Roman" font-size="16" fill="#000" direction="ltr">
-        <textPath startOffset="0%" href="#MyPath">
-            <tspan x="0" dy="0">Если число протоновпротоновпротоновпротоновпротонов в ядре совпадает с числом электронов, то атом в целом оказывается электрически протоновпротоновпротоновпротоновпротонов.</tspan>
-        </textPath>
-    </text>
-</svg>
 </body>
 </html>
 
