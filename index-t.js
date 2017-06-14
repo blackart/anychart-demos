@@ -46,11 +46,12 @@ anychart.onDocumentReady(function () {
   chart.yAxis(false);
   chart.grid().oddFill('#fefefe').evenFill('#fefefe');
   chart.xAxis().labels()
-      .padding(5)
+      .padding(10)
       .fontSize(10)
       .hAlign('center')
       .vAlign('center')
-      .wordWrap('break-word')
+      // .wordBreak('break-all')
+      // .wordWrap('break-word')
       .position('byPath')
       // .position('normal')
       //.maxFontSize(13)
@@ -92,17 +93,19 @@ anychart.onDocumentReady(function () {
   chart.container(stage);
 
   // workaround to make even/odd xAxis labels coloring
-  chart.listen('chartDraw', function () {
-    var count = chart.xAxis().labels().getLabelsCount();
-    for (var i = 0; i < count; i++) {
-      var color = i % 2 ? '#CD4A2D' : '#4C4C4C';
-      var label = chart.xAxis().labels().getLabel(i);
-      if (label) {
-        label.fontColor(color);
-        label.draw();
-      }
-    }
-  });
+  // chart.listen('chartDraw', function () {
+  //   stage.suspend();
+  //   var count = chart.xAxis().labels().getLabelsCount();
+  //   for (var i = 0; i < count; i++) {
+  //     var color = i % 2 ? '#CD4A2D' : '#4C4C4C';
+  //     var label = chart.xAxis().labels().getLabel(i);
+  //     if (label) {
+  //       label.fontColor(color);
+  //       label.draw();
+  //     }
+  //   }
+  //   stage.resume();
+  // });
 
   // initiate chart drawing
   chart.draw();

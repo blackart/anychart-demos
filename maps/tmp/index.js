@@ -7,31 +7,16 @@ var randomExt = function(a, b) {
 var min = 0, max = 350;
 
 anychart.onDocumentReady(function() {
-  var dataSet = anychart.data.set(getData());
+  var a = Convertor.convert(Highcharts.maps["countries/nl/nl-all"], 'full');
 
   map = anychart.map();
-  map.interactivity().zoomOnMouseWheel(true);
-  map.scale().gap(.15);
-  map.geoData('anychart.maps.united_states_of_america');
-
-  series = map.choropleth(dataSet);
-  series.labels()
-      .enabled(true)
-      .padding(1)
-      .textFormatter('{%name}');
-
-  map.connector([{
-    points: [40.71262, - 74.006124, 36.17002, - 115.140154],
-    number: 17,
-    to: "Las Vegas, NV",
-    marker: {
-      fill: "#328bde"
-    },
-    label: {
-      enabled: true
-    }
-  }]);
-
-
+  map.geoData(a);
   map.container('container').draw();
+
+  map.listen('click', function(e) {
+    var localCord = map.globalToLocal(e.clientX, e.clientY);
+    var latLong = map.inverseTransform(localCord.x, localCord.y);
+
+    console.log(latLong.long, latLong.lat);
+  })
 });

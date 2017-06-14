@@ -20,7 +20,7 @@ anychart.onDocumentReady(function() {
       .textIndent(0)
       .vAlign('top')
       .hAlign('start')
-      .textWrap('byLetter')
+      // .textWrap('byLetter')
       .textOverflow('');
 
   // text.width(100);

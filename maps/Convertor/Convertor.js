@@ -6,7 +6,7 @@ Convertor.convert = function(data, opt_mode) {
   if (!this.singleton) {
     this.singleton = new Convertor();
   }
-  this.mode = opt_mode || 'short';
+  this.singleton.mode = opt_mode || 'short';
   return this.singleton.convert_(data);
 };
 
@@ -161,6 +161,8 @@ Convertor.prototype.hcConvert = function(coord, tx) {
     }
   }
 
+
+
   // var xoffset = -targetTx.xoffset * targetTx.scale + (targetTx.xpan || 0);
   // var yoffset = -targetTx.yoffset * targetTx.scale - (targetTx.ypan || 0);
 
@@ -261,6 +263,7 @@ Convertor.prototype.convert_ = function(data) {
       }
     };
   } else if (this.mode === 'short') {
+    data['ac-tx'] = {};
     for (var txName in this.tx) {
       var tx_ = this.tx[txName];
 
