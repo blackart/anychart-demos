@@ -46,6 +46,8 @@ anychart.onDocumentReady(function () {
   chart.yAxis(false);
   chart.grid().oddFill('#fefefe').evenFill('#fefefe');
   chart.xAxis().labels()
+      // .rotation(45)
+      // .anchor('center')
       .padding(10)
       .fontSize(10)
       .hAlign('center')
