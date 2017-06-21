@@ -1,6 +1,10 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+
     <script src="../libs/closure-library/closure/goog/base.js"></script>
     <script src="../src/deps.js"></script>
 
@@ -20,8 +24,13 @@
     </style>
 </head>
 <body>
+<form id="label_behaviour" style="position: absolute; top: 0; z-index: 2">
+    <input type="radio" name="label_behaviour" value="break-all"><label> break-all</label><br>
+    <input type="radio" name="label_behaviour" value="break-word"><label> word-break</label><br>
+    <input type="radio" name="label_behaviour" value="normal"><label> normal</label><br>
+    TextOverflow: <input type="text" name="text_overflow">
+</form>
 <div id="container"></div>
-
 </body>
 </html>
 

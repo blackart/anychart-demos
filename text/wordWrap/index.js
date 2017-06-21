@@ -108,8 +108,8 @@ anychart.onDocumentReady(function() {
   stage.rect().setBounds(text.getBounds());
 
 
-  text = stage.text();
-  text
+  text1 = stage.text();
+  text1
       .y(2 * heightPadding)
       .x(400)
       .text(t)
@@ -117,7 +117,7 @@ anychart.onDocumentReady(function() {
       .textOverflow(textOverflow)
       .wordBreak('break-all')
       .wordWrap('break-word');
-  stage.rect().setBounds(text.getBounds());
+  stage.rect().setBounds(text1.getBounds());
 
   text = stage.text();
   text
