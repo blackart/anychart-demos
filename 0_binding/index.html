@@ -1,0 +1,301 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <script src="anychart-bundle.min.js"></script>
+    <script src="binding.min.js"></script>
+
+    <link href="anychart-ui.min.css" type="text/css" rel="stylesheet">
+    <link href="https://cdn.anychart.com/fonts/2.7.2/anychart.css" type="text/css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div id="container" class="col-xs-6"></div>
+    <div id="controls" class="col-xs-6">
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#chartOne" aria-controls="home" role="tab"
+                                                          data-toggle="tab">Chart one</a></li>
+                <li role="presentation"><a href="#chartTwo" aria-controls="profile" role="tab" data-toggle="tab">Chart
+                    two</a></li>
+                <li role="presentation"><a href="#chartThree" aria-controls="messages" role="tab" data-toggle="tab">Chart
+                    three</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="chartOne">
+                    <form>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <h4>&nbsp;</h4>
+                                <div class="form-group">
+                                    <label for="chart-1-background">Chart background</label><br>
+                                    <input type="color" id="chart-1-background" ac-chart-id="chart1"
+                                           ac-key="background()"
+                                           class="ac-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="chart-1-stackmode">Stack mode</label>
+                                    <select id="chart-1-stackmode" ac-chart-id="chart1"
+                                            ac-key="yScale().stackMode()"
+                                            class="ac-control form-control">
+                                        <option value="none">None</option>
+                                        <option value="value">Value</option>
+                                        <option value="percent">Percent</option>
+                                    </select>
+                                </div>
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="series-1-bad-key"
+                                               ac-chart-id="chart1"
+                                               ac-key="badKey()"
+                                               class="ac-control">Bad key
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 bg-info">
+                                <h4>Chart title</h4>
+                                <div class="checkbox">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="title-enabled" ac-chart-id="chart1"
+                                               ac-key="title().enabled()"
+                                               class="ac-control">Enabled
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="title-text">Text<br>input type='text'</label>
+                                    <input type="text" id="title-text" ac-chart-id="chart1"
+                                           ac-key="title().text()"
+                                           class="ac-control form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="title-text">Text<br>input type='button'</label><br>
+                                    <input type="button" ac-chart-id="chart1" ac-key="title().orientation()"
+                                           class="ac-control"
+                                           value="top" style="width: 70px; margin-left: 35px;"><br>
+                                    <input type="button" ac-chart-id="chart1" ac-key="title().orientation()"
+                                           class="ac-control"
+                                           value="left" style="width: 70px;">
+                                    <input type="button" ac-chart-id="chart1" ac-key="title().orientation()"
+                                           class="ac-control"
+                                           value="right" style="width: 70px;"><br>
+                                    <input type="button" ac-chart-id="chart1" ac-key="title().orientation()"
+                                           class="ac-control"
+                                           value="bottom" style="width: 70px; margin-left: 35px;">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <h4>Legend</h4>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="legend-enabled" ac-chart-id="chart1"
+                                               ac-key="legend().enabled()"
+                                               class="ac-control">Enabled
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="legend-position">Position (select)
+                                        <select id="legend-position" ac-chart-id="chart1"
+                                                ac-key="legend().position()"
+                                                class="ac-control form-control">
+                                            <option value="left">Слева</option>
+                                            <option value="right">Cправа</option>
+                                            <option value="bottom">Снизу</option>
+                                            <option value="top">Сверху</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="legend-position">Items layout<br>button</label><br>
+                                    <button ac-chart-id="chart1" ac-key="legend().itemsLayout()"
+                                            class="ac-control btn btn-default" value="horizontal" style="width: 100px;">
+                                        Horizontal
+                                    </button>
+                                    <button ac-chart-id="chart1" ac-key="legend().itemsLayout()"
+                                            class="ac-control btn btn-default" value="vertical" style="width: 100px;">
+                                        Vertical
+                                    </button>
+                                </div>
+
+                                <div class="form-group" style="padding: 5px 3px; border: 1px solid gray;">
+                                    <h5>Font size (one key)</h5>
+                                    <label>Select
+                                        <select id="legend-fontsize" ac-chart-id="chart1"
+                                                ac-key="legend().fontSize()"
+                                                class="ac-control form-control">
+                                            <option value="9">9 px</option>
+                                            <option value="10">10 px</option>
+                                            <option value="11">11 px</option>
+                                            <option value="12">12 px</option>
+                                            <option value="13">13 px</option>
+                                            <option value="14">14 px</option>
+                                            <option value="15">15 px</option>
+                                            <option value="16">16 px</option>
+                                            <option value="17">17 px</option>
+                                            <option value="18">18 px</option>
+                                            <option value="19">19 px</option>
+                                            <option value="20">20 px</option>
+                                        </select></label>
+                                    <label>Input type='range'
+                                        <input type="range" min="9" max="20" step="1"
+                                               ac-chart-id="chart1" ac-key="legend().fontSize()"
+                                               class="ac-control">
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="legend-background">Font color</label>
+                                    <input type="color" id="legend-background" ac-chart-id="chart1"
+                                           ac-key="legend().fontColor()"
+                                           class="ac-control">
+                                </div>
+                            </div>
+                            <div class="col-xs-3 bg-info">
+                                <h4>Series 0 settings</h4>
+                                <div class="checkbox">
+                                    <label class="form-group">
+                                        <input type="checkbox" id="series-1-enabled" ac-chart-id="chart1"
+                                               ac-key="getSeriesAt(0).enabled()"
+                                               class="ac-control">Series 0 enabled
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="series-1-type">Type (select)
+                                        <select id="series-1-type" ac-chart-id="chart1"
+                                                ac-key="getSeriesAt(0).seriesType()"
+                                                class="ac-control form-control">
+                                            <option value="line">Line</option>
+                                            <option value="spline">Spline</option>
+                                            <option value="stepline">Step-line</option>
+                                            <option value="area">Area</option>
+                                            <option value="splineArea">Spline Area</option>
+                                            <option value="stepArea">Step Area</option>
+                                            <option value="column">Column</option>
+                                            <option value="bar">Bar</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="series-1-background">Color<br>
+                                        <input type="color" id="series-1-background" ac-chart-id="chart1"
+                                               ac-key="getSeriesAt(0).color()"
+                                               class="ac-control">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="series-1-scolor">Stroke color<br>
+                                        <input type="color" id="series-1-scolor" ac-chart-id="chart1"
+                                               ac-key="getSeriesAt(0).stroke()"
+                                               class="ac-control">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="chartTwo">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="ch2-color">Background</label><br>
+                            <input type="color" id="ch2-color" ac-chart-id="chart2" ac-key="background().fill()"
+                                   class="ac-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Y-Axis orientation <br>input type='button'</label><br>
+                            <div>
+                                <input type="button" ac-chart-id="chart2" ac-key="yAxis(0).orientation()"
+                                       class="ac-control"
+                                       value="top" style="width: 70px; margin-left: 35px;"><br>
+                                <input type="button" ac-chart-id="chart2" ac-key="yAxis(0).orientation()"
+                                       class="ac-control"
+                                       value="left" style="width: 70px;">
+                                <input type="button" ac-chart-id="chart2" ac-key="yAxis(0).orientation()"
+                                       class="ac-control"
+                                       value="right" style="width: 70px;"><br>
+                                <input type="button" ac-chart-id="chart2" ac-key="yAxis(0).orientation()"
+                                       class="ac-control"
+                                       value="bottom" style="width: 70px; margin-left: 35px;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>X-Axis orientation<br>input type='radio'</label><br>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="x-axis-orientation" ac-chart-id="chart2"
+                                           ac-key="xAxis(0).orientation()"
+                                           class="ac-control" value="top">Top
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="x-axis-orientation" ac-chart-id="chart2"
+                                           ac-key="xAxis(0).orientation()"
+                                           class="ac-control" value="bottom" checked="true">Bottom
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="x-axis-orientation" ac-chart-id="chart2"
+                                           ac-key="xAxis(0).orientation()"
+                                           class="ac-control" value="left">Left
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="x-axis-orientation" ac-chart-id="chart2"
+                                           ac-key="xAxis(0).orientation()"
+                                           class="ac-control" value="right">Right
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="chartThree">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>
+                                X-Scale minimum<br>
+                                <input type="date" name="chart3-date-from" ac-chart-id="chart3"
+                                       ac-key="xScale().minimum()"
+                                       class="ac-control">
+                            </label><br>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                X-Scale maximum<br>
+                                <input type="date" name="chart3-date-from" ac-chart-id="chart3"
+                                       ac-key="xScale().maximum()"
+                                       class="ac-control">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
