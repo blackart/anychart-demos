@@ -1,7 +1,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"/>
 
     <!--<script src="../libs/closure-library/closure/goog/base.js"></script>-->
     <!--<script src="../src/deps.js"></script>-->
@@ -10,10 +13,11 @@
       <!--goog.require('anychart.themes.defaultTheme');-->
     <!--</script>-->
 
-    <script src="../out/anychart-bundle.min.js"></script>
+    <script src="../../../out/anychart-bundle.min.js"></script>
 
     <script src="https://cdn.anychart.com/samples-data/tag-cloud/population-by-countries/data.js"></script>
-    <script src="index-t.js"></script>
+
+    <script src="index.js"></script>
     <style>
         html, body, #container {
             width: 100%;
@@ -24,13 +28,9 @@
     </style>
 </head>
 <body>
-<form id="label_behaviour" style="position: absolute; top: 0; z-index: 2">
-    <input type="radio" name="label_behaviour" value="break-all"><label> break-all</label><br>
-    <input type="radio" name="label_behaviour" value="break-word"><label> word-break</label><br>
-    <input type="radio" name="label_behaviour" value="normal"><label> normal</label><br>
-    TextOverflow: <input type="text" name="text_overflow">
-</form>
-<div id="container"></div>
+    <table id="example" class="row-border" cellspacing="0" width="100%">
+      
+    </table>
 </body>
 </html>
 
