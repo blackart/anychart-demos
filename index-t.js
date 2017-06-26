@@ -57,9 +57,9 @@ anychart.onDocumentReady(function () {
       .wordWrap('break-word')
       .position('byPath')
       // .position('normal')
-      //.maxFontSize(13)
-      //.minFontSize(8)
-      //.adjustFontSize(true)
+      // .maxFontSize(13)
+      // .minFontSize(8)
+      // .adjustFontSize(true)
       .textOverflow('...');
       // .textOverflow('...');
    chart.xAxis().fill('rgb(237,236,239)')
