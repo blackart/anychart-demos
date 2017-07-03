@@ -1,0 +1,19 @@
+<html>
+<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="bar textMarker lineMarker anyChart"/>
+    <script src="../../../libs/closure-library/closure/goog/base.js"></script>
+    <script src="../../../src/deps.js"></script>
+    <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
+    <script>
+      goog.require("anychart.modules.anychart_bundle");
+      goog.require("anychart.themes.defaultTheme");
+    </script>
+    <script src="../../anytest/utils/anytest.min.js"></script>
+
+    <script src="index.js"></script>
+</head>
+<body>
+<input type="range" min="0" max="720" value="0" id="startAngle" oninput="startAngle(this.value);" style="width: 85%;">
+<div id="container"></div>
+</body>
+</html>

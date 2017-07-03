@@ -1,108 +1,13 @@
-var chart1, chart2, chart3, chart4, chart5;
-function startAngle(value) {
-  chart4.startAngle(value);
-}
-
+var chart;
 anychart.onDocumentLoad(function() {
-  anytest.setUp(1600, 600).description('Проверяем различные настройки на серии');
-
-  chart1 = anychart.polar();
-  chart1.title('fill, hatchFill, stroke');
-  chart1.rangeColumn([
-    [10, 6, 3],
-    [15, 1, 7],
-    [21, 2, 4],
-    [30, 4, 8]
-  ])
-      .fill('red .6')
-      .hatchFill('dashedvertical')
-      .stroke('5 green');
-  chart1.bounds(new acgraph.math.Rect(0, 0, 300, 200));
-  // stage.rect().setBounds(chart1.bounds().toRect());
-  anytest.drawInStage(chart1);
-
-  chart2 = anychart.polar();
-  chart2.title('Color, clip');
-  chart2.rangeColumn([
-    [10, 6, 3],
-    [15, 1, 7],
-    [21, 2, 4],
-    [30, 4, 8]
-  ])
-      .color('green .6')
-      .clip(new acgraph.math.Rect(300, 0, 200, 150));
-  chart2.bounds(new acgraph.math.Rect(300, 0, 300, 200));
-  // stage.rect().setBounds(chart2.bounds().toRect());
-  anytest.drawInStage(chart2);
-
-  chart3 = anychart.polar();
-  chart3.title('Name');
-  var series0 = chart3.rangeColumn([
-    [10, 6, 3],
-    [15, 1, 7],
-    [21, 2, 4],
-    [30, 4, 8]
-  ]);
-  series0.name('rangeColumn series name');
-  chart3.legend().enabled(true);
-  chart3.bounds(new acgraph.math.Rect(0, 200, 300, 200));
-  // stage.rect().setBounds(chart3.bounds().toRect());
-  anytest.drawInStage(chart3);
-
+  anytest.setUp(600, 600);
   var dataSet = anychart.data.set([
-    ['1', 4, 6, 2, 5, 9, 2, 9, 13, 14],
-    [2, 20, 3, 10, 6, 10, 11, 10, 12, 22],
-    [3, 8, 15, 9, 7, 11, 19, 11, 14, 20],
-    [4, 17, 9, 2, 8, 12, 13, 12, 11, 12]
-  ]);
-  var seriesData_1 = dataSet.mapAs({x: [4], value: [1], low: [2], high: [3]});
-  var seriesData_2 = dataSet.mapAs({x: [1], value: [4], low: [5], high: [6]});
-  var seriesData_3 = dataSet.mapAs({x: [2], value: [7], low: [8], high: [9]});
-
-  chart5 = anychart.polar();
-  chart5.title('zIndex, xPointPosition');
-  chart5.rangeColumn(seriesData_1).zIndex(1);
-  chart5.rangeColumn(seriesData_2).zIndex(0);
-  chart5.rangeColumn(seriesData_3).zIndex(2);
-  chart5.bounds(new acgraph.math.Rect(300, 200, 300, 200));
-  anytest.drawInStage(chart5);
-
-  var oScale = anychart.scales.ordinal();
-  var lScale = anychart.scales.linear();
-  chart4 = anychart.polar();
-  chart4.title('xScale, yScale');
-  chart4.rangeColumn([
-    [10, 6, 3],
-    [15, 1, 7],
-    [21, 2, 4],
-    [30, 4, 8]
-  ]);
-  chart4.xScale(oScale);
-  chart4.yScale(lScale);
-  // chart4.startAngle(280);
-  // chart4.xAxis().ticks().length(20);
-  chart4.bounds(new acgraph.math.Rect(0, 400, 600, 200));
-  // stage.rect().setBounds(chart4.bounds().toRect());
-  anytest.drawInStage(chart4);
-
-  stage.resume();
-  /*<< methods
-   anychart.core.polar.series.RangeColumn.fill
-   >>*/
-
-  // setInterval(function() {
-  //   chart4.startAngle(chart4.startAngle() + 10);
-  // }, 100);
-
-
-
-  var dataSet = anychart.data.set([
-    {name: 'Capacità di pianificazione ed organizzazione', applicant1: 5},
-    {name: 'Flessibilità/Adattabilità al cambiamento', applicant1: 5},
+    {name: 'Capacita di pianificazione ed organizzazione', applicant1: 5},
+    {name: 'Flessibilita/Adattabilita al cambiamento', applicant1: 5},
     {name: 'Orientamento verso I risultati', applicant1: 7},
     {name: 'Partecipazione impegno e senso del dovere', applicant1: 7},
     {name: 'Efficacia comunicativa (adeguatezza e precisione)', applicant1: 10, company_high: 6, company_low: 8},
-    {name: 'Sviluppo delle opportunità di business', applicant1: 8},
+    {name: 'Sviluppo delle opportunita di business', applicant1: 8},
     {name: 'Single line', applicant1: 6, company_high: 4, company_low: 8},
     {name: 'Apprendimento e innovazione', applicant1: 7},
     {name: 'Single line', applicant1: 7},
@@ -120,7 +25,7 @@ anychart.onDocumentLoad(function() {
   ]);
 
   chart = anychart.polar();
-  chart.bounds(800, 0, 600, '100%');
+
   // setup chart appearence settings
   chart.startAngle(-27);
   chart.innerRadius('10%');
@@ -140,12 +45,16 @@ anychart.onDocumentLoad(function() {
   // setup chart axes and grid settings
   chart.yAxis(false);
   chart.grid().oddFill('#fefefe').evenFill('#fefefe');
+  chart.xAxis().overlapMode('autoWidth');
   chart.xAxis().labels()
-      .padding(7)
+      .padding({left:7,right:7})
       .fontSize(10)
       .hAlign('center')
-      .wordWrap('normal')
-      .textOverflow('^_^');
+      .wordWrap('break-word')
+      .maxFontSize(13)
+      .minFontSize(8)
+      .adjustFontSize(true)
+      .textOverflow('...');
   chart.xAxis().fill('rgb(237,236,239)')
       .stroke('none');
   chart.xAxis().ticks()
@@ -177,13 +86,27 @@ anychart.onDocumentLoad(function() {
   companySeries.name('Company');
   companySeries.color('#E2DFE0');
 
-  // set chart container id
-  chart.container(stage);
+  anytest.drawInStage(chart);
 
-  // initiate chart drawing
-  chart.draw();
-
-  // setInterval(function() {
-  //   chart.startAngle(chart.startAngle() + 5);
-  // }, 100);
+  anytest.stageListen(function() {
+    // anytest.step(function(){
+    //   anytest.CAT.getScreen();
+    // });
+    // anytest.step(function(){
+    //   chart.xAxis().labels().wordWrap('normal');
+    //   anytest.CAT.getScreen('xAxisLabelsWWNormal', -1);
+    // });
+    // anytest.step(function(){
+    //   chart.xAxis().labels().adjustFontSize(false);
+    //   anytest.CAT.getScreen('xAxisLabelsAdjustFontSizeFalse', -1, 'xAxisLabelsWWNormal');
+    // });
+    // anytest.step(function () {
+    //   chart.xAxis().labels()
+    //       .wordWrap('break-word')
+    //       .adjustFontSize(true);
+    //   anytest.CAT.getScreen('backToInitialState', 1);
+    // });
+    // anytest.exit();
+  }).charts4modes('chart');
+  stage.resume();
 });
