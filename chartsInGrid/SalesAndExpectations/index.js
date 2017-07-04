@@ -1,88 +1,86 @@
-$(document).ready(function() {
-  var i, j, len;
-  var headers = ['Name', 'Ticker', 'Cost', 'Change, %', 'Рыночная капитализаия', 'Volume', 'Chart'];
-  var data = [
-    ['Apple',	'AAPL',	146.28,	0.45, '762.68B', 35439389],
-    ['Microsoft', 'MSFT',	71.21,	1.35,	'549.78B', 27617291],
-    ['J&J',	'JNJ', 136.43, 0.28,	'367.52B', 9007077],
-    ['Exxon Mobil', 'XOM', 81.61,	0.65,	'345.80B', 10611159],
-    ['JPMorgan', 'JPM', 86.86,	-0.18,	'308.60B', 18812029],
-    ['Wells Fargo Pref L', 'WFC_pl',	1306.2,	-0.61,	'262.11B', 2160],
-    ['Wells Fargo&Co', 'WFC', 52.45,  -0.08, '262.11B', 21868452],
-    ['General Electric', 'GE', 27.57,  0.07, '239.42B', 31736487],
-    ['AT&T', 'T', 37.95,  -0.39, '233.32B', 22906645],
-    ['Procter&Gamble', 'PG', 89.42,  0.44, '228.70B', 8782097],
-    ['Bank of America', 'BAC', 22.82,  -0.48, '227.10B', 85399612],
-    ['Wal-Mart Stores', 'WMT', 74.84,  -0.90, '226.88B', 13080330],
-    ['Novartis ADR', 'NVS', 86.34,  0.00, '225.39B', 2199472],
-    ['Roche Holding ADR', 'RHHBY', 32.76,  1.42, '224.73B', 2196467],
-    ['Visa', 'V', 95.58,  1.74, '220.38B', 11637316],
-    ['China Mobile ADR', 'CHL', 53.61,  0.06, '218.91B', 434357],
-    ['Royal Dutch Shell ADR',	'RDSa',	52.61,	0.71, '217.10B', 1972577],
-    ['Royal Dutch Shell B ADR', 'RDSb',	54.02, 0.43, '217.10B', 3140401],
-    ['Oracle', 'ORCL', 50.95,  1.29, '209.64B', 42812545],
-    ['Pfizer', 'PFE', 34.17,  0.32, '203.49B', 30046310],
-    ['Chevron', 'CVX', 105.00,  0.53, '198.93B', 5773319],
-    ['PetroChina ADR', 'PTR', 61.97,  -0.03, '196.49B', 65126],
-    ['Coca-Cola', 'KO', 45.25,  0.40, '193.33B', 9544792],
-    ['Anheuser-Busch Inbev ADR', 'BUD', 113.30,  -0.04, '190.59B', 908389],
-    ['Comcast', 'CMCSA', 39.50,  -1.10, '187.35B', 27861316],
-    ['Philip Morris', 'PM', 119.56,  -0.13, '185.69B', 3391441],
-    ['Verizon', 'VZ', 45.39,  -0.07, '185.16B', 10069733],
-    ['Taiwan Semiconductor', 'TSM', 36.73,  0.05, '184.93B', 5558572],
-    ['Merck&Co', 'MRK', 66.16,  0.21, '180.96B', 14093453],
-    ['Home Depot', 'HD', 151.31,  -2.68, '180.90B', 11422231],
-    ['UnitedHealth', 'UNH', 185.25,  -0.67, '178.52B', 3438489],
-    ['Citigroup', 'C', 63.41,  -0.33, '174.58B', 16395259],
-    ['HSBC ADR', 'HSBC', 43.36,  0.12, '173.07B', 1158129],
-    ['Toyota Motor ADR', 'TM', 105.24,  -0.24, '171.77B', 106361],
-    ['PepsiCo', 'PEP', 116.96,  0.70, '167.08B', 3453406],
-    ['Unilever ADR', 'UL', 54.350,  0.06, '164.77B', 1778109],
-    ['Unilever NV ADR', 'UN', 55.680,  0.14, '164.77B', 1254601],
-    ['Walt Disney', 'DIS', 104.36,  0.13, '163.31B', 18147866],
-    ['Intel', 'INTC', 34.19,  -0.49, '161.00B', 29260888],
-    ['Cisco', 'CSCO', 32.09,  0.75, '160.45B', 25792153],
-    ['Altria', 'MO', 76.49,  0.01, '147.75B', 3876672],
-    ['IBM', 'IBM', 154.11,  -0.19, '144.79B', 3282205],
-    ['Mastercard', 'MA', 124.01,  0.58, '132.92B', 3381548],
-    ['SAP ADR', 'SAP', 107.48,  0.39, '131.90B', 596634],
-    ['Louis Vuitton ADR', 'LVMUY', 51.860,  0.46, '131.11B', 102854],
-    ['British American Tobacco ADR', 'BTI', 70.110,  0.34, '129.97B', 74416],
-    ['British American Tobacco ADR', 'BTI', 70.11,  0.34, '129.97B', 957850],
-    ['3M', 'MMM', 212.90,  0.32, '127.15B', 1584876],
-    ['Amgen', 'AMGN', 172.50,  -0.76, '126.86B', 14368474],
-    ['McDonald’s', 'MCD', 154.64,  -0.10, '126.04B', 2214734]
-  ];
+var headers = ['Name', 'Ticker', 'Cost', 'Changed cost', 'Change, %', 'Chart'];
+var data = [
+  {id: '', country: 'Total', total2014: 13006451, year2015: [1028647, 958258, 1651602, 1209967, 1152573, 1415303, 1184154, 781939, 1399582, 1138802, 1124964, 1156489]},
+  {id: 1, country: 'Germany', total2014: 3036773, year2015: [211337, 223254, 323039, 291395, 256385, 313539, 290196, 226314, 272479, 278372, 272377, 247355]},
+  {id: 2, country: 'UK', total2014: 2476435, year2015: [163856, 76958, 492774, 185778, 198706, 257817, 178420, 79060, 462517, 177664, 178876, 180077]},
+  {id: 3, country: 'France', total2014: 1795885, year2015: [133179, 147584, 196565, 170765, 143771, 225638, 147125, 92048, 164769, 161737, 150334, 183720]},
+  {id: 4, country: 'Italy', total2014: 1359616, year2015: [131858, 135303, 162120, 149653, 147335, 147988, 132096, 59846, 130877, 133650, 134021, 109395]},
+  {id: 5, country: 'Spain', total2014: 855308, year2015: [68119, 86719, 113304, 82716, 94031, 111333, 102922, 55922, 69852, 80055, 81650, 88609]},
+  {id: 6, country: 'Belgium', total2014: 482939, year2015: [47324, 44504, 55245, 51423, 40502, 49426, 36121, 31252, 36725, 39474, 36329, 32741]},
+  {id: 7, country: 'Netherlands', total2014: 387835, year2015: [47652, 33476, 29030, 26666, 27879, 36999, 33908, 30939, 34502, 39006, 40516, 69159]},
+  {id: 8, country: 'Poland', total2014: 327219, year2015: [29673, 28396, 33601, 28526, 27186, 30390, 29654, 23559, 27255, 29062, 30312, 37358]},
+  {id: 9, country: 'Sweden', total2014: 303948, year2015: [20408, 23735, 31590, 30536, 29458, 32257, 24139, 26877, 29653, 31563, 31352, 33540]},
+  {id: 10, country: 'Switzerland', total2014: 301942, year2015: [18400, 22388, 31487, 28982, 27422, 33119, 30228, 23431, 24136, 25236, 26312, 32642]},
+  {id: 11, country: 'Austria', total2014: 303318, year2015: [23427, 20641, 31086, 29500, 26517, 30462, 26917, 22677, 25966, 25149, 23381, 22832]},
+  {id: 12, country: 'Czech', total2014: 192314, year2015: [15727, 16383, 21155, 20568, 18113, 21315, 21415, 18278, 18056, 19658, 20421, 19768]},
+  {id: 13, country: 'Denmark', total2014: 189051, year2015: [16023, 13595, 19800, 16950, 17048, 21410, 16236, 16192, 17857, 16878, 17098, 18461]},
+  {id: 14, country: 'Portugal', total2014: 142827, year2015: [11852, 14289, 20088, 15013, 18347, 21063, 15554, 9437, 12625, 13718, 13343, 13126]},
+  {id: 15, country: 'Nordway', total2014: 144202, year2015: [10523, 10685, 14159, 12782, 12036, 14207, 12394, 12604, 12421, 13197, 12600, 13078]},
+  {id: 16, country: 'Ireland', total2014: 96344, year2015: [29886, 15782, 18861, 9441, 6913, 1451, 27593, 6401, 4770, 2460, 948, 342]},
+  {id: 17, country: 'Finland', total2014: 106236, year2015: [10268, 7990, 11098, 9636, 9117, 8980, 8723, 8402, 8515, 9166, 8992, 7920]},
+  {id: 18, country: 'Romania', total2014: 70172, year2015: [4978, 4116, 5339, 5482, 5927, 8630, 9253, 7362, 5752, 7562, 8022, 8739]},
+  {id: 19, country: 'Slovakia', total2014: 72249, year2015: [4572, 5304, 6718, 6532, 6596, 7455, 7106, 6756, 5969, 6691, 6953, 7316]},
+  {id: 20, country: 'Hungary', total2014: 67476, year2015: [4881, 5893, 6292, 6736, 5875, 7346, 7012, 4997, 6267, 8191, 6590, 7094]},
+  {id: 21, country: 'Greece', total2014: 71218, year2015: [5848, 4894, 6529, 7801, 9071, 8999, 5447, 4470, 5125, 4946, 5859, 6816]},
+  {id: 22, country: 'Slovenia', total2014: 53296, year2015: [5139, 4550, 5958, 5348, 5388, 5467, 5079, 3993, 9827, 173, 5095, 3433]},
+  {id: 23, country: 'Luxembourg', total2014: 49793, year2015: [3205, 3783, 4868, 5046, 4231, 4548, 4334, 2636, 3376, 4398, 3412, 2636]},
+  {id: 24, country: 'Croatia', total2014: 33997, year2015: [2382, 2179, 3400, 3763, 4914, 4647, 3289, 1652, 2123, 2408, 2209, 1855]},
+  {id: 25, country: 'Bulgaria', total2014: 20359, year2015: [1419, 1481, 2108, 1998, 1995, 2540, 2061, 1607, 1872, 1941, 2130, 3141]},
+  {id: 26, country: 'Estonia', total2014: 20861, year2015: [1624, 1223, 1946, 1984, 1712, 1971, 1861, 1524, 1817, 1867, 1552, 1268]},
+  {id: 27, country: 'Lithuania', total2014: 14503, year2015: [1422, 1067, 1269, 1747, 1467, 1591, 1563, 1208, 1530, 1576, 1438, 1207]},
+  {id: 28, country: 'Iceland', total2014: 9536, year2015: [680, 632, 977, 1305, 2614, 2564, 1180, 837, 797, 808, 793, 842]},
+  {id: 29, country: 'Latvia', total2014: 12452, year2015: [1148, 829, 1233, 1238, 1174, 1243, 1237, 1000, 1184, 1291, 1128, 1060]},
+  {id: 30, country: 'Cyprus', total2014: 8347, year2015: [846, 625, 963, 657, 843, 908, 1091, 658, 968, 905, 921, 959]}
+];
 
+function createChart(data, index) {
+  var chart, chartData;
+  chartData = [
+    {value: data[2], gap: .7, fill: '#545f69', stroke: null},
+    {value: data[4], gap: .2, fill: '#545f69', stroke: '2 545f69'}
+  ];
+  chart = anychart.bullet(chartData);
+  chart.padding(0);
+  chart.container('chart' + index).draw();
+}
+
+$(document).ready(function() {
+  var i, j, len, row;
+  var table = $('#example');
 
   var headers_ = '';
   for (i = 0, len = headers.length; i < len; i++) {
     headers_ += '<th>' + headers[i]  + '</th>'
   }
   var thead = '<thead><tr>' + headers_ + '</tr></thead>';
-
-
   var data_ = '';
   for (i = 0; i < data.length; i++) {
     data_ += '<tr>';
-    for (j = 0; j < data[i].length; j++) {
-      data_ += '<td>' + data[i][j] + '</td>'
+    row = data[i];
+    for (j = 0; j < headers.length; j++) {
+      switch (headers[j]) {
+        case 'Changed cost':
+          var newCost = (row[j - 1] + (row[j - 1] * row[j] / 100)).toFixed(2);
+          row.push(newCost);
+          data_ += '<td>' + newCost + '</td>';
+          break;
+        case 'Change, %':
+          data_ += '<td>' + row[j - 1] + '</td>';
+          break;
+        case 'Chart':
+          data_ += '<td><div class="chart-container" id="chart' + i + '"></div></td>';
+          break;
+        default:
+          data_ += '<td>' + row[j] + '</td>';
+      }
     }
-    data_ += '<td id="chart' + i + '"></td>';
     data_ += '</tr>';
   }
   var tbody = '<tbody>' + data_ + '</tbody>';
 
-  $('#example').append(thead + tbody);
-
-
-  var chart;
+  table.append(thead + tbody);
   for (i = 0; i < data.length; i++) {
-    // chart = anychart.bullet([20, 10]);
-    // chart.height(0);
-    // chart.container('chart' + i).draw();
+    createChart(data[i], i)
   }
-
-
-  $('#example').DataTable();
+  table.DataTable();
 });
