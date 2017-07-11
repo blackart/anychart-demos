@@ -9,8 +9,11 @@
     <!--https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css-->
     
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.2.2/js/dataTables.select.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.2/css/select.dataTables.min.css"/>
+
     <!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css"/>-->
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css"/>-->
 
@@ -21,7 +24,7 @@
       <!--goog.require('anychart.themes.defaultTheme');-->
     <!--</script>-->
 
-    <script src="../../../out/anychart-bundle.min.js"></script>
+    <script src="http://cdn.anychart.com/js/7.14.0/anychart.min.js"></script>
 
     <!--<script src="https://cdn.anychart.com/samples-data/tag-cloud/population-by-countries/data.js"></script>-->
 
@@ -36,6 +39,7 @@
 
         .chart-container {
             height: 20px;
+            width: 300px
         }
 
         .table-container {
@@ -47,7 +51,7 @@
 </head>
 <body>
     <div class="table-container">
-        <table id="example" class="row-border" cellspacing="0"></table>
+        <table id="example" class="display compact" cellspacing="0"></table>
     </div>
 </body>
 </html>
