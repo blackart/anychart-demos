@@ -1,6 +1,5 @@
-var headers = ['Name', 'Ticker', 'Cost', 'Changed cost', 'Change, %', 'Chart'];
 var data = [
-// {id: '', country: 'Total', total2014: 13006451, year2015: [1028647, 958258, 1651602, 1209967, 1152573, 1415303, 1184154, 781939, 1399582, 1138802, 1124964, 1156489]},
+  {id: '', country: 'Total', total2014: 13006451, year2015: [1028647, 958258, 1651602, 1209967, 1152573, 1415303, 1184154, 781939, 1399582, 1138802, 1124964, 1156489]},
   {
     id: 1,
     country: 'Germany',
@@ -185,9 +184,16 @@ function createDynamicsChart(data, container) {
     {value: data[1], gap: .2, fill: '#eee'}
   ];
   chart = anychart.pie(chartData);
+  chart.listen('mousedown', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return;
+  });
+
+  chart.tooltip().allowLeaveStage(true);
   chart
       .background(null)
-      .padding(1)
+      .padding(0)
       .legend(false)
       .innerRadius(7)
       .credits(false);
@@ -222,7 +228,9 @@ $(document).ready(function() {
   });
   anychart.licenseKey('test-key-32db1f79-cc9312c4');
   var dataSet = anychart.data.set(data);
+  dataSet.remove(0);
   var chData = dataSet.mapAs(void 0, {'id': 'country', 'value': 'total2015'});
+
   var colors = [
     '#cd2a27',
     '#b34442',
@@ -246,6 +254,7 @@ $(document).ready(function() {
       .enabled(true)
       .orientation('left')
       .align('bottom');
+  map.colorRange().labels().padding(0, 2, 0, 0);
   map.scale()
       .minimumX(-25)
       .maximumX(20)
@@ -398,19 +407,44 @@ $(document).ready(function() {
   };
 
   tableContainer.on('mouseenter', 'tbody td', function() {
-    table.column(this).nodes().to$().addClass('hovered');
+    var col = table.column(this);
+    var row = table.row(this);
+
+    // chSeries.hover(row.index() - 1);
+
+    if (col.index() === 0 || col.index() === 1) {
+      return;
+    }
+    col.nodes().to$().addClass('hovered');
   });
 
   tableContainer.on('click', 'tbody td', function() {
-    table.columns().nodes().flatten().to$().removeClass('selected');
     var col = table.column(this);
+    var data;
+    if (col.index() === 0 || col.index() === 1) {
+      return;
+    } else if (col.index() === 14 || col.index() === 15) {
+      data = col.nodes().map(function(td, i) {
+        return $(td).find('div')[0].chart.data().get(0, 'value');
+      });
+    } else {
+      data = col.data();
+    }
+
+    table.columns().nodes().flatten().to$().removeClass('selected');
     col.nodes().to$().addClass('selected');
-    var d = [];
-    $.each(data, function(index, row) {
-      d.push({id: row.country, value: col.data()[index]});
+
+    var chartData = [];
+    var countryCol = table.column(1);
+    $.each(data, function(index, value) {
+      var country = countryCol.data()[index];
+
+      if (country !== 'Total')
+        chartData.push({id: country, value: value});
     });
-    chSeries.data(d);
-    // chSeries.colorScale().resetDataRange();
+
+    chSeries.colorScale().startAutoCalc();
+    chSeries.data(chartData);
   });
 
   tableContainer.on('mouseleave', 'tbody td', function() {
