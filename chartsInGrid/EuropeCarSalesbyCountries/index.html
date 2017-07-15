@@ -21,7 +21,9 @@
       <!--goog.require('anychart.themes.defaultTheme');-->
     <!--</script>-->
 
-    <script src="http://cdn.anychart.com/js/7.14.0/anychart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+    <script src="http://cdn.anychart.com/js/7.14.0/anychart-bundle.min.js"></script>
+    <script src="http://cdn.anychart.com/geodata/1.2.0/custom/world/world.js"></script>
 
     <!--<script src="https://cdn.anychart.com/samples-data/tag-cloud/population-by-countries/data.js"></script>-->
 
@@ -34,18 +36,54 @@
             padding: 0;
         }
 
-        .chart-container {
-            height: 20px;
+        #map {
+            width: 450px;
+            height: 410px;
+            position: absolute;
+        }
+
+        .hovered, .selected {
+            background: #4cae4c;
+        }
+
+        .bullet-chart-container {
+            height: 27px;
+        }
+
+        .pie-chart-container {
+            height: 27px;
+        }
+
+        .table-container th {
+            font-size: 11px;
+            font-weight: 700;
+            color: #515151;
+            font-family: tahoma, arial, verdana, sans-serif, "Lucida Sans";
+        }
+
+        .table-container td {
+            font-size: 11px;
+            color: #888;
+            font-family: tahoma,arial,verdana,sans-serif,'Lucida Sans';
+            line-height: 14px;
         }
 
         .table-container {
+            margin-left: 450px;
             display: inline-block;
-            width: 60%;
-            height: 200px;
+            /*width: 60%;*/
+            /*height: 200px;*/
+        }
+
+        .dataTables_info, .dataTables_paginate {
+            font-size: 11px;
+            font-family: tahoma,arial,verdana,sans-serif,'Lucida Sans';
+            line-height: 14px;
         }
     </style>
 </head>
 <body>
+    <div id="map"></div>
     <div class="table-container">
         <table id="example" class="row-border" cellspacing="0"></table>
     </div>
