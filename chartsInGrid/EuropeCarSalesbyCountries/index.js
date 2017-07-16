@@ -184,18 +184,19 @@ function createDynamicsChart(data, container) {
     {value: data[1], gap: .2, fill: '#eee'}
   ];
   chart = anychart.pie(chartData);
-  chart.listen('mousedown', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    return;
-  });
-
-  chart.tooltip().allowLeaveStage(true);
+  chart.tooltip()
+      .title(false)
+      .separator(false)
+      .format(function() {
+        return 'Value: ' + this.chart.data().get(0, 'value').toFixed(1) + '%';
+      })
+      .allowLeaveStage(true);
   chart
       .background(null)
       .padding(0)
       .legend(false)
       .innerRadius(7)
+      .explode(0)
       .credits(false);
   chart.container(container[0]).draw();
   container[0].chart = chart;
@@ -408,8 +409,8 @@ $(document).ready(function() {
 
   tableContainer.on('mouseenter', 'tbody td', function() {
     var col = table.column(this);
-    var row = table.row(this);
 
+    // var row = table.row(this);
     // chSeries.hover(row.index() - 1);
 
     if (col.index() === 0 || col.index() === 1) {
@@ -420,6 +421,8 @@ $(document).ready(function() {
 
   tableContainer.on('click', 'tbody td', function() {
     var col = table.column(this);
+    table.columns().nodes().flatten().to$().removeClass('selected');
+
     var data;
     if (col.index() === 0 || col.index() === 1) {
       return;
@@ -430,8 +433,7 @@ $(document).ready(function() {
     } else {
       data = col.data();
     }
-
-    table.columns().nodes().flatten().to$().removeClass('selected');
+    
     col.nodes().to$().addClass('selected');
 
     var chartData = [];
