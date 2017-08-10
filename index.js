@@ -27,7 +27,11 @@ anychart.onDocumentReady(function () {
       .enabled(true)
       .layout('vertical');
   priceIndicator = plot.priceIndicator();
-  priceIndicator.value(1173657600000);
+  priceIndicator.value(new Date('2007-03-12'));
+  // priceIndicator.value(1173657600000);
+  // priceIndicator.value('first-visible');
+  // priceIndicator.value('series-start');
+  // priceIndicator.value('series-end');
 
   // create EMA indicators with period 50
   // plot.ema(dataTable.mapAs({'value': 4})).series().stroke('1.5 #455a64');
