@@ -9,8 +9,13 @@
     <!--https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css-->
     
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js"></script>
+
+
+
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.2.2/css/fixedColumns.dataTables.min.css"/>
     <!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css"/>-->
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css"/>-->
 
@@ -54,23 +59,24 @@
             height: 27px;
         }
 
-        .table-container th {
+        #table-container th {
             font-size: 11px;
             font-weight: 700;
             color: #515151;
             font-family: tahoma, arial, verdana, sans-serif, "Lucida Sans";
         }
 
-        .table-container td {
+        #table-container td {
             font-size: 11px;
             color: #888;
             font-family: tahoma,arial,verdana,sans-serif,'Lucida Sans';
             line-height: 14px;
         }
 
-        .table-container {
+        #table-container {
             margin-left: 450px;
             display: inline-block;
+            width: 970px
         }
 
         .dataTables_info, .dataTables_paginate, .dataTables_length, .dataTables_filter {
@@ -82,7 +88,7 @@
 </head>
 <body>
     <div id="map"></div>
-    <div class="table-container">
+    <div id="table-container">
         <table id="example" class="row-border" cellspacing="0"></table>
     </div>
 </body>

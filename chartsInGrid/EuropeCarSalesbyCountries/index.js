@@ -8,7 +8,7 @@ var data = [
   },
   {
     id: 2,
-    country: 'United Kingdom',
+    country: 'U.K.',
     total2014: 2476435,
     year2015: [163856, 76958, 492774, 185778, 198706, 257817, 178420, 79060, 462517, 177664, 178876, 180077]
   },
@@ -178,17 +178,26 @@ var data = [
 ];
 
 function createDynamicsChart(data, container) {
-  var chart, chartData;
-  chartData = [
-    {value: data[0], gap: .7, fill: '#44A4D3'},
-    {value: data[1], gap: .2, fill: '#eee'}
-  ];
+  var chart, chartData, valueToCompare;
+  var isNegative = data[0] < 0;
+  if (isNegative) {
+    chartData = [
+      {value: -data[1], fill: '#FADDE0'},
+      {value: -data[0], fill: '#EF7367'}
+    ];
+  } else {
+    chartData = [
+      {value: data[0], fill: '#44A4D3'},
+      {value: data[1], fill: '#eee'}
+    ];
+  }
+
   chart = anychart.pie(chartData);
   chart.tooltip()
       .title(false)
       .separator(false)
       .format(function() {
-        return 'Value: ' + this.chart.data().get(0, 'value').toFixed(1) + '%';
+        return 'Value: ' + (isNegative ? '-' : '') + this.chart.data().get((isNegative ? 1 : 0), 'value').toFixed(1) + '%';
       })
       .allowLeaveStage(true);
   chart
@@ -198,6 +207,7 @@ function createDynamicsChart(data, container) {
       .innerRadius(7)
       .explode(0)
       .credits(false);
+  chart.valueToCompare = data[0];
   chart.container(container[0]).draw();
   container[0].chart = chart;
 }
@@ -215,6 +225,7 @@ function createGrossLossChart(data, container) {
   chart.scale()
       .minimum(-30)
       .maximum(30);
+  chart.valueToCompare = data[0];
   chart.container(container[0]).draw();
   container[0].chart = chart;
 }
@@ -268,6 +279,7 @@ $(document).ready(function() {
   //configure table
   var tableContainer = $('#example');
   var table = tableContainer.DataTable({
+    scrollX: true,
     data: data,
     // autoWidth: false,
     columns: [
@@ -280,19 +292,19 @@ $(document).ready(function() {
         data: 'country'
       },
       {
-        title: "January",
+        title: "Jan",
         data: 'year2015.0'
       },
       {
-        title: "February",
+        title: "Feb",
         data: 'year2015.1'
       },
       {
-        title: "March",
+        title: "Mar",
         data: 'year2015.2'
       },
       {
-        title: "April",
+        title: "Apr",
         data: 'year2015.3'
       },
       {
@@ -300,31 +312,31 @@ $(document).ready(function() {
         data: 'year2015.4'
       },
       {
-        title: "June",
+        title: "Jun",
         data: 'year2015.5'
       },
       {
-        title: "July",
+        title: "Jul",
         data: 'year2015.6'
       },
       {
-        title: "August",
+        title: "Aug",
         data: 'year2015.7'
       },
       {
-        title: "September",
+        title: "Sep",
         data: 'year2015.8'
       },
       {
-        title: "October",
+        title: "Oct",
         data: 'year2015.9'
       },
       {
-        title: "November",
+        title: "Nov",
         data: 'year2015.10'
       },
       {
-        title: "December",
+        title: "Dec",
         data: 'year2015.11'
       },
       {
@@ -355,7 +367,7 @@ $(document).ready(function() {
             'font-weight': 400,
             'font-size': '14px',
             'padding-left': '14px',
-            'width': '20px'
+            'width': '5px'
           });
         }
       },
@@ -373,10 +385,11 @@ $(document).ready(function() {
       }
     ]
   });
-//initialize charts and render it to table
+
+  //initialize charts and render it to table
   table.rows().every(function(rowIdx) {
     var percent = (this.data().total2015 - 2014) / (this.data().total2014 / 100) - 100;
-    var data = [percent, 100 - percent];
+    var data = [percent, percent > 0 ? 100 - percent : -(100 + percent)];
     var node, chartContainer;
 
     node = table.cell(rowIdx, 14).node();
@@ -395,24 +408,45 @@ $(document).ready(function() {
   //ordering by chart value
   $.fn.dataTable.ext.order['chart'] = function(settings, col) {
     return this.api().column(col, {order: 'index'}).nodes().map(function(td, i) {
-      return $(td).find('div')[0].chart.data().get(0, 'value');
+      return $(td).find('div')[0].chart.valueToCompare;
     });
   };
 
-  tableContainer.on('mouseenter', 'tbody td', function() {
-    var col = table.column(this);
+  var currentHoveredColumn = -1;
 
-    // var row = table.row(this);
-    // chSeries.hover(row.index() - 1);
+  var onMouseMove = function(e) {
+    var eventTarget = $(e.target);
+    var target = eventTarget.is('td') ? eventTarget : $(e.target).parents('td')[0];
 
-    if (col.index() === 0 || col.index() === 1) {
+    if (!target)
       return;
-    }
-    col.nodes().to$().addClass('hovered');
-  });
 
-  tableContainer.on('click', 'tbody td', function() {
-    var col = table.column(this);
+    var colIndex = table.fixedColumns().cellIndex(target).column;
+
+    if (currentHoveredColumn !== colIndex) {
+      currentHoveredColumn = colIndex;
+
+      var col = table.column(colIndex);
+
+      if (col.index() === 0 || col.index() === 1) {
+        return;
+      }
+      table.columns().nodes().flatten().to$().removeClass('hovered');
+      col.nodes().to$().addClass('hovered');
+      fc.fnUpdate();
+    }
+  };
+
+  var onClick = function(e) {
+    var eventTarget = $(e.target);
+    var target = eventTarget.is('td') ? eventTarget : $(e.target).parents('td')[0];
+
+    if (!target)
+      return;
+
+    var colIndex = table.fixedColumns().cellIndex(target).column;
+
+    var col = table.column(colIndex);
     table.columns().nodes().flatten().to$().removeClass('selected');
 
     var data;
@@ -425,7 +459,7 @@ $(document).ready(function() {
     } else {
       data = col.data();
     }
-    
+
     col.nodes().to$().addClass('selected');
 
     var chartData = [];
@@ -439,9 +473,28 @@ $(document).ready(function() {
 
     chSeries.colorScale().startAutoCalc();
     chSeries.data(chartData);
+    fc.fnUpdate();
+  };
+
+  var onMouseLeave = function(e) {
+    currentHoveredColumn = -1;
+    table.columns().nodes().flatten().to$().removeClass('hovered');
+    fc.fnUpdate();
+  };
+
+  var fc = new $.fn.dataTable.FixedColumns(table, {
+    iLeftColumns: 2,
+    iRightColumns: 3
   });
 
-  tableContainer.on('mouseleave', 'tbody td', function() {
-    table.column(this).nodes().to$().removeClass('hovered');
+  var tds = $('table');
+  tds.on('mousemove', onMouseMove);
+  tds.on('click', onClick);
+  tds.on('mouseleave', onMouseLeave);
+
+  table.on('draw.dt', function() {
+    setTimeout(function() {
+      fc.fnUpdate();
+    }, 100);
   });
 });
