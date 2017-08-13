@@ -1,115 +1,77 @@
+var priceIndicator, chart, plot;
+anychart.onDocumentReady(function () {
+  // create data table on loaded data
+  var dataTable = anychart.data.table();
+  // The data used in this sample can be obtained from the CDN
+  // https://cdn.anychart.com/csv-data/csco-daily.js
+  dataTable.addData(get_csco_daily_data());
 
-anychart.onDocumentReady(function() {
-  // create data set on our data
-  var dataSet = anychart.data.set(getData());
+  // map loaded data for the ohlc series
+  var mapping = dataTable.mapAs({'open': 1, 'high': 2, 'low': 3, 'close': 4});
 
-  // map data for the first series, take x from the zero column and value from the first column of data set
-  var seriesData_1 = dataSet.mapAs({x: [0], value: [1]});
+  // map loaded data for the scroller
+  var scrollerMapping = dataTable.mapAs();
+  scrollerMapping.addField('value', 5);
 
-  // map data for the second series, take x from the zero column and value from the second column of data set
-  var seriesData_2 = dataSet.mapAs({x: [0], value: [2]});
+  // create stock chart
+  chart = anychart.stock();
 
-  // map data for the third series, take x from the zero column and value from the third column of data set
-  var seriesData_3 = dataSet.mapAs({x: [0], value: [3]});
-
-  // create line chart
-  chart = anychart.line();
-
-  // set chart padding
-  chart.padding([10, 20, 5, 20]);
-
-  // turn on the crosshair
-  chart.crosshair()
+  // create first plot on the chart
+  plot = chart.plot(0);
+  plot.grid(0).enabled(true);
+  plot.grid(1)
       .enabled(true)
-      .yLabel(false)
-      .yStroke(null);
-
-  chart.labels()
+      .layout('vertical');
+  plot.minorGrid(0).enabled(true);
+  plot.minorGrid(1)
       .enabled(true)
-      .fontColor('red')
-      .position('bottom');
+      .layout('vertical');
 
-  // set tooltip mode to point
-  chart.tooltip().positionMode('point');
+  priceIndicator = plot.priceIndicator(0);
+  // priceIndicator.value(new Date('2007-03-12'));
+  // priceIndicator.stroke('4 blue');
+  // priceIndicator.label().enabled(false);
+  // priceIndicator.value(1173657600000);
+  priceIndicator.value('first-visible');
+  // priceIndicator.value('series-start');
+  // priceIndicator.value('series-end');
+  priceIndicator.label().background('green');
+  priceIndicator.stroke('green');
 
-  // set chart title text settings
-  chart.title('Trend of Sales of the Most Popular Products of ACME Corp.');
-  chart.title().padding([0, 0, 5, 0]);
 
-  // set yAxis title
-  chart.yAxis().enabled(false).title('Number of Bottles Sold (thousands)');
-  chart.xAxis().enabled(false).labels().padding([5]);
+  priceIndicator = plot.priceIndicator(1);
+  priceIndicator.value('last-visible');
+  priceIndicator.label().background('red');
+  priceIndicator.stroke('red');
 
-  chart.tooltip()
-      .position('right')
-      .anchor('left')
-      .offsetX(5)
-      .offsetY(5);
+  priceIndicator = plot.priceIndicator(2);
+  priceIndicator.value('series-start');
 
-  // create first series with mapped data
-  var series_1 = chart.line(seriesData_1);
-  series_1.name('Brandy');
-  series_1.hoverMarkers()
-      .enabled(true)
-      .type('circle')
-      .size(4);
+  priceIndicator = plot.priceIndicator(3);
+  priceIndicator.value('series-end');
 
-  // create second series with mapped data
-  var series_2 = chart.line(seriesData_2);
-  series_2.name('Whiskey');
-  series_2.hoverMarkers()
-      .enabled(true)
-      .type('circle')
-      .size(4);
-  // series_2.labels().position('bottom');
+  priceIndicator = plot.priceIndicator(4);
+  priceIndicator.value(new Date('2007-03-12'));
 
-  // create third series with mapped data
-  var series_3 = chart.line(seriesData_3);
-  series_3.name('Tequila');
-  series_3.hoverMarkers()
-      .enabled(true)
-      .type('circle')
-      .size(4);
+  priceIndicator.label().background('blue');
+  priceIndicator.stroke('blue');
 
-  // turn the legend on
-  chart.legend()
-      .enabled(true)
-      .fontSize(13)
-      .padding([0, 0, 10, 0]);
+  // create EMA indicators with period 50
+  // plot.ema(dataTable.mapAs({'value': 4})).series().stroke('1.5 #455a64');
 
-  // set container id for the chart and set up paddings
+  var series = plot.candlestick(mapping);
+  series.name('CSCO');
+  series.legendItem().iconType('risingfalling');
+
+  // create scroller series with mapped data
+  chart.scroller().candlestick(mapping);
+
+  // set chart selected date/time range
+  chart.selectRange('1996-09-08', '1999-07-04');
+
+  // set container id for the chart
   chart.container('container');
-
   // initiate chart drawing
   chart.draw();
 });
-
-function getData() {
-  return [
-    ['1986', 3.6, 2.3, 2.8, 11.5],
-    ['1987', 7.1, 4.0, 4.1, 14.1],
-    ['1988', 8.5, 6.2, 5.1, 17.5],
-    ['1989', 9.2, 11.8, 6.5, 18.9],
-    ['1990', 10.1, 13.0, 12.5, 20.8],
-    ['1991', 11.6, 13.9, 18.0, 22.9],
-    ['1992', 16.4, 18.0, 21.0, 25.2],
-    ['1993', 18.0, 23.3, 20.3, 27.0],
-    ['1994', 13.2, 24.7, 19.2, 26.5],
-    ['1995', 12.0, 18.0, 14.4, 25.3],
-    ['1996', 3.2, 15.1, 9.2, 23.4],
-    ['1997', 4.1, 11.3, 5.9, 19.5],
-    ['1998', 6.3, 14.2, 5.2, 17.8],
-    ['1999', 9.4, 13.7, 4.7, 16.2],
-    ['2000', 11.5, 9.9, 4.2, 15.4],
-    ['2001', 13.5, 12.1, 1.2, 14.0],
-    ['2002', 14.8, 13.5, 5.4, 12.5],
-    ['2003', 16.6, 15.1, 6.3, 10.8],
-    ['2004', 18.1, 17.9, 8.9, 8.9],
-    ['2005', 17.0, 18.9, 10.1, 8.0],
-    ['2006', 16.6, 20.3, 11.5, 6.2],
-    ['2007', 14.1, 20.7, 12.2, 5.1],
-    ['2008', 15.7, 21.6, 10, 3.7],
-    ['2009', 12.0, 22.5, 8.9, 1.5]
-  ]
-}
     
