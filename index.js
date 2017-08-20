@@ -1,79 +1,93 @@
-var priceIndicator, chart, plot;
+
 anychart.onDocumentReady(function () {
-  // create data table on loaded data
-  var dataTable = anychart.data.table();
-  // The data used in this sample can be obtained from the CDN
-  // https://cdn.anychart.com/csv-data/csco-daily.js
-  dataTable.addData(get_csco_daily_data());
+  // create data set on our data
+  var dataSet = anychart.data.set(getData());
 
-  // map loaded data for the ohlc series
-  var mapping = dataTable.mapAs({'open': 1, 'high': 2, 'low': 3, 'close': 4});
+  // map data for the first series, take x from the zero column and value from the first column of data set
+  var seriesData = dataSet.mapAs({x: [0], value: [1]});
 
-  // map loaded data for the scroller
-  var scrollerMapping = dataTable.mapAs();
-  scrollerMapping.addField('value', 5);
+  // create line chart
+  chart = anychart.area();
 
-  // create stock chart
-  chart = anychart.stock();
+  // adding dollar symbols to yAxis labels
+  chart.yAxis().labels().format("${%Value}");
 
-  // create first plot on the chart
-  plot = chart.plot(0);
-  plot.grid(0).enabled(true);
-  plot.grid(1)
+  // turn on chart animation
+  chart.animation(true);
+
+  // axes settings
+  chart.yAxis().title('Price');
+
+  var xAxis =  chart.xAxis();
+  xAxis.title('Date')
+      .overlapMode("allowOverlap");
+  xAxis.labels()
+      .padding([5, 5, 0, 5])
+      .rotation(90);
+
+  // set chart title text settings
+  chart.title('ACME Share Price<br/>' +
+      '<span style="color:#212121; font-size: 13px;">September 2015</span>');
+  chart.title()
+      .useHtml(true)
+      .padding([0, 0, 20, 0]);
+
+  // create a series with mapped data
+  var series = chart.area(seriesData);
+  series.name("ACME Share Price");
+  series.hoverMarkers()
       .enabled(true)
-      .layout('vertical');
-  plot.minorGrid(0).enabled(true);
-  plot.minorGrid(1)
-      .enabled(true)
-      .layout('vertical');
-  plot.yAxis(1).orientation('right');
+      .type('circle')
+      .size(4);
 
-  priceIndicator = plot.priceIndicator(0);
-  // priceIndicator.value(new Date('2007-03-12'));
-  // priceIndicator.stroke('4 blue');
-  // priceIndicator.label().enabled(false);
-  // priceIndicator.value(1173657600000);
-  priceIndicator.value('first-visible');
-  // priceIndicator.value('series-start');
-  // priceIndicator.value('series-end');
-  priceIndicator.label().background('green');
-  priceIndicator.stroke('green');
+  // set chart tooltip and interactivity settings
+  chart.tooltip()
+      .position('top')
+      .anchor('centerBottom')
+      .positionMode('point');
 
+  chart.interactivity().hoverMode('byX');
 
-  priceIndicator1 = plot.priceIndicator(1);
-  priceIndicator1.value('last-visible');
-  priceIndicator1.label().background('red');
-  priceIndicator1.stroke('red');
-  priceIndicator1.axis(plot.yAxis(1))
-
-  priceIndicator = plot.priceIndicator(2);
-  priceIndicator.value('series-start');
-
-  priceIndicator = plot.priceIndicator(3);
-  priceIndicator.value('series-end');
-
-  priceIndicator = plot.priceIndicator(4);
-  priceIndicator.value(new Date('2007-03-12'));
-
-  priceIndicator.label().background('blue');
-  priceIndicator.stroke('blue');
-
-  // create EMA indicators with period 50
-  // plot.ema(dataTable.mapAs({'value': 4})).series().stroke('1.5 #455a64');
-
-  var series = plot.candlestick(mapping);
-  series.name('CSCO');
-  series.legendItem().iconType('risingfalling');
-
-  // create scroller series with mapped data
-  chart.scroller().candlestick(mapping);
-
-  // set chart selected date/time range
-  chart.selectRange('1996-09-08', '1999-07-04');
+  // chart padding
+  chart.right(20);
 
   // set container id for the chart
   chart.container('container');
   // initiate chart drawing
   chart.draw();
 });
-    
+
+function getData() {
+  return [
+    ['2015/9/01', 10],
+    ['2015/9/02', 12],
+    ['2015/9/03', 11],
+    ['2015/9/04', 15],
+    ['2015/9/05', 20],
+    ['2015/9/06', 22],
+    ['2015/9/07', 21],
+    ['2015/9/08', 25],
+    ['2015/9/09', 31],
+    ['2015/9/10', 32],
+    ['2015/9/11', 28],
+    ['2015/9/12', 29],
+    ['2015/9/13', 40],
+    ['2015/9/14', 41],
+    ['2015/9/15', 45],
+    ['2015/9/16', 50],
+    ['2015/9/17', 65],
+    ['2015/9/18', 45],
+    ['2015/9/19', 50],
+    ['2015/9/20', 51],
+    ['2015/9/21', 65],
+    ['2015/9/22', 60],
+    ['2015/9/23', 62],
+    ['2015/9/24', 65],
+    ['2015/9/25', 45],
+    ['2015/9/26', 55],
+    ['2015/9/27', 59],
+    ['2015/9/28', 52],
+    ['2015/9/29', 53],
+    ['2015/9/30', 40]
+  ]
+}

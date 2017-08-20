@@ -230,6 +230,12 @@ function createGrossLossChart(data, container) {
   container[0].chart = chart;
 }
 
+function getDefaultMapData() {
+  var dataSet = anychart.data.set(data);
+  dataSet.remove(0);
+  return dataSet.mapAs(void 0, {'id': 'country', 'value': 'total2015'});
+}
+
 $(document).ready(function() {
   $.each(data, function(index, row) {
     var sum = 0;
@@ -239,9 +245,6 @@ $(document).ready(function() {
     row.total2015 = sum;
   });
   anychart.licenseKey('test-key-32db1f79-cc9312c4');
-  var dataSet = anychart.data.set(data);
-  dataSet.remove(0);
-  var chData = dataSet.mapAs(void 0, {'id': 'country', 'value': 'total2015'});
 
   var colors = [
     '#cd2a27',
@@ -272,7 +275,7 @@ $(document).ready(function() {
       .maximumX(20)
       .minimumY(50)
       .maximumY(60);
-  var chSeries = map.choropleth(chData);
+  var chSeries = map.choropleth(getDefaultMapData());
   chSeries.colorScale(anychart.scales.linearColor(colors));
   map.container('map').draw();
   
@@ -413,6 +416,21 @@ $(document).ready(function() {
   };
 
   var currentHoveredColumn = -1;
+  var currentSelectedColumn = -1;
+
+  function updateMap(data) {
+    var chartData = [];
+    var countryCol = table.column(1);
+    $.each(data, function(index, value) {
+      var country = countryCol.data()[index];
+
+      if (country !== 'Total')
+        chartData.push({id: country, value: value});
+    });
+
+    chSeries.colorScale().startAutoCalc();
+    chSeries.data(chartData);
+  }
 
   var onMouseMove = function(e) {
     var eventTarget = $(e.target);
@@ -445,34 +463,31 @@ $(document).ready(function() {
       return;
 
     var colIndex = table.fixedColumns().cellIndex(target).column;
-
-    var col = table.column(colIndex);
     table.columns().nodes().flatten().to$().removeClass('selected');
 
-    var data;
-    if (col.index() === 0 || col.index() === 1) {
-      return;
-    } else if (col.index() === 14 || col.index() === 15) {
-      data = col.nodes().map(function(td, i) {
-        return $(td).find('div')[0].chart.data().get(0, 'value');
-      });
+    if (colIndex === currentSelectedColumn) {
+      currentSelectedColumn = -1;
+      chSeries.colorScale().startAutoCalc();
+      chSeries.data(getDefaultMapData());
     } else {
-      data = col.data();
+      currentSelectedColumn = colIndex;
+      var col = table.column(colIndex);
+
+      var data;
+      if (col.index() === 0 || col.index() === 1) {
+        return;
+      } else if (col.index() === 14 || col.index() === 15) {
+        data = col.nodes().map(function(td, i) {
+          return $(td).find('div')[0].chart.data().get(0, 'value');
+        });
+      } else {
+        data = col.data();
+      }
+
+      updateMap(data);
+      col.nodes().to$().addClass('selected');
     }
 
-    col.nodes().to$().addClass('selected');
-
-    var chartData = [];
-    var countryCol = table.column(1);
-    $.each(data, function(index, value) {
-      var country = countryCol.data()[index];
-
-      if (country !== 'Total')
-        chartData.push({id: country, value: value});
-    });
-
-    chSeries.colorScale().startAutoCalc();
-    chSeries.data(chartData);
     fc.fnUpdate();
   };
 

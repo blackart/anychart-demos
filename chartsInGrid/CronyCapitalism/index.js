@@ -95,57 +95,78 @@ var colors = [
   '#dc6b67'
 ];
 
-function createDynamicsChart(data, container) {
+function createDynamicsChart(scale, data, container) {
   var chart, chartData;
   chartData = [
     {value: data[0], fill: '#60B3E2'},
     {value: data[1], fill: '#dc6b67'}
   ];
   chart = anychart.bar(chartData);
-  chart.tooltip()
-      .title(false)
-      .separator(false)
-      .format(function() {
-        return 'Value: ' + this.chart.data().get(0, 'value').toFixed(1) + '%';
-      })
-      .allowLeaveStage(true);
+  // chart.tooltip()
+  //     .title(false)
+  //     .separator(false)
+  //     .format(function() {
+  //       return 'Value: ' + this.chart.data().get(0, 'value').toFixed(1) + '%';
+  //     })
+  //     .allowLeaveStage(true);
+
   chart
       .xAxis(false)
       .yAxis(false)
       .title(false)
       .background(null)
-      .padding(0)
+      .padding(0, '2%', 0, 0)
       .legend(false)
-      .credits(false);
+      .credits(false)
+      .yScale(scale);
+
+  chart.interactivity().selectionMode(false);
+
   var series = chart.getSeries(0);
   series.stroke(null);
+  series.pointWidth('85%');
 
   chart.container(container[0]).draw();
+
   container[0].chart = chart;
 }
 
 $(document).ready(function() {
   anychart.licenseKey('test-key-32db1f79-cc9312c4');
 
+  var scale = anychart.scales.linear();
+  var min = 0, max = Number.NEGATIVE_INFINITY;
+  $.each(data, function(index, value) {
+    max = Math.max(max, value.crony, value.ncrony);
+  });
+  scale.minimum(min).maximum(max);
+
   //configure table
   var tableContainer = $('#example');
   var table = tableContainer.DataTable({
+    paging: false,
+    info: false,
+    searching: false,
     data: data,
-    // autoWidth: false,
+    autoWidth: true,
+    pageLength: 100,
     columns: [
       {
         title: "Country",
-        data: 'country'
+        data: 'country',
+        width: '20%'
       },
       {
         title: "",
         data: function() {
           return "";
         },
-        orderDataType: "chart"
+        orderDataType: "chart",
+        width: '80%'
       }
     ]
   });
+
   //initialize charts and render it to table
   table.rows().every(function(rowIdx) {
     var data = [this.data().crony, this.data().ncrony];
@@ -155,13 +176,17 @@ $(document).ready(function() {
     $(node).css('padding', 0);
     chartContainer = $('<div class="chart-container" id="bar' + rowIdx + '"></div>');
     chartContainer.appendTo(node);
-    createDynamicsChart(data, chartContainer);
+    createDynamicsChart(scale, data, chartContainer);
   });
 
   //ordering by chart value
   $.fn.dataTable.ext.order['chart'] = function(settings, col) {
     return this.api().column(col, {order: 'index'}).nodes().map(function(td, i) {
-      return $(td).find('div')[0].chart.data().get(0, 'value');
+      return $(td).find('div')[0].chart.getSeries(0).data().get(0, 'value');
     });
   };
+
+  table
+      .order([ 1, 'desc' ])
+      .draw();
 });

@@ -29,41 +29,58 @@ anychart.onDocumentReady(function () {
   plot.yAxis(1).orientation('right');
 
   priceIndicator = plot.priceIndicator(0);
+
+  priceIndicator.value('series-start');
+  // priceIndicator.value('series-end');
   // priceIndicator.value(new Date('2007-03-12'));
   // priceIndicator.stroke('4 blue');
   // priceIndicator.label().enabled(false);
   // priceIndicator.value(1173657600000);
-  priceIndicator.value('first-visible');
-  // priceIndicator.value('series-start');
-  // priceIndicator.value('series-end');
+
+  // priceIndicator.value('first-visible');
   priceIndicator.label().background('green');
-  priceIndicator.stroke('green');
+  priceIndicator.stroke('blue');
+  priceIndicator.risingStroke('green');
+  priceIndicator.fallingStroke('red');
+  priceIndicator.fallingLabel().background().fill('red').stroke(null);
+  priceIndicator.risingLabel().background().fill('green').stroke(null);
 
 
   priceIndicator1 = plot.priceIndicator(1);
   priceIndicator1.value('last-visible');
+
   priceIndicator1.label().background('red');
-  priceIndicator1.stroke('red');
-  priceIndicator1.axis(plot.yAxis(1))
 
-  priceIndicator = plot.priceIndicator(2);
-  priceIndicator.value('series-start');
-
-  priceIndicator = plot.priceIndicator(3);
-  priceIndicator.value('series-end');
-
-  priceIndicator = plot.priceIndicator(4);
-  priceIndicator.value(new Date('2007-03-12'));
-
-  priceIndicator.label().background('blue');
-  priceIndicator.stroke('blue');
+  priceIndicator1.stroke('blue');
+  priceIndicator1.risingStroke('green');
+  priceIndicator1.fallingStroke('red');
+  priceIndicator1.fallingLabel().background().fill('red').stroke(null);
+  priceIndicator1.risingLabel().background().fill('green').stroke(null);
+  
+  // priceIndicator1.axis(plot.yAxis(0))
+  //
+  // priceIndicator = plot.priceIndicator(2);
+  // priceIndicator.value('series-start');
+  //
+  // priceIndicator = plot.priceIndicator(3);
+  // priceIndicator.value('series-end');
+  //
+  // priceIndicator = plot.priceIndicator(4);
+  // priceIndicator.value(new Date('2007-03-12'));
+  //
+  // priceIndicator.label().background('blue');
+  // priceIndicator.stroke('blue');
 
   // create EMA indicators with period 50
   // plot.ema(dataTable.mapAs({'value': 4})).series().stroke('1.5 #455a64');
 
+
+
   var series = plot.candlestick(mapping);
   series.name('CSCO');
   series.legendItem().iconType('risingfalling');
+
+  plot.ema(dataTable.mapAs({'value': 4})).series().stroke('1.5 #455a64');
 
   // create scroller series with mapped data
   chart.scroller().candlestick(mapping);
