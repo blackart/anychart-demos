@@ -98,17 +98,21 @@ var colors = [
 function createDynamicsChart(scale, data, container) {
   var chart, chartData;
   chartData = [
-    {value: data[0], fill: '#60B3E2'},
-    {value: data[1], fill: '#dc6b67'}
+    {value: data[0], fill: '#60B3E2', country: data[2]},
+    {value: data[1], fill: '#dc6b67', country: data[2]}
   ];
   chart = anychart.bar(chartData);
-  // chart.tooltip()
-  //     .title(false)
-  //     .separator(false)
-  //     .format(function() {
-  //       return 'Value: ' + this.chart.data().get(0, 'value').toFixed(1) + '%';
-  //     })
-  //     .allowLeaveStage(true);
+  chart.tooltip()
+      // .title(false)
+      // .separator(false)
+      .titleFormat(function() {
+        console.log(this);
+        return this.getData('country')
+      })
+      .format(function() {
+        return this.series.getPoint(0).get('value') + ' | ' + this.series.getPoint(1).get('value');
+      })
+      .allowLeaveStage(true);
 
   chart
       .xAxis(false)
@@ -169,7 +173,7 @@ $(document).ready(function() {
 
   //initialize charts and render it to table
   table.rows().every(function(rowIdx) {
-    var data = [this.data().crony, this.data().ncrony];
+    var data = [this.data().crony, this.data().ncrony, this.data().country];
     var node, chartContainer;
 
     node = table.cell(rowIdx, 1).node();
