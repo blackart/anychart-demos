@@ -29,8 +29,8 @@ anychart.onDocumentReady(function () {
   plot.yAxis(1).orientation('right');
 
   priceIndicator = plot.priceIndicator(0);
+  priceIndicator.value('first-visible');
 
-  priceIndicator.value('series-start');
   // priceIndicator.value('series-end');
   // priceIndicator.value(new Date('2007-03-12'));
   // priceIndicator.stroke('4 blue');
@@ -38,25 +38,33 @@ anychart.onDocumentReady(function () {
   // priceIndicator.value(1173657600000);
 
   // priceIndicator.value('first-visible');
-  priceIndicator.label().background('green');
-  priceIndicator.stroke('blue');
+  // priceIndicator.label().enabled(true);
+  // priceIndicator.stroke('blue');
   priceIndicator.risingStroke('green');
   priceIndicator.fallingStroke('red');
+
   priceIndicator.fallingLabel().background().fill('red').stroke(null);
   priceIndicator.risingLabel().background().fill('green').stroke(null);
 
+  // priceIndicator.fallingLabel().background().fill('red').stroke(null);
+  // priceIndicator.risingLabel().background().fill('green').stroke(null);
 
   priceIndicator1 = plot.priceIndicator(1);
   priceIndicator1.value('last-visible');
+  // priceIndicator1.label().enabled(true);
+  // priceIndicator1.label().background('red');
 
-  priceIndicator1.label().background('red');
-
-  priceIndicator1.stroke('blue');
+  // priceIndicator1.stroke('blue');
+  
   priceIndicator1.risingStroke('green');
   priceIndicator1.fallingStroke('red');
-  priceIndicator1.fallingLabel().background().fill('red').stroke(null);
-  priceIndicator1.risingLabel().background().fill('green').stroke(null);
+
+  priceIndicator1.fallingLabel().background().enabled(null).fill('red').stroke(null);
+  priceIndicator1.risingLabel().background().enabled(null).fill('green').stroke(null);
   
+  // priceIndicator1.fallingLabel().enabled(true);
+  // priceIndicator1.risingLabel().enabled(true);
+
   // priceIndicator1.axis(plot.yAxis(0))
   //
   // priceIndicator = plot.priceIndicator(2);
