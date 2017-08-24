@@ -1,93 +1,95 @@
 
 anychart.onDocumentReady(function () {
-  // create data set on our data
-  var dataSet = anychart.data.set(getData());
+  var data = [];
 
-  // map data for the first series, take x from the zero column and value from the first column of data set
-  var seriesData = dataSet.mapAs({x: [0], value: [1]});
+  // data for the sample
+  anychart.maps['world_source'].features.filter(function (item) {
+    data.push(
+        {
+          id: item.properties.id,
+          name: item.properties.name
+        }
+    );
+  });
 
-  // create line chart
-  chart = anychart.area();
+  var min = 1900;
+  var max = 2000;
 
-  // adding dollar symbols to yAxis labels
-  chart.yAxis().labels().format("${%Value}");
+  // create random data
+  for (var i = 0; i < data.length; i++) {
+    data[i]['value'] = randomExt(min, max);
+  }
 
-  // turn on chart animation
-  chart.animation(true);
+  var dataSet = anychart.data.set(data);
 
-  // axes settings
-  chart.yAxis().title('Price');
+  // create map
+  map = anychart.map();
+  map.crs('august')
+      .geoData('anychart.maps.world_source')
+      .padding([0, 15]);
+  map.unboundRegions().fill("#81d4fa");
+  map.grids(true);
 
-  var xAxis =  chart.xAxis();
-  xAxis.title('Date')
-      .overlapMode("allowOverlap");
-  xAxis.labels()
-      .padding([5, 5, 0, 5])
-      .rotation(90);
-
-  // set chart title text settings
-  chart.title('ACME Share Price<br/>' +
-      '<span style="color:#212121; font-size: 13px;">September 2015</span>');
-  chart.title()
-      .useHtml(true)
-      .padding([0, 0, 20, 0]);
-
-  // create a series with mapped data
-  var series = chart.area(seriesData);
-  series.name("ACME Share Price");
-  series.hoverMarkers()
+  // create map title
+  map.title()
       .enabled(true)
-      .type('circle')
-      .size(4);
+      .padding({top: 35})
+      .text("World Map with Crosshair and Grids");
 
-  // set chart tooltip and interactivity settings
-  chart.tooltip()
-      .position('top')
-      .anchor('centerBottom')
-      .positionMode('point');
+  map.scale()
+  // set xAxes ticks interval
+      .xTicks({interval: 15})
+      // set yAxes ticks interval
+      .yTicks({interval: 10})
+      // set precision scale
+      .precision(2.5);
 
-  chart.interactivity().hoverMode('byX');
+  // set crosshair settings
+  map.crosshair()
+      .enabled(true)
+      .xStroke('1.3 #badb93')
+      .yStroke('1.3 #badb93');
 
-  // chart padding
-  chart.right(20);
+  // set axes settings
+  map.axes()
+  // enable axes
+      .enabled(true)
+      // hidden the first label in axes
+      .drawFirstLabel(false)
+      // hidden the last label in axes
+      .drawLastLabel(false);
+
+  var series_data = dataSet.mapAs({'value': 'value'});
+  // create series with mapped data
+  var series = map.choropleth(series_data);
+
+  var scale_color = anychart.scales.ordinalColor([
+    {less: 1907},
+    {from: 1907, to: 1920},
+    {from: 1920, to: 1940},
+    {from: 1940, to: 1950},
+    {from: 1950, to: 1960},
+    {from: 1960, to: 1970},
+    {from: 1970, to: 1980},
+    {greater: 1980}
+  ]);
+
+  scale_color.colors(
+      ['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1', '#0277bd', '#01579b', '#014377']
+  );
+  series.hoverFill('#b8b5d9')
+      .colorScale(scale_color);
+
+  // create zoom controls
+  var zoomController = anychart.ui.zoom();
+  zoomController.render(map);
 
   // set container id for the chart
-  chart.container('container');
+  map.container('container');
   // initiate chart drawing
-  chart.draw();
+  map.draw();
 });
 
-function getData() {
-  return [
-    ['2015/9/01', 10],
-    ['2015/9/02', 12],
-    ['2015/9/03', 11],
-    ['2015/9/04', 15],
-    ['2015/9/05', 20],
-    ['2015/9/06', 22],
-    ['2015/9/07', 21],
-    ['2015/9/08', 25],
-    ['2015/9/09', 31],
-    ['2015/9/10', 32],
-    ['2015/9/11', 28],
-    ['2015/9/12', 29],
-    ['2015/9/13', 40],
-    ['2015/9/14', 41],
-    ['2015/9/15', 45],
-    ['2015/9/16', 50],
-    ['2015/9/17', 65],
-    ['2015/9/18', 45],
-    ['2015/9/19', 50],
-    ['2015/9/20', 51],
-    ['2015/9/21', 65],
-    ['2015/9/22', 60],
-    ['2015/9/23', 62],
-    ['2015/9/24', 65],
-    ['2015/9/25', 45],
-    ['2015/9/26', 55],
-    ['2015/9/27', 59],
-    ['2015/9/28', 52],
-    ['2015/9/29', 53],
-    ['2015/9/30', 40]
-  ]
+function randomExt(a, b) {
+  return Math.round(Math.random() * (b - a + 1) + a);
 }
