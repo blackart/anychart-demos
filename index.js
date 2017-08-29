@@ -29,6 +29,7 @@ anychart.onDocumentReady(function () {
       .padding([0, 15]);
   map.unboundRegions().fill("#81d4fa");
   map.grids(true);
+  map.grids().palette().items([{color: 'black'}, {color: '#ccc'}])
 
   // create map title
   map.title()

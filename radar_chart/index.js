@@ -76,21 +76,26 @@ anychart.onDocumentLoad(function() {
     ['P11', -258]
   ];
 
-  chart = anychart.radar()
+  chart = anychart.polar()
       .container('container')
       .startAngle(0);
 
-  chart.yScale().stackMode(anychart.enums.ScaleStackMode.VALUE);
-  chart.xScale().inverted(true);
+  // chart.xGrid(true);
+  chart.yGrid(true);
 
-  chart.palette(['blue .5', 'yellow .5', 'green .5', 'red .5']);
-  chart.yAxis().enabled(true);
-  chart.xAxis().enabled(true);
+  chart.yGrid().palette().items(['green', 'orange', 'red']);
+
+  // chart.yScale().stackMode(anychart.enums.ScaleStackMode.VALUE);
+  // chart.xScale().inverted(true);
+
+  // chart.palette(['blue .5', 'yellow .5', 'green .5', 'red .5']);
+  // chart.yAxis().enabled(true);
+  // chart.xAxis().enabled(true);
 
   //chart.grid(0).enabled(false);
-  chart.grid(anychart.grids.radar().layout(anychart.enums.RadialGridLayout.CIRCUIT).isMinor(true));
+  // chart.grid(anychart.grids.radar().layout(anychart.enums.RadialGridLayout.CIRCUIT).isMinor(true));
   //chart.line(data1).connectMissingPoints(false);
-  chart.area(data2);
+  chart.area([1,4,5,6,7,3,3,5,7,3]);
   //chart.area(data3);
   //chart.area(data4);
   //chart.area(data5);

@@ -2,6 +2,7 @@ var table, mapping, xScale, yScale, stage, controller, chart;
 anychart.onDocumentReady(function() {
   table = anychart.data.table('date');
   table.addData(date_string());
+
   var mapping = table.mapAs({value:'close'});
 
   var c = table.createComputer(mapping);
@@ -33,5 +34,11 @@ anychart.onDocumentReady(function() {
   chart.plot().line(mapping);
   chart.plot().line(table, {value:'qwer2'});
   chart.plot().line(table, {value:'qwer'});
+
+  var plot = chart.plot(0);
+
+  xGrid = plot.xGrid(0);
+  xGrid.enabled(true);
+
   chart.container('container').draw();
 });
