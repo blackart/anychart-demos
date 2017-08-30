@@ -95,7 +95,7 @@ anychart.onDocumentLoad(function() {
   //chart.grid(0).enabled(false);
   // chart.grid(anychart.grids.radar().layout(anychart.enums.RadialGridLayout.CIRCUIT).isMinor(true));
   //chart.line(data1).connectMissingPoints(false);
-  chart.area([1,4,5,6,7,3,3,5,7,3]);
+  var area = chart.area([1,4,5,6,7,3,3,5,7,3]);
   //chart.area(data3);
   //chart.area(data4);
   //chart.area(data5);
