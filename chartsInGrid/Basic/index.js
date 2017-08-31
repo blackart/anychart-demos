@@ -83,12 +83,7 @@ var data = [
   }
 ];
 
-var colors = [
-  '#60B3E2',
-  '#dc6b67'
-];
-
-function createDynamicsChart(data, container) {
+function createPieChart(data, container) {
   var chart, chartData;
   chartData = [];
 
@@ -112,6 +107,57 @@ function createDynamicsChart(data, container) {
 
   container[0].chart = chart;
 }
+
+function createValuesChart(data, container) {
+  var chartData;
+  chartData = [];
+
+  $.each(data, function(key, value) {
+    if (key === 'year' || key === 'changes' || key === 'percent')
+      return;
+    chartData.push({x: key, value: value});
+  });
+
+  var sparkline = anychart.sparkline(chartData);
+  sparkline.tooltip()
+      .title(true)
+      .separator(true)
+      .titleFormat(function() {
+        return this['x'];
+      })
+      .format(function() {
+        return this['value'];
+      })
+      .allowLeaveStage(true);
+  sparkline
+      .type('column')
+      .padding(0, '10%', 0, '10%')
+      .background(null)
+      .height('100%');
+
+  sparkline.container(container[0]).draw();
+
+  container[0].chart = sparkline;
+}
+
+function createChangesChart(data, container) {
+  var sparkline = anychart.sparkline(data.changes);
+  sparkline.tooltip()
+      .format(function() {
+        return this['value'];
+      })
+      .allowLeaveStage(true);
+  sparkline
+      .type('column')
+      .height('100%')
+      .background(null)
+      .padding(0, '10%', 0, '10%');
+
+  sparkline.container(container[0]).draw();
+
+  container[0].chart = sparkline;
+}
+
 
 $(document).ready(function() {
   anychart.licenseKey('test-key-32db1f79-cc9312c4');
@@ -161,24 +207,31 @@ $(document).ready(function() {
         title: "",
         data: function() {
           return "";
-        }
+        },
+        orderable: false
       },
       {
         title: "Values",
         data: function() {
           return "";
         },
-        orderDataType: "chart"
+        orderable: false
       },
       {
         title: "Changes",
         data: function() {
           return "";
-        }
+        },
+        orderable: false
       },
       {
         title: "%",
-        data: 'percent'
+        data: function(row, type, val, meta) {
+          return row.percent + '%'
+        },
+        "createdCell": function (cell, cellData, rowData, rowIndex, colIndex) {
+          $(cell).css('color', (rowData.percent < 0 ? 'red' : 'green'));
+        }
       }
     ]
   });
@@ -191,17 +244,18 @@ $(document).ready(function() {
     $(node).css('padding', 0);
     chartContainer = $('<div class="chart-container" id="pie' + rowIdx + '"></div>');
     chartContainer.appendTo(node);
-    createDynamicsChart(this.data(), chartContainer);
+    createPieChart(this.data(), chartContainer);
+
+    node = table.cell(rowIdx, 7).node();
+    $(node).css('padding', 0);
+    chartContainer = $('<div class="chart-container" id="values' + rowIdx + '"></div>');
+    chartContainer.appendTo(node);
+    createValuesChart(this.data(), chartContainer);
+
+    node = table.cell(rowIdx, 8).node();
+    $(node).css('padding', 0);
+    chartContainer = $('<div class="chart-container" id="changes' + rowIdx + '"></div>');
+    chartContainer.appendTo(node);
+    createChangesChart(this.data(), chartContainer);
   });
-
-  //ordering by chart value
-  $.fn.dataTable.ext.order['chart'] = function(settings, col) {
-    return this.api().column(col, {order: 'index'}).nodes().map(function(td, i) {
-      return $(td).find('div')[0].chart.getSeries(0).data().get(0, 'value');
-    });
-  };
-
-  table
-      .order([ 1, 'desc' ])
-      .draw();
 });
