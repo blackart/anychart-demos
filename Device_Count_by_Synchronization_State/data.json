@@ -1,0 +1,209 @@
+{
+  "data": {
+    "resultObject": {
+      "data": [
+        {
+          "settings": {
+            "animation": {
+              "enabled": false
+            },
+            "no_data": {
+              "show_waiting_animation": false,
+              "label": {
+                "text": "Click here to Discover Devices",
+                "font": {
+                  "underline": true,
+                  "color": "Blue"
+                },
+                "actions": {
+                  "action": {
+                    "type": "Call",
+                    "function": "onNoDataClick",
+                    "arg": [
+                      "addDeviceDiscoveryProfile"
+                    ]
+                  }
+                }
+              },
+              "interactivity": {
+                "allow_select": "true",
+                "hoverable": "true",
+                "use_hand_cursor": "true"
+              }
+            }
+          },
+          "charts": {
+            "chart": {
+              "plot_type": "CategorizedVertical",
+              "data_plot_settings": {
+                "animation": {
+                  "duration": 0.5
+                },
+                "default_series_type": "Bar",
+                "bar_series": {
+                  "style": "BarStyle",
+                  "tooltip_settings": {
+                    "enabled": "true",
+                    "format": "{%Name} ({%YValue}{numDecimals:0})",
+                    "position": {
+                      "anchor": "Center"
+                    }
+                  },
+                  "interactivity": {
+                    "allow_select": "true",
+                    "hoverable": "true",
+                    "use_hand_cursor": "true"
+                  },
+                  "apply_palettes_to": "Points",
+                  "label_settings": {
+                    "enabled": "true",
+                    "format": "{%Value}{numDecimals:0}"
+                  }
+                }
+              },
+              "styles": {
+                "label_style": {
+                  "name": "CenterTop",
+                  "position": {
+                    "anchor": "CenterTop",
+                    "halign": "Center",
+                    "valign": "Top"
+                  }
+                },
+                "label_style": {
+                  "name": "LeftTop",
+                  "position": {
+                    "anchor": "LeftTop",
+                    "halign": "Right",
+                    "valign": "Bottom"
+                  }
+                },
+                "label_style": {
+                  "name": "RightTop",
+                  "position": {
+                    "anchor": "RightTop",
+                    "halign": "Left",
+                    "valign": "Bottom"
+                  }
+                },
+                "label_style": {
+                  "name": "Center",
+                  "position": {
+                    "anchor": "Center",
+                    "halign": "Center",
+                    "valign": "Center"
+                  }
+                },
+                "bar_style": {
+                  "name": "BarStyle",
+                  "states": {
+                    "normal": {
+                      "fill": {
+                        "type": "Solid",
+                        "opacity": "1"
+                      },
+                      "effects": {
+                        "enabled": false
+                      }
+                    }
+                  }
+                }
+              },
+              "chart_settings": {
+                "chart_background": {
+                  "enabled": true,
+                  "border": {
+                    "enabled": true
+                  },
+                  "inside_margin": {
+                    "left": 30,
+                    "right": 30
+                  },
+                  "fill": {
+                    "enabled": true
+                  }
+                },
+                "data_plot_background": {
+                  "enabled": true,
+                  "border": {
+                    "enabled": true
+                  },
+                  "fill": {
+                    "enabled": true
+                  }
+                },
+                "chart_animation": {
+                  "duration": 0
+                },
+                "title": {
+                  "enabled": false
+                },
+                "axes": {
+                  "x_axis": {
+                    "major_grid": {
+                      "enabled": "True"
+                    },
+                    "minor_grid": {
+                      "enabled": "False"
+                    },
+                    "major_tickmark": {
+                      "enabled": "True"
+                    },
+                    "minor_tickmark": {
+                      "enabled": "False"
+                    },
+                    "title": {
+                      "enabled": true,
+                      "text": "Device Synchronizaton State"
+                    },
+                    "labels": {
+                      "enabled": "true",
+                      "rotation": "-45"
+                    },
+                    "scale": {
+                    }
+                  },
+                  "y_axis": {
+                    "major_grid": {
+                      "enabled": "True"
+                    },
+                    "minor_grid": {
+                      "enabled": "False"
+                    },
+                    "major_tickmark": {
+                      "enabled": "True"
+                    },
+                    "minor_tickmark": {
+                      "enabled": "False"
+                    },
+                    "title": {
+                      "enabled": true,
+                      "text": "Number of Devices"
+                    },
+                    "labels": {
+                      "enabled": "true",
+                      "format": "{%Value}{numDecimals:0}"
+                    },
+                    "scale": {
+                      "minimum": "0"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "series": [
+
+                ]
+              }
+            }
+          }
+        },
+        {
+          "chartData": "var d=\"<series id='DeviceConfigStatusBarChart' name='DeviceConfigStatusBarChart' ><label enabled='true' /><tooltip enabled='true' /><point name='Connecting' y='200'></point><point name='InSync' y='51' > </point> </series>\"; mychart.addSeries(d);"
+        }
+      ]
+    }
+  },
+  "time": "1492423656447",
+  "success": true
+}
