@@ -26,10 +26,22 @@ anychart.onDocumentReady(function () {
   plot.minorGrid(1)
       .enabled(true)
       .layout('vertical');
-  plot.yAxis(1).orientation('right');
+  plot.yAxis(1).orientation('right').enabled(false);
+
+  plot.yAxis(0, false)
+
+  plot.yAxis(false);
+  plot.xAxis(false);
+  chart.scroller(false)
 
   priceIndicator = plot.priceIndicator(0);
   priceIndicator.value('first-visible');
+
+  // priceIndicator.label().anchor('left-center')
+
+  // priceIndicator.label().format(function() {
+  //   return this.getData('close');
+  // });
 
   // priceIndicator.value('series-end');
   // priceIndicator.value(new Date('2007-03-12'));
@@ -59,8 +71,8 @@ anychart.onDocumentReady(function () {
   priceIndicator1.risingStroke('green');
   priceIndicator1.fallingStroke('red');
 
-  priceIndicator1.fallingLabel().background().enabled(null).fill('red').stroke(null);
-  priceIndicator1.risingLabel().background().enabled(null).fill('green').stroke(null);
+  priceIndicator1.fallingLabel().background().fill('red').stroke(null);
+  priceIndicator1.risingLabel().background().fill('green').stroke(null);
   
   // priceIndicator1.fallingLabel().enabled(true);
   // priceIndicator1.risingLabel().enabled(true);
@@ -88,7 +100,8 @@ anychart.onDocumentReady(function () {
   series.name('CSCO');
   series.legendItem().iconType('risingfalling');
 
-  plot.ema(dataTable.mapAs({'value': 4})).series().stroke('1.5 #455a64');
+  var ema = plot.ema(dataTable.mapAs({'value': 4})).series().stroke('1.5 #455a64');
+  ema.id('ema');
 
   // create scroller series with mapped data
   chart.scroller().candlestick(mapping);
