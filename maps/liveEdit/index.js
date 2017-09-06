@@ -45,16 +45,20 @@ $(document).ready(function() {
   stage = anychart.graphics.create('container');
 
   chart = anychart.map();
-  chart.geoData(anychart.maps.united_states_of_america);
+  // chart.geoData('anychart.maps.united_states_of_america');
+  chart.geoData('anychart.maps.another_usa');
   chart.interactivity().drag(false);
 
   var dataSet = anychart.data.set([]);
 
   var series = chart.choropleth(dataSet);
-  series.labels().textFormatter(function() {
-    return this.getDataValue('id');
-  }).enabled(false);
+  series.labels()
+      .format(function() {return this.getDataValue('id');})
+      .enabled(false);
+
   series.tooltip(false);
+  chart.axes(true);
+  chart.crosshair(true);
 
   chart.container(stage).draw();
 
@@ -74,7 +78,7 @@ $(document).ready(function() {
 
 
 
-  chart.listen(anychart.enums.EventType.POINTS_SELECT, function(e) {
+  chart.listen('pointsselect', function(e) {
     selectedRegions = e.seriesStatus[0].points;
     var defaultCrs = chart.geoData()['ac-tx'] && chart.geoData()['ac-tx']['default'] && chart.geoData()['ac-tx']['default']['crs'] ?
         chart.geoData()['ac-tx']['default']['crs'] :
@@ -104,40 +108,53 @@ $(document).ready(function() {
     $('#featureId').text(featureName);
   });
 
-  chart.listen(anychart.enums.EventType.CHART_DRAW, function(e) {
+  var currentElProp;
+  chart.listen('chartdraw', function(e) {
     var iterator = series.data().getIterator();
 
     var startX, startY, drag;
     while (iterator.advance()) {
-      var el = iterator.meta('regionShape');
-      var prop = iterator.meta('regionProperties');
+      var pointEl = iterator.meta('currentPointElement');
+      var el = pointEl.domElement;
+      var prop = pointEl.properties;
 
       el.drag(true).cursor('hand');
 
       el.listenOnce('start', function(e) {
+        chart.crosshair(false);
+
         startX = e.clientX;
         startY = e.clientY;
-      });
+
+        currentElProp = prop;
+      }, false, prop);
 
       el.listenOnce('end', function(e) {
+        stage.suspend();
+
+        chart.crosshair(true);
         var dx = e.clientX - startX;
         var dy = e.clientY - startY;
 
         chart.translateFeature(this[chart.geoIdField()], dx, dy);
+        chart.geoData(chart.toGeoJSON());
+
+        stage.resume();
       }, false, prop);
     }
   });
 
   $(document).mousemove(function(e) {
-    var scaled = chart.scale().pxToScale(e.clientX, e.clientY);
-    var latLon = chart.scale().inverseTransform(e.clientX, e.clientY);
+    // var scaled = chart.scale().pxToScale(e.clientX, e.clientY);
+    var coords = chart.globalToLocal(e.clientX, e.clientY);
+    var latLon = chart.inverseTransform(coords.x, coords.y);
 
     $('#tooltip').css({'left': e.clientX + 15, 'top': e.clientY + 15})
         .show()
         .html(
           'Client coords: ' + e.clientX + ' , ' + e.clientY + '<br>' +
-          'Scaled: ' + scaled[0] + ' , ' + scaled[1] + '<br>' +
-          'Lat: ' + latLon[1].toFixed(4) + ' , ' + 'Lon: ' + latLon[0].toFixed(4)
+          // 'Scaled: ' + scaled[0] + ' , ' + scaled[1] + '<br>' +
+          'Lat: ' + latLon.lat.toFixed(4) + ' , ' + 'Lon: ' + latLon.long.toFixed(4)
         );
   });
 
@@ -154,6 +171,10 @@ $(document).ready(function() {
 
   $('#exportToGeoJSON').click(function(e) {
     console.log(JSON.stringify(chart.toGeoJSON()));
+  });
+
+  $('#applyChanges').click(function(e) {
+    chart.geoData(chart.toGeoJSON());
   });
 
   scale = function(value) {

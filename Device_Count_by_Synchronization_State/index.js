@@ -29,6 +29,8 @@ anychart.onDocumentLoad(function() {
     chart = anychart.column();
 
     var seriesData = chartConfig.charts.chart.data;
+
+
     if (hasData(seriesData)) {
       for(var i = 0, len = seriesData.series.length; i < len; i++) {
         var settings = seriesData.series[i];
