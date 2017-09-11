@@ -48,6 +48,8 @@ $(document).ready(function() {
   // chart.geoData('anychart.maps.united_states_of_america');
   chart.geoData('anychart.maps.another_usa');
   chart.interactivity().drag(false);
+  chart.interactivity().selectionMode();
+
 
   var dataSet = anychart.data.set([]);
 
@@ -177,21 +179,26 @@ $(document).ready(function() {
     chart.geoData(chart.toGeoJSON());
   });
 
-  scale = function(value) {
-    $('#scaleInp').val(value);
+  $('#scale').on('input', function(e) {
+    var region = selectedRegions[0];
+    if (region) {
+      var value = $(this).val();
+      $('#scaleInp').val(value);
+      chart.featureScaleFactor(region.properties[chart.geoIdField()], value);
+    }
+  });
 
-    chart.featureScaleFactor(selectedRegions[0].properties[chart.geoIdField()], value);
-  };
+  $('#scale').on('mouseup', function(e) {
+    chart.geoData(chart.toGeoJSON());
+  });
 
-  scaleEnd = function(value) {
-    $('#scale').val(value);
-
-    chart.featureScaleFactor(selectedRegions[0].properties[chart.geoIdField()], value);
-  };
-
-  scaleInp = function(value) {
-    $('#scale').val(value);
-
-    chart.featureScaleFactor(selectedRegions[0].properties[chart.geoIdField()], value);
-  };
+  $('#scaleInp').on('change', function(e) {
+    var region = selectedRegions[0];
+    if (region) {
+      var value = $(this).val();
+      $('#scale').val(value);
+      chart.featureScaleFactor(region.properties[chart.geoIdField()], value);
+      chart.geoData(chart.toGeoJSON());
+    }
+  });
 });

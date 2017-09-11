@@ -1,8 +1,8 @@
-anychart.onDocumentReady(function () {
-  chart = anychart.line();
-  chart.line([5, 6, 20, 45, 3]);
+anychart.onDocumentReady(function() {
+  chart = anychart.radar();
+  chart.line(['4', 10, -1, 8, 4]);
   chart.xGrid()
-      .enabled(true)
-      .palette(['orange', 'green', 'blue'])
+      .stroke('.9 green')
+      .palette(['none', 'red']);
   chart.container('container').draw();
 });

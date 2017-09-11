@@ -2,12 +2,15 @@
 <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+
     <script src="../../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../../src/deps.js"></script>
     <script>
       goog.require('anychart.bundle.entry');
       goog.require('anychart.themes.defaultTheme.entry');
     </script>
+
+    <!--<script src="../../../out/anychart-bundle.min.js"></script>-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/proj4-src.js"></script>
     <!--<script src="http://cdn.anychart.com/geodata/countries/usa/usa_mainland.js"></script>-->
@@ -34,15 +37,9 @@
 <input style="position: absolute; top: 0; left: 50px; z-index: 100000" id="applyChanges" type="button"
        value="apply changes"/>
 <select style="position: absolute; top: 0; left: 140px; z-index: 100000; width: 350px" id="select_crs"></select>
-<input style="width: 500px; position: absolute; top: 0; left: 500px; z-index: 100000;" type="range" min=".0001"
-       max="0.01" step=".00001" id="scale" onmouseup="scaleEnd(this.value)" oninput="scale(this.value)">
-<input style="width: 100px; position: absolute; top: 0; left: 1100px; z-index: 100000;" type="text" value="1"
-       id="scaleInp" onchange="scaleInp(this.value)"/>
+<input style="width: 500px; position: absolute; top: 0; left: 500px; z-index: 100000;" type="range" min=".0001" max="0.01" step=".00001" id="scale">
+<input style="width: 100px; position: absolute; top: 0; left: 1100px; z-index: 100000;" value="1" id="scaleInp"/>
 
 <div id="container"></div>
 </body>
 </html>
-
-
-
-

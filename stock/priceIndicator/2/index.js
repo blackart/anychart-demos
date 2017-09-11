@@ -14,9 +14,9 @@ anychart.onDocumentReady(function() {
 
   var Plot1 = chart.plot();
   Plot1.candlestick().data(mapping).stroke('green .7').markers(true);
-  Plot1.yAxis(false);
-  Plot1.xAxis(false);
-  chart.scroller(false)
+  // Plot1.yAxis(false);
+  // Plot1.xAxis(false);
+  // chart.scroller(false)
 
 
   priceIndicator1 = Plot1.priceIndicator(0); // label индикатора внутри стал белый и стало не видно цифр
