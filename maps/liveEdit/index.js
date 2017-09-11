@@ -172,7 +172,9 @@ $(document).ready(function() {
   });
 
   $('#exportToGeoJSON').click(function(e) {
-    console.log(JSON.stringify(chart.toGeoJSON()));
+    var json = "window['anychart']=window['anychart']||{};window['anychart']['maps']=window['anychart']['maps']||{};window['anychart']['maps']['map']=" + JSON.stringify(chart.toGeoJSON());
+    var blob = new Blob([json], {type: "application/javascript;charset=utf-8"});
+    saveAs(blob, "map.js");
   });
 
   $('#applyChanges').click(function(e) {

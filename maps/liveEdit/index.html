@@ -19,9 +19,11 @@
     <!--<script src="map_scaled.js"></script>-->
     <script src="temp.js"></script>
     <script src="map_like_hc.js"></script>
+    <script src="map.js"></script>
     <!--<script src="australia.js"></script>-->
     <!--<script src="map_.js"></script>-->
     <script src="index.js"></script>
+    <script src="https://rawgit.com/eligrey/FileSaver.js/master/FileSaver.js"></script>
 
     <style>
         html, body, #container {
@@ -29,11 +31,12 @@
             height: 100%;
             margin: 0;
             padding: 0;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
-<input style="position: absolute; top: 0; left: 0; z-index: 100000" id="exportToGeoJSON" type="button" value="export"/>
+<input style="position: absolute; top: 0; left: 0; z-index: 100000" id="exportToGeoJSON" type="button" value="save"/>
 <input style="position: absolute; top: 0; left: 50px; z-index: 100000" id="applyChanges" type="button"
        value="apply changes"/>
 <select style="position: absolute; top: 0; left: 140px; z-index: 100000; width: 350px" id="select_crs"></select>

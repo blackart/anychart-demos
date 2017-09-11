@@ -223,7 +223,7 @@ function drawChart() {
   chart.connector(dataSetConnector);
   var markerSeries = chart.marker(dataSetMarker);
   markerSeries.type('circle');
-  markerSeries.labels().textFormatter(function() {return 'Clicked at - lat: ' + this['lat'] + ' long: ' + this['long'];});
+  markerSeries.labels().format(function() {return 'Clicked at - lat: ' + this['lat'] + ' long: ' + this['long'];});
 
 
   chart.listen("click", function(e) {

@@ -1,4 +1,4 @@
-var chart, chartConfig, chartData;
+  var chart, chartConfig, chartData;
 
 function hasData(data) {
   return data && data.series && data.series.length
@@ -8,10 +8,12 @@ function addDeviceDiscoveryProfile() {
   var mychart = {
     'addSeries': function(d) {
       var json = anychart.utils.xml2json(d);
+
       var dataSet = anychart.data.set(json.point);
       var data = dataSet.mapAs({"x": [0], "value": [1]}, {"x": "name", "value": "y"});
 
       var series = chart.column(data);
+      series.tooltip().allowLeaveChart(true).allowLeaveStage(true)
       series
           .name(json.name);
     }
@@ -27,6 +29,8 @@ anychart.onDocumentLoad(function() {
     chart = anychart.column();
 
     var seriesData = chartConfig.charts.chart.data;
+
+
     if (hasData(seriesData)) {
       for(var i = 0, len = seriesData.series.length; i < len; i++) {
         var settings = seriesData.series[i];
@@ -85,4 +89,20 @@ anychart.onDocumentLoad(function() {
 
     chart.container("container").draw();
   });
+
+
+  // chart = anychart.column();
+  // var series = chart.column([
+  //   ['Rouge', '80540'],
+  //   ['Foundation', '94190'],
+  //   ['Mascara', '102610'],
+  //   ['Lip gloss', '110430'],
+  //   ['Pomade', '128000'],
+  //   ['Nail polish', '143760'],
+  //   ['Eyebrow pencil', '170670'],
+  //   ['Eyeliner', '213210'],
+  //   ['Eyeshadows', '249980']
+  // ]);
+  //
+  // chart.container('container').draw();
 });

@@ -56,7 +56,7 @@ anychart.onDocumentReady(function () {
   priceIndicator.fallingStroke('red');
 
   priceIndicator.fallingLabel().background().fill('red').stroke(null);
-  priceIndicator.risingLabel().background().fill('green').stroke(null);
+  // priceIndicator.risingLabel().background().fill('green').stroke(null);
 
   // priceIndicator.fallingLabel().background().fill('red').stroke(null);
   // priceIndicator.risingLabel().background().fill('green').stroke(null);
