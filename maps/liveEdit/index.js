@@ -1,59 +1,124 @@
 var stage, map, chart, s1, s2, s3, s, axis, cs, cr, series;
-var selectedRegions;
+var selectedRegions = [];
 var scale, scaleInp, scaleEnd;
 var min = 0, max = 350;
 var startX, startY;
+var stage, chart, series;
+var currentElProp;
+var cdn_url = 'http://cdn.anychart.com/geodata/1.2.0/countries/';
 
 var randomExt = function(a, b) {
   return Math.round(Math.random() * (b - a + 1) + a);
 };
 
-var crs = [
-  //france default
-  //{"id": "default", "value": "default", "text": "+proj=lcc +lat_1=46.8 +lat_0=46.8 +lon_0=2.337229166666667 +k_0=0.99987742 +x_0=600000 +y_0=2200000 +ellps=intl +towgs84=-87,-98,-121,0,0,0,0 +units=m +no_defs"},
-  //usa default
-  {"id": "default", "value": "default", "text": "+proj=lcc +lat_1=33 +lat_2=45 +lat_0=39 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs"},
-  {"id": "FR.RE", "value": "reunion", "text": "+proj=utm +zone=40 +south +datum=WGS84 +units=m +no_defs"},
-  {"id": "FR.YT", "value": "mayotte", "text": "+proj=utm +zone=38 +south +datum=WGS84 +units=m +no_defs"},
-  {"id": "FR.GF", "value": "guyana", "text": "+proj=utm +zone=22 +datum=WGS84 +units=m +no_defs"},
-  {"id": "FR.MQ", "value": "martinique", "text": "+proj=utm +zone=20 +datum=WGS84 +units=m +no_defs"},
-  {"id": "FR.GP", "value": "guadeloupe", "text": "+proj=utm +zone=20 +datum=WGS84 +units=m +no_defs"},
-  {"id": "US.HI", "value": "hawaii", "text": "+proj=aea +lat_1=8 +lat_2=18 +lat_0=13 +lon_0=-157 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs"},
-  {"id": "US.AK", "value": "alaska", "text": "+proj=tmerc +lat_0=54 +lon_0=-142 +k=0.9999 +x_0=500000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"}
-];
+var generateData = function() {
+  var data = [];
+  features = chart.geoData()['features'];
+  for (var i = 0, len = features.length; i < len; i++) {
+    var feature = features[i];
+    if (feature['properties']) {
+      id = feature['properties'][chart.geoIdField()];
+      data.push({'id': id, 'value': randomExt(min, max), size: randomExt(1, 100)});
+    }
+  }
+  return data;
+};
 
-$(document).ready(function() {
-  $(crs).each(function() {
-    $('#select_crs').append($("<option>").attr('value', this.text).text(this.id));
+var maps = {
+  'world': 'http://cdn.anychart.com/geodata/1.2.0/custom/world_source/world_source.js'
+};
+
+function getMaps(list) {
+  var countries = list['countries'];
+  var keys = Object.keys(countries);
+
+  for (var i = 0; i < keys.length; i++) {
+    maps[keys[i]] = cdn_url + keys[i] + '/' + countries[keys[i]]['js'];
+  }
+
+  $(document).ready(function() {
+    init();
   });
+}
 
-  $('body').append('<div id="tooltip"></div>');
-  $('#tooltip')
-      .css({
-        'position': 'absolute',
-        'z-index': 1000,
-        'pointerEvents': 'none',
-        'font-size': '14px'
-      });
+(function() {
+  $.ajax({
+    type: 'GET',
+    url: 'http://cdn.anychart.com/geodata/1.2.0/countries.json',
+    success: function(json) {
+      getMaps(json);
+    }
+  });
+})();
 
+function createChosen(parent, id, label, description, items, opt_formatter, opt_callback) {
+  var form = $('<div class="form-horizontal"></div>');
+  form.append('<div class="form-group"><div class="col-xs-6"><label class="control-label" for="' + id + '">' + label + '</label></div><div class="col-xs-6"><select class="chosen-select" data-placeholder="' + description + '" id="' + id + '"></select></div></div>');
+  $(parent).append(form);
 
+  var chosen = $('#' + id);
 
+  var type = typeof items;
+  var isObject = type == 'object' && items != null || type == 'function';
+  var option_text;
 
+  if (isObject) {
+    for (var item in items) {
+      chosen.append('<option value="' + items[item] + '">' + item + '</option>');
+    }
+  } else {
+    for (var i = 0, len = items.length; i < len; i++) {
+      item = items[i];
+      option_text = opt_formatter ? opt_formatter(item) : item;
+      chosen.append('<option value="' + item + '">' + option_text + '</option>');
+    }
+  }
 
+  var callChain = id.split('_');
+  var entry = chart;
+  var value;
 
+  for (i = 0, len = callChain.length; i < len; i++) {
+    var obj = callChain[i];
+    if (i == callChain.length - 1) {
+      value = entry[obj]();
+    } else {
+      entry = entry[obj]();
+    }
+  }
+  chosen.val(value);
+  chosen.chosen({width: '100%'});
+  chosen.trigger("chosen:updated");
 
+  var callback = opt_callback ? opt_callback :
+      function(e) {
+        var id_ = $(this).attr('id');
+        var value = $(this).val();
+        var callChain = id_.split('_');
+
+        var entry = chart;
+        for (var i = 0, len = callChain.length; i < len; i++) {
+          var obj = callChain[i];
+          if (i == callChain.length - 1) {
+            entry[obj](value);
+          } else {
+            entry = entry[obj]();
+          }
+        }
+      };
+  chosen.chosen().change(callback);
+}
+
+function drawMap() {
   stage = anychart.graphics.create('container');
 
   chart = anychart.map();
-  // chart.geoData('anychart.maps.united_states_of_america');
-  chart.geoData('anychart.maps.another_usa');
+  chart.geoData('anychart.maps.france');
   chart.interactivity().drag(false);
-  chart.interactivity().selectionMode();
-
 
   var dataSet = anychart.data.set([]);
 
-  var series = chart.choropleth(dataSet);
+  series = chart.choropleth(dataSet);
   series.labels()
       .format(function() {return this.getDataValue('id');})
       .enabled(false);
@@ -74,12 +139,57 @@ $(document).ready(function() {
     }
   }
   dataSet.data(data);
+}
 
+function createControls() {
+  createChosen('.control-panel', 'crs', 'Projection', 'Choose your projection ...', anychart.enums.MapProjections);
 
+  createChosen('.control-panel', 'geoData', 'Geo data', 'Choose map ...', maps, undefined, function(e) {
+    var id_ = $(this).attr('id');
+    var value = $(this).val();
+    var text = $(this).find('option:selected').text();
+    var callChain = id_.split('_');
 
+    var url = value;
+    geoData = 'anychart.maps.' + text.toLowerCase();
 
+    $.ajax({
+      type: 'GET',
+      url: url,
+      dataType: 'script',
+      success: function() {
 
+        var entry = chart;
+        for (var i = 0, len = callChain.length; i < len; i++) {
+          var obj = callChain[i];
+          if (i == callChain.length - 1) {
+            entry[obj](geoData);
+          } else {
+            entry = entry[obj]();
+          }
+        }
+        chart.getSeries(0).data(generateData());
+      }
+    });
+  });
+  $('#geoData')
+      .val(maps['france'])
+      .trigger("chosen:updated");
 
+  var form = $('<div class="form-horizontal"></div>');
+  form.append('<div class="form-group">' +
+      '<div class="col-xs-2"><label class="control-label" for="scale">Scale</label></div>' +
+      '<div class="col-xs-6"><input type="range" min=".0001" max="0.01" step=".00001" id="scale" class="form-control"></div>' +
+      '<div class="col-xs-4"><input value="1" id="scaleInp" class="form-control input-sm"/></div>' +
+      '</div>');
+  $('.control-panel').append(form);
+
+  var form = $('<div class="form-horizontal"></div>');
+  form.append('<div class="form-group"><div class="col-xs-6"><input id="exportToGeoJSON" type="button" class="btn btn-success btn-xs" value="save"/></div></div>');
+  $('.control-panel').append(form);
+}
+
+function makeListeners() {
   chart.listen('pointsselect', function(e) {
     selectedRegions = e.seriesStatus[0].points;
     var defaultCrs = chart.geoData()['ac-tx'] && chart.geoData()['ac-tx']['default'] && chart.geoData()['ac-tx']['default']['crs'] ?
@@ -87,7 +197,7 @@ $(document).ready(function() {
         anychart.charts.Map.DEFAULT_TX['default']['crs'];
 
     var defaultScale = chart.geoData()['ac-tx'] && chart.geoData()['ac-tx']['default'] && chart.geoData()['ac-tx']['default']['scale'] ?
-    chart.geoData()['ac-tx']['default']['scale'] || anychart.charts.Map.DEFAULT_TX['default']['scale'] :
+        chart.geoData()['ac-tx']['default']['scale'] || anychart.charts.Map.DEFAULT_TX['default']['scale'] :
         anychart.charts.Map.DEFAULT_TX['default']['scale'];
 
     var featureName = '';
@@ -110,7 +220,6 @@ $(document).ready(function() {
     $('#featureId').text(featureName);
   });
 
-  var currentElProp;
   chart.listen('chartdraw', function(e) {
     var iterator = series.data().getIterator();
 
@@ -154,9 +263,9 @@ $(document).ready(function() {
     $('#tooltip').css({'left': e.clientX + 15, 'top': e.clientY + 15})
         .show()
         .html(
-          'Client coords: ' + e.clientX + ' , ' + e.clientY + '<br>' +
-          // 'Scaled: ' + scaled[0] + ' , ' + scaled[1] + '<br>' +
-          'Lat: ' + latLon.lat.toFixed(4) + ' , ' + 'Lon: ' + latLon.long.toFixed(4)
+            'Client coords: ' + e.clientX + ' , ' + e.clientY + '<br>' +
+            // 'Scaled: ' + scaled[0] + ' , ' + scaled[1] + '<br>' +
+            'Lat: ' + latLon.lat.toFixed(4) + ' , ' + 'Lon: ' + latLon.long.toFixed(4)
         );
   });
 
@@ -203,4 +312,22 @@ $(document).ready(function() {
       chart.geoData(chart.toGeoJSON());
     }
   });
-});
+}
+
+function init() {
+  $(document).ready(function() {
+    $('body').append('<div id="tooltip"></div>');
+    $('#tooltip')
+        .css({
+          'position': 'absolute',
+          'z-index': 1000,
+          'pointerEvents': 'none',
+          'font-size': '14px'
+        });
+
+    drawMap();
+    createControls();
+    makeListeners();
+  });
+}
+

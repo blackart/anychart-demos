@@ -12,16 +12,21 @@
 
     <!--<script src="../../../out/anychart-bundle.min.js"></script>-->
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!--bootstrap-chosen-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.css"/>
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/proj4-src.js"></script>
-    <!--<script src="http://cdn.anychart.com/geodata/countries/usa/usa_mainland.js"></script>-->
-    <!--<script src="http://cdn.anychart.com/geodata/countries/aus/australia.js"></script>-->
+    <!--<script src="temp.js"></script>-->
+    <!--<script src="map_like_hc.js"></script>-->
     <!--<script src="map.js"></script>-->
-    <!--<script src="map_scaled.js"></script>-->
-    <script src="temp.js"></script>
-    <script src="map_like_hc.js"></script>
-    <script src="map.js"></script>
-    <!--<script src="australia.js"></script>-->
-    <!--<script src="map_.js"></script>-->
+    <script src="http://cdn.anychart.com/geodata/1.2.0/countries/france/france.js"></script>
+
     <script src="index.js"></script>
     <script src="https://rawgit.com/eligrey/FileSaver.js/master/FileSaver.js"></script>
 
@@ -33,15 +38,19 @@
             padding: 0;
             overflow: hidden;
         }
+
+        .control-panel {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 100000;
+        }
     </style>
 </head>
 <body>
-<input style="position: absolute; top: 0; left: 0; z-index: 100000" id="exportToGeoJSON" type="button" value="save"/>
-<input style="position: absolute; top: 0; left: 50px; z-index: 100000" id="applyChanges" type="button"
-       value="apply changes"/>
-<select style="position: absolute; top: 0; left: 140px; z-index: 100000; width: 350px" id="select_crs"></select>
-<input style="width: 500px; position: absolute; top: 0; left: 500px; z-index: 100000;" type="range" min=".0001" max="0.01" step=".00001" id="scale">
-<input style="width: 100px; position: absolute; top: 0; left: 1100px; z-index: 100000;" value="1" id="scaleInp"/>
+<div class="control-panel">
+
+</div>
 
 <div id="container"></div>
 </body>
