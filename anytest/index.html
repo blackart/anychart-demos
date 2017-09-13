@@ -1,19 +1,134 @@
 <html>
-<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="bar textMarker lineMarker anyChart"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="actualBugJson actualBugXml anyMap"/>
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
-    <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
+    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
     <script>
-      goog.require("anychart.modules.anychart_bundle");
-      goog.require("anychart.themes.defaultTheme");
+      goog.require("anychart.bundle.entry");
+      goog.require("anychart.themes.defaultTheme.entry");
     </script>
-    <script src="utils/anytest.min.js"></script>
 
-    <script src="index.js"></script>
+
+    anytest.ACDVF = true;
+    <script src="utils/anytest.min.js"></script>
+    <script src="http://cat.anychart.com/static/sessions/12488/branch/out/local-cdn/geodata/v2/australia.js"></script>
+    <script src="http://cat.anychart.com/static/sessions/12488/branch/out/local-cdn/proj4.js"></script>
 </head>
 <body>
-<input type="range" min="0" max="720" value="0" id="startAngle" oninput="startAngle(this.value);" style="width: 85%;">
 <div id="container"></div>
 </body>
+<script>
+  var australiaMap1, australiaMap2, australiaMap3, australiaMap4, series4;
+  anychart.onDocumentLoad(function() {
+    anytest.setUp(500,500);
+    var dataSet = anychart.data.set([
+      {id: "AU.CT", value: 15, title: "Australian Capital Territory"},
+      {id: "AU.VI", value: 23, title: "Victoria"},
+      {id: "AU.WA", value: 86, title: "Western Australia"},
+      {id: "AU.QL", value: 16, title: "Queensland"},
+      {id: "AU.NS", value: 32, title: "New South Wales"},
+      {id: "AU.NT", value: 64, title: "Northern Territory"},
+      {id: "AU.TS", value: 28, title: "Tasmania"},
+      {id: "AU.SA", value: 45, title: "South Australian"}
+    ]);
+
+    var dataSetForSeries = dataSet.mapAs({id: "id"});
+
+    australiaMap1 = anychart.map();
+    australiaMap1.geoData('anychart.maps.australia');
+    var series1 = australiaMap1.choropleth(dataSetForSeries);
+    series1.geoIdField("code_hasc")
+        .tooltip(null)
+        .labels({anchor: 'right-center'})
+        .hoverLabels({fontSize: 20, fontStyle:'bold', fontColor:'red'});
+    australiaMap1.bounds(0,0,'50%','50%');
+    anytest.drawInStage(australiaMap1);
+
+    australiaMap2 = anychart.map();
+    australiaMap2.geoData('anychart.maps.australia');
+    var series2 = australiaMap2.choropleth(dataSetForSeries);
+    series2.geoIdField("code_hasc")
+        .tooltip(null)
+        .labels()
+        .enabled(true)
+        .fontColor('red')
+        .anchor('left-center');
+    series2.selectLabels({fontSize: 25, fontColor: 'purple', background: {fill: 'yellow'}});
+    australiaMap2.callout(0).items(["AU.CT","AU.WA","AU.NS"]);
+    australiaMap2.bounds('50%',0,'50%', '50%');
+    anytest.drawInStage(australiaMap2);
+
+    australiaMap3 = anychart.map();
+    australiaMap3.geoData('anychart.maps.australia');
+    var series3 = australiaMap3.choropleth(dataSetForSeries);
+    series3.geoIdField("code_hasc")
+        .tooltip(null)
+        .labels({anchor: 'center-top'});
+    australiaMap3.bounds(0,'50%','50%', '50%');
+    anytest.drawInStage(australiaMap3);
+
+    australiaMap4 = anychart.map();
+    australiaMap4.geoData('anychart.maps.australia');
+    series4 = australiaMap4.choropleth(dataSetForSeries);
+    series4.geoIdField("code_hasc")
+        .tooltip(null)
+        .labels()
+        .enabled(true)
+        .anchor('center-bottom')
+        .fontStyle('italic');
+    australiaMap4.bounds('50%','50%','50%', '50%');
+    anytest.drawInStage(australiaMap4);
+
+    anytest.stageListen(function(){
+      anytest.step(function(){
+        series4 = australiaMap4.getSeries(0);
+        anytest.CAT.getScreen();
+      });
+      anytest.step(function(){
+        anytest.CAT.action(124, 106, 'mousemove');
+      });
+      anytest.step(function(){
+        anytest.CAT.getScreen('hoverLabel', -1);
+      });
+      anytest.step(function(){
+        anytest.CAT.action(124, 106, 'mousemove');
+      });
+      anytest.step(function(){
+        anytest.CAT.action(0,0);
+      });
+      anytest.step(function(){
+        series4.labels({anchor: 'center-top'});
+        anytest.CAT.getScreen('afterDrawChangeLabelsAnchor', -1);
+      });
+      anytest.step(function(){
+        series4.labels({anchor: 'center-bottom'});
+        anytest.CAT.action(260, 8, 'mousemove');
+      });
+      anytest.step(function(){
+        anytest.CAT.action(296, 47, 'click');// on label
+      });
+      anytest.step(function(){
+        anytest.CAT.getScreen('selectLabeles', -1);
+      });
+      anytest.step(function(){
+        anytest.CAT.action(378,25); // unselect
+      });
+      anytest.step(function(){
+        anytest.CAT.action(0,0);
+      });
+      anytest.step(function(){
+        anytest.CAT.getScreen('setDefault', 1);
+      });
+      anytest.exit();
+    }).charts4modes('australiaMap1', 'australiaMap2', 'australiaMap3', 'australiaMap4');
+    stage.resume();
+//        anytest.createPanel('interactive');
+    /*<< methods
+     anychart.core.SeriesBase.selectLabels
+     >>*/
+  });
+
+</script>
 </html>

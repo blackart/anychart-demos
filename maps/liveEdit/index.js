@@ -25,7 +25,22 @@ var generateData = function() {
 };
 
 var maps = {
-  'world': 'http://cdn.anychart.com/geodata/1.2.0/custom/world_source/world_source.js'
+};
+
+var mapProjections = {
+  BONNE: 'bonne',
+  ECKERT1: 'eckert1',
+  ECKERT3: 'eckert3',
+  FAHEY: 'fahey',
+  HAMMER: 'hammer',
+  AITOFF: 'aitoff',
+  MERCATOR: 'mercator',
+  ORTHOGRAPHIC: 'orthographic',
+  ROBINSON: 'robinson',
+  WAGNER6: 'wagner6',
+  WSG84: 'wsg84',
+  EQUIRECTANGULAR: 'equirectangular',
+  AUGUST: 'august'
 };
 
 function getMaps(list) {
@@ -107,6 +122,8 @@ function createChosen(parent, id, label, description, items, opt_formatter, opt_
         }
       };
   chosen.chosen().change(callback);
+
+  return form;
 }
 
 function drawMap() {
@@ -115,6 +132,7 @@ function drawMap() {
   chart = anychart.map();
   chart.geoData('anychart.maps.france');
   chart.interactivity().drag(false);
+  chart.crsAnimation(false);
 
   var dataSet = anychart.data.set([]);
 
@@ -141,10 +159,35 @@ function drawMap() {
   dataSet.data(data);
 }
 
-function createControls() {
-  createChosen('.control-panel', 'crs', 'Projection', 'Choose your projection ...', anychart.enums.MapProjections);
 
-  createChosen('.control-panel', 'geoData', 'Geo data', 'Choose map ...', maps, undefined, function(e) {
+function createProjectionsChoosen() {
+  $('#crs').parents('.form-horizontal').remove();
+
+  var acTx = chart.geoData()['ac-tx'];
+  $.each(acTx, function(k, v) {
+    mapProjections[v.crs] = v.crs;
+  });
+
+  var choosenEl = createChosen('.control-panel', 'crs', 'Projection', 'Choose your projection ...', mapProjections, void 0, function(e) {
+    var crs = $('#crs option:selected').val();
+
+    stage.suspend();
+    if (selectedRegions.length) {
+      var id = selectedRegions[0].properties[chart.geoIdField()];
+      chart.featureCrs(id, crs);
+    } else {
+      chart.crs(crs);
+    }
+    chart.geoData(chart.toGeoJSON());
+    stage.resume();
+  });
+
+  $('.control-panel').prepend(choosenEl);
+}
+
+function createControls() {
+  createProjectionsChoosen();
+  createChosen('.control-panel', 'geoData', 'Geo data', 'Choose map ...', maps, void 0, function(e) {
     var id_ = $(this).attr('id');
     var value = $(this).val();
     var text = $(this).find('option:selected').text();
@@ -158,7 +201,7 @@ function createControls() {
       url: url,
       dataType: 'script',
       success: function() {
-
+        stage.suspend();
         var entry = chart;
         for (var i = 0, len = callChain.length; i < len; i++) {
           var obj = callChain[i];
@@ -169,17 +212,16 @@ function createControls() {
           }
         }
         chart.getSeries(0).data(generateData());
+        createProjectionsChoosen();
+        stage.resume();
       }
     });
   });
-  $('#geoData')
-      .val(maps['france'])
-      .trigger("chosen:updated");
 
   var form = $('<div class="form-horizontal"></div>');
   form.append('<div class="form-group">' +
       '<div class="col-xs-2"><label class="control-label" for="scale">Scale</label></div>' +
-      '<div class="col-xs-6"><input type="range" min=".0001" max="0.01" step=".00001" id="scale" class="form-control"></div>' +
+      '<div class="col-xs-6"><input type="range" step=".00001" id="scale" class="form-control"></div>' +
       '<div class="col-xs-4"><input value="1" id="scaleInp" class="form-control input-sm"/></div>' +
       '</div>');
   $('.control-panel').append(form);
@@ -187,6 +229,18 @@ function createControls() {
   var form = $('<div class="form-horizontal"></div>');
   form.append('<div class="form-group"><div class="col-xs-6"><input id="exportToGeoJSON" type="button" class="btn btn-success btn-xs" value="save"/></div></div>');
   $('.control-panel').append(form);
+
+  $('#geoData')
+      .val(maps['france'])
+      .trigger("chosen:updated");
+
+  var defaultScale = chart.geoData()['ac-tx'] && chart.geoData()['ac-tx']['default'] && chart.geoData()['ac-tx']['default']['scale'] ?
+      chart.geoData()['ac-tx']['default']['scale'] || anychart.charts.Map.DEFAULT_TX['default']['scale'] :
+      anychart.charts.Map.DEFAULT_TX['default']['scale'];
+
+  $('#scale').val(defaultScale);
+  $('#scale').attr({min: defaultScale / 10, max: defaultScale * 10})
+  $('#scaleInp').val(defaultScale);
 }
 
 function makeListeners() {
@@ -204,17 +258,18 @@ function makeListeners() {
     if (!selectedRegions.length) {
       $('#scale').val(defaultScale);
       $('#scaleInp').val(defaultScale);
-      $('#select_crs').val(defaultCrs);
+      $('#crs').val(chart.crs()).trigger("chosen:updated");;
     } else {
       var scaleFactor = e.point.scaleFactor();
-      var crs = e.point.crs();
+      var crs = e.point.crs()
 
       var prop = e.point.getFeatureProp();
       featureName = prop[chart.geoIdField()];
 
       $('#scale').val(scaleFactor);
+      $('#scale').attr({min: scaleFactor / 10, max: scaleFactor * 10})
       $('#scaleInp').val(scaleFactor);
-      $('#select_crs').val(crs);
+      $('#crs').val(crs).trigger("chosen:updated");
     }
 
     $('#featureId').text(featureName);
@@ -232,13 +287,15 @@ function makeListeners() {
       el.drag(true).cursor('hand');
 
       el.listenOnce('start', function(e) {
-        chart.crosshair(false);
-
         startX = e.clientX;
         startY = e.clientY;
 
         currentElProp = prop;
       }, false, prop);
+
+      el.listenOnce('drag', function() {
+        chart.crosshair(false);
+      });
 
       el.listenOnce('end', function(e) {
         stage.suspend();
@@ -247,8 +304,10 @@ function makeListeners() {
         var dx = e.clientX - startX;
         var dy = e.clientY - startY;
 
-        chart.translateFeature(this[chart.geoIdField()], dx, dy);
-        chart.geoData(chart.toGeoJSON());
+        if (dx || dy) {
+          chart.translateFeature(this[chart.geoIdField()], dx, dy);
+          chart.geoData(chart.toGeoJSON());
+        }
 
         stage.resume();
       }, false, prop);
@@ -271,13 +330,6 @@ function makeListeners() {
 
   $(document).mouseout(function(e) {
     $('#tooltip').html('').hide();
-  });
-
-  $('#select_crs').change(function(e) {
-    var crs = $('#select_crs option:selected').val();
-    var id = selectedRegions[0].properties[chart.geoIdField()];
-
-    chart.featureCrs(id, crs);
   });
 
   $('#exportToGeoJSON').click(function(e) {
