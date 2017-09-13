@@ -3,14 +3,15 @@
     <meta charset="utf-8">
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
 
-    <script src="../../../libs/closure-library/closure/goog/base.js"></script>
-    <script src="../../../src/deps.js"></script>
-    <script>
-      goog.require('anychart.bundle.entry');
-      goog.require('anychart.themes.defaultTheme.entry');
-    </script>
+    <!--<script src="../../../libs/closure-library/closure/goog/base.js"></script>-->
+    <!--<script src="../../../src/deps.js"></script>-->
+    <!--<script>-->
+      <!--goog.require('anychart.bundle.entry');-->
+      <!--goog.require('anychart.themes.defaultTheme.entry');-->
+    <!--</script>-->
 
-    <!--<script src="../../../out/anychart-bundle.min.js"></script>-->
+
+    <script src="../../../out/anychart-bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -22,13 +23,10 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/proj4-src.js"></script>
-    <!--<script src="temp.js"></script>-->
-    <!--<script src="map_like_hc.js"></script>-->
-    <!--<script src="map.js"></script>-->
     <script src="http://cdn.anychart.com/geodata/1.2.0/countries/france/france.js"></script>
+    <script src="https://rawgit.com/eligrey/FileSaver.js/master/FileSaver.js"></script>
 
     <script src="index.js"></script>
-    <script src="https://rawgit.com/eligrey/FileSaver.js/master/FileSaver.js"></script>
 
     <style>
         html, body, #container {
@@ -43,15 +41,13 @@
             position: absolute;
             left: 0;
             top: 0;
+            /*width: 25%;*/
             z-index: 100000;
         }
     </style>
 </head>
 <body>
-<div class="control-panel">
-
-</div>
-
+<div class="control-panel col-xs-3"></div>
 <div id="container"></div>
 </body>
 </html>

@@ -1,92 +1,68 @@
 <html>
-<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="actualBugJson actualBugXml SOMEFUCK anyMap"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="minorGrid area cartesian3d anyChart"/>
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
-    <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
+    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
     <script>
-      goog.require("anychart.modules.anychart_bundle");
-      goog.require("anychart.themes.defaultTheme");
+      goog.require("anychart.bundle.entry");
+      goog.require("anychart.themes.defaultTheme.entry");
     </script>
-    <script src="http://cat.anychart.com/static/sessions/11709/branch/out/local-cdn/geodata/v2/australia.js"></script>
-    <script src="http://cat.anychart.com/static/sessions/11709/branch/out/local-cdn/geodata/france.js"></script>
+
+
+    anytest.ACDVF = true;
     <script src="utils/anytest.min.js"></script>
-    <script src="http://cat.anychart.com/static/sessions/11709/branch/out/local-cdn/proj4.js"></script>
 </head>
 <body>
 <div id="container"></div>
+<img src="http://static.anychart.com/kitty.png" style="display:none;">
 </body>
 <script>
-  var randomExt = function(a, b) {
-    return Math.round(Math.random() * (b - a + 1) + a);
-  };
-  var chart1, def, series1, chart2, series2, point1, point2;
+  var chart0, chart2, chart3, chart4, chart5;
   anychart.onDocumentLoad(function() {
-    anytest.setUp(600, 600);
+    anytest.setUp(600, 610);
 
-    chart1 = anychart.map();
-    chart1.geoData('anychart.maps.australia');
+    chart4 = anychart.cartesian3d();
+    chart4.area([1, 4, 5, 7, 2]);
+    chart4.title('MinorGrid (index - 0, value - obj)');
+    chart4.bounds(new acgraph.math.Rect(310, 210, 290, 200));
+    chart4.xGrid()
+        .stroke('3 black');
+    chart4.yMinorGrid()
+//        .fill('none')
+        .palette(['green', 'pink', {
+          src: "http://static.anychart.com/kitty.png",
+          mode: "stretch",
+          opacity: '0.6'
+        }]);
+    chart4.xMinorGrid(0).stroke('red').isMinor(true);
+    anytest.drawInStage(chart4);
 
-    var dataSet = anychart.data.set([
-      {id: "AU.CT", value: '15', title: "Australian Capital Territory"},
-      {id: "AU.VI", value: 23, title: "Victoria"},
-      {id: "AU.WA", value: 86, title: "Western Australia"},
-      {id: "AU.QL", value: 16, title: "Queensland"},
-      {id: "AU.NS", value: 32, title: "New South Wales"},
-      {id: "AU.NT", value: 64, title: "Northern Territory"},
-      {id: "AU.TS", value: 28, title: "Tasmania"},
-      {id: "AU.SA", value: 45, title: "South Australian"}
-    ]);
-    var dataSetForSeries = dataSet.mapAs({id: "id"});
 
-    series1 = chart1.choropleth(dataSetForSeries);
-    chart1.geoIdField("code_hasc");
-    series1.labels().enabled(true).format(function() {
-      return this.getData('title');
-    });
-    chart1.bounds(0,0,'50%','100%');
-    anytest.drawInStage(chart1);
-
-    dataSet2 = anychart.data.set([]);
-    chart2 = anychart.map();
-    chart2.geoData('anychart.maps.france');
-    series2 = chart2.choropleth(dataSet2);
-    chart2.bounds('50%',0,'50%','100%');
-    anytest.drawInStage(chart2);
-
-    anytest.stageListen(function(){
-
-      anytest.step(function(){
-        var data = [];
-        var features = chart2.geoData()['features'];
-        for (var i = 0, len = features.length; i < len; i++) {
-          var feature = features[i];
-          if (feature['properties']) {
-            var id = feature['properties'][chart2.geoIdField()];
-            data.push({'id': id, 'title': feature['properties']['nom_cl'], 'value': randomExt(100, 1000)});
-          }
-        }
-        dataSet2.data(data);
+    anytest.stageListen(function() {
+      anytest.step(function() {
         anytest.CAT.getScreen();
       });
-      anytest.step(function(){
-        point1 = series1.getPoint(2);
-        point2 = series2.getPoint(2);
-        def1 =point1.crs();
-        def2 =point2.crs();
-        anytest.asserts.notEqual(point1.translation(), null);
-        anytest.asserts.notEqual(point2.translation(), null);
-        point1.crs(
-            "+proj=lcc +lat_1=46.8 +lat_0=46.8 +lon_0=2.337229166666667 +k_0=0.99987742 +x_0=600000 +y_0=2200000 +ellps=intl +towgs84=-87,-98,-121,0,0,0,0 +units=m +no_defs");
-        point2.crs(
-            "+proj=lcc +lat_1=46.8 +lat_0=46.8 +lon_0=2.337229166666667 +k_0=0.99987742 +x_0=600000 +y_0=2200000 +ellps=intl +towgs84=-87,-98,-121,0,0,0,0 +units=m +no_defs");
-        anytest.CAT.getScreen('afterDrawChangeCrsPoints', -1);
-        point1.crs(def1);
-        point2.crs(def2);
+      anytest.step(function() {
+        chart4.yMinorGrid().palette([{
+          src: "http://static.anychart.com/kitty.png",
+          mode: "stretch",
+          opacity: '0.6'
+        }, 'yellow']);
+//        anytest.CAT.getScreen('afterChangeMinorGridLayoult', -1);
+//        chart4.yMinorGrid().palette(['green', 'pink', {
+//          src: "http://static.anychart.com/kitty.png",
+//          mode: "stretch",
+//          opacity: '0.6'
+//        }]);
       });
       anytest.exit();
-    }).charts4modes('chart1', 'chart2');
+    }).charts4modes("chart0", "chart2", "chart3", "chart4", "chart5");
     stage.resume();
+    /*<< methods
+     anychart.charts.Cartesian3d.minorGrid
+     >>*/
   });
 </script>
 </html>
