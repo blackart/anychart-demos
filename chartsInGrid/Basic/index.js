@@ -158,7 +158,6 @@ function createChangesChart(data, container) {
   container[0].chart = sparkline;
 }
 
-
 $(document).ready(function() {
   anychart.licenseKey('test-key-32db1f79-cc9312c4');
 
