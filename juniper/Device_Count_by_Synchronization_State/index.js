@@ -35,7 +35,7 @@ anychart.onDocumentLoad(function() {
       for(var i = 0, len = seriesData.series.length; i < len; i++) {
         var settings = seriesData.series[i];
         var dataSet = anychart.data.set(settings.point);
-        var mappedData = dataSet.mapAs({"x": [0], "value": [1]}, {"x": "name", "value": "y"});
+        var mappedData = dataSet.mapAs({"x": "name", "value": "y"});
         var series = chart.column(mappedData);
         series
             .name(settings.name);
@@ -62,11 +62,9 @@ anychart.onDocumentLoad(function() {
         .left(30)
         .right(30);
 
-    chart.grid(0)
-        .oddFill('#F9F9F9')
-        .evenFill('#FFF');
-    chart.grid(1)
-        .layout("vertical");
+    chart.xGrid(0)
+        .palette(['#F9F9F9', '#FFF'])
+    chart.yGrid(0)
 
     chart.xAxis()
         .title('Device Synchronizaton State')

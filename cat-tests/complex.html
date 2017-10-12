@@ -1,84 +1,68 @@
+<!doctype html>
 <html>
-<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="anyMap"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="legend anyChart anyGantt anyStock anyMap"/>
 
-
-    <script src="utils/anytest.min.js"></script>
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
     <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
     <script>
       goog.require("anychart.bundle.entry");
       goog.require("anychart.themes.defaultTheme.entry");
-      anytest.ACDVF = true;
+      window.ACDVF = true;
     </script>
-    <script src="http://cat.anychart.com/static/sessions/12710/branch/out/local-cdn/proj4.js"></script>
-    <script src="http://cat.anychart.com/static/sessions/12710/branch/out/local-cdn/geodata/v2/australia.js"></script>
+    <script src="utils/anytest.min.js"></script>
+
 </head>
 <body>
-<div id="container"></div>
+<div id="legendsBody" style="width: 70px"></div>
+<div id="container" style="width: 800px; height: 600px;"></div>
 </body>
 <script>
-  var chart;
+  var chart, legend0;
   anychart.onDocumentLoad(function() {
-    anytest.setUp();
-    var dataSet1 = anychart.data.set([
-      {id: "AU.CT", value: 15, title: "Australian Capital Territory"},
-      {id: "AU.VI", value: 23, title: "Victoria"},
-      {id: "AU.WA", value: 86, title: "Western Australia"},
-      {id: "AU.QL", value: 16, title: "Queensland"},
-      {id: "AU.NS", value: 32, title: "New South Wales"},
-      {id: "AU.NT", value: 64, title: "Northern Territory"},
-      {id: "AU.TS", value: 28, title: "Tasmania"},
-      {id: "AU.SA", value: 45, title: "South Australian"}
-    ]);
-    var dataSetForSeries1 = dataSet1.mapAs({id: "id"});
+    anytest.init();
+    anytest.description('Тест не будет проходить режимы из-за standalone legend');
+    var stage = acgraph.create('container', '100%', '100%');
+    stage.suspend();
+//
+    chart = anychart.line();
+    chart.line([1, 3, 2]);
+//    chart.line([3, 1, 2]);
+//    chart.line([2, 1, 3]);
+    chart.yAxis(false).xAxis(false);
+    chart.container(stage).draw();
 
-    chart = anychart.map();
-    chart.geoData('anychart.maps.australia');
-    chart.colorRange(true);
-    chart.colorRange().marker().type("diamond");
+    var legendStage = anychart.graphics.create('legendsBody', "100%", "100%");
+    legend0 = anychart.standalones.legend();
+    legend0.position("left").align("top").itemsLayout("vertical").padding("10px");
+    legend0.wordWrap("normal");
+    legend0.textOverflow('...');
+    legend0.itemsSource([chart]);
+    legend0.background("#CFD8DC"); // just to see the bounds
 
-    var currentColorScale = anychart.scales.linearColor("orange", "yellow");
-    currentColorScale.minimum(30);
-    chart.choropleth(dataSetForSeries1)
-        .geoIdField("code_hasc")
-        .colorScale(currentColorScale);
+    legend0.container(legendStage);
+    legend0.draw();
 
-//    chart = anychart.cartesian();
-//    chart.line([1,2,3]);
-    
-    anytest.drawInStage(chart);
-
-    anytest.stageListen(function(){
-//      console.log(chart.toXml());
-//      console.log(JSON.stringify(chart.toJson()));
-
-      anytest.step(function(){
-        anytest.CAT.getScreen();
-      });
-//      anytest.step(function(){
-//        anytest.CAT.action(149, 258, 'mousemove');
+//    anytest.chartListen(chart, function() {
+//      anytest.step(function () {
+//        anytest.CAT.getScreen();
 //      });
-//      anytest.step(function(){
-//        anytest.CAT.getScreen('hoverPoint', -1);
+//      anytest.step(function () {
+//        legend0.textOverflow('');
 //      });
-//      anytest.step(function(){
-//        anytest.CAT.action(10, 10, 'mousemove');
+//      anytest.step(function () {
+//        anytest.CAT.getScreen('AfterDrawEllipsis', -1);
 //      });
-//      anytest.step(function(){
-//        anytest.CAT.action(149, 258, 'click');
+//      anytest.step(function () {
+//        legend0.textOverflow('...');
 //      });
-//      anytest.step(function(){
-//        anytest.CAT.getScreen('selectPoint', -1, 'hoverPoint');
+//      anytest.step(function () {
+//        anytest.CAT.getScreen('BackToInitialState', 1);
 //      });
-//      anytest.step(function(){
-//        anytest.CAT.action(10, 10);
-//      });
-      anytest.exit();
-    }).charts4modes('chart');
-
-//        anytest.createPanel('interactive');
+//      anytest.exit();
+//    });
     stage.resume();
   });
 </script>
