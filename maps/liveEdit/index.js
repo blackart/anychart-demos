@@ -68,7 +68,7 @@ function getMaps(list) {
 
 function createChosen(parent, id, label, description, items, opt_formatter, opt_callback) {
   var form = $('<div class="form-horizontal"></div>');
-  form.append('<div class="form-group"><div class="col-xs-6"><label class="control-label" for="' + id + '">' + label + '</label></div><div class="col-xs-6"><select class="chosen-select" data-placeholder="' + description + '" id="' + id + '"></select></div></div>');
+  form.append('<div class="form-group"><div class="col-xs-3"><label class="control-label" for="' + id + '">' + label + '</label></div><div class="col-xs-9"><select class="chosen-select" data-placeholder="' + description + '" id="' + id + '"></select></div></div>');
   $(parent).append(form);
 
   var chosen = $('#' + id);
@@ -220,16 +220,21 @@ function createControls() {
 
   var form = $('<div class="form-horizontal"></div>');
   form.append('<div class="form-group">' +
-      '<div class="col-xs-2"><label class="control-label" for="scale">Scale</label></div>' +
-      '<div class="col-xs-6"><input type="range" step=".00001" id="scale" class="form-control"></div>' +
+      '<div class="col-xs-3"><label class="control-label" for="scale">Scale</label></div>' +
+      '<div class="col-xs-5"><input type="range" step=".00001" id="scale" class="form-control"></div>' +
       '<div class="col-xs-4"><input value="1" id="scaleInp" class="form-control input-sm"/></div>' +
       '</div>');
   $('.control-panel').append(form);
 
   var form = $('<div class="form-horizontal"></div>');
-  form.append('<div class="form-group"><div class="col-xs-6"><input id="exportToGeoJSON" type="button" class="btn btn-success btn-xs" value="save"/></div></div>');
+  form.append('<div class="form-group">' +
+      '<div class="col-xs-3"><input id="exportToGeoJSON" type="button" class="btn btn-success btn-xs" value="save"/></div>' +
+      '<div class="col-xs-9">' +
+      '<input id="undoBtn" type="button" class="btn btn-success btn-xs" value="undo"/><input id="redoBtn" type="button" class="btn btn-success btn-xs" value="redo"/>' +
+      '</div>' +
+      '</div>');
   $('.control-panel').append(form);
-
+                     
   $('#geoData')
       .val(maps['france'])
       .trigger("chosen:updated");

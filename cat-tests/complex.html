@@ -1,68 +1,85 @@
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="minorGrid area cartesian3d anyChart"/>
+<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="anyMap"/>
+
+
+    <script src="utils/anytest.min.js"></script>
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
-    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
+    <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
     <script>
       goog.require("anychart.bundle.entry");
       goog.require("anychart.themes.defaultTheme.entry");
+      anytest.ACDVF = true;
     </script>
-
-
-    anytest.ACDVF = true;
-    <script src="utils/anytest.min.js"></script>
+    <script src="http://cat.anychart.com/static/sessions/12710/branch/out/local-cdn/proj4.js"></script>
+    <script src="http://cat.anychart.com/static/sessions/12710/branch/out/local-cdn/geodata/v2/australia.js"></script>
 </head>
 <body>
 <div id="container"></div>
-<img src="http://static.anychart.com/kitty.png" style="display:none;">
 </body>
 <script>
-  var chart0, chart2, chart3, chart4, chart5;
+  var chart;
   anychart.onDocumentLoad(function() {
-    anytest.setUp(600, 610);
+    anytest.setUp();
+    var dataSet1 = anychart.data.set([
+      {id: "AU.CT", value: 15, title: "Australian Capital Territory"},
+      {id: "AU.VI", value: 23, title: "Victoria"},
+      {id: "AU.WA", value: 86, title: "Western Australia"},
+      {id: "AU.QL", value: 16, title: "Queensland"},
+      {id: "AU.NS", value: 32, title: "New South Wales"},
+      {id: "AU.NT", value: 64, title: "Northern Territory"},
+      {id: "AU.TS", value: 28, title: "Tasmania"},
+      {id: "AU.SA", value: 45, title: "South Australian"}
+    ]);
+    var dataSetForSeries1 = dataSet1.mapAs({id: "id"});
 
-    chart4 = anychart.cartesian3d();
-    chart4.area([1, 4, 5, 7, 2]);
-    chart4.title('MinorGrid (index - 0, value - obj)');
-    chart4.bounds(new acgraph.math.Rect(310, 210, 290, 200));
-    chart4.xGrid()
-        .stroke('3 black');
-    chart4.yMinorGrid()
-//        .fill('none')
-        .palette(['green', 'pink', {
-          src: "http://static.anychart.com/kitty.png",
-          mode: "stretch",
-          opacity: '0.6'
-        }]);
-    chart4.xMinorGrid(0).stroke('red').isMinor(true);
-    anytest.drawInStage(chart4);
+    chart = anychart.map();
+    chart.geoData('anychart.maps.australia');
+    chart.colorRange(true);
+    chart.colorRange().marker().type("diamond");
 
+    var currentColorScale = anychart.scales.linearColor("orange", "yellow");
+    currentColorScale.minimum(30);
+    chart.choropleth(dataSetForSeries1)
+        .geoIdField("code_hasc")
+        .colorScale(currentColorScale);
 
-    anytest.stageListen(function() {
-      anytest.step(function() {
+//    chart = anychart.cartesian();
+//    chart.line([1,2,3]);
+    
+    anytest.drawInStage(chart);
+
+    anytest.stageListen(function(){
+//      console.log(chart.toXml());
+//      console.log(JSON.stringify(chart.toJson()));
+
+      anytest.step(function(){
         anytest.CAT.getScreen();
       });
-      anytest.step(function() {
-        chart4.yMinorGrid().palette([{
-          src: "http://static.anychart.com/kitty.png",
-          mode: "stretch",
-          opacity: '0.6'
-        }, 'yellow']);
-//        anytest.CAT.getScreen('afterChangeMinorGridLayoult', -1);
-//        chart4.yMinorGrid().palette(['green', 'pink', {
-//          src: "http://static.anychart.com/kitty.png",
-//          mode: "stretch",
-//          opacity: '0.6'
-//        }]);
-      });
+//      anytest.step(function(){
+//        anytest.CAT.action(149, 258, 'mousemove');
+//      });
+//      anytest.step(function(){
+//        anytest.CAT.getScreen('hoverPoint', -1);
+//      });
+//      anytest.step(function(){
+//        anytest.CAT.action(10, 10, 'mousemove');
+//      });
+//      anytest.step(function(){
+//        anytest.CAT.action(149, 258, 'click');
+//      });
+//      anytest.step(function(){
+//        anytest.CAT.getScreen('selectPoint', -1, 'hoverPoint');
+//      });
+//      anytest.step(function(){
+//        anytest.CAT.action(10, 10);
+//      });
       anytest.exit();
-    }).charts4modes("chart0", "chart2", "chart3", "chart4", "chart5");
+    }).charts4modes('chart');
+
+//        anytest.createPanel('interactive');
     stage.resume();
-    /*<< methods
-     anychart.charts.Cartesian3d.minorGrid
-     >>*/
   });
 </script>
 </html>

@@ -10,7 +10,7 @@ function addDeviceDiscoveryProfile() {
       var json = anychart.utils.xml2json(d);
 
       var dataSet = anychart.data.set(json.point);
-      var data = dataSet.mapAs({"x": [0], "value": [1]}, {"x": "name", "value": "y"});
+      var data = dataSet.mapAs({"x": "name", "value": "y"});
 
       var series = chart.column(data);
       series.tooltip().allowLeaveChart(true).allowLeaveStage(true)
