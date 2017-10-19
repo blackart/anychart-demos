@@ -135,7 +135,7 @@ anychart.onDocumentLoad(function() {
       .offsetY(0)
       //.offsetX(15)
       .enabled(true)
-      .textFormatter(function() {return this.x + ' ' + this.index});
+      .format(function() {return this.x + ' ' + this.index});
 
   chart.credits(false);
   chart.legend(false);
