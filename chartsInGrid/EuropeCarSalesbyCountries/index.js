@@ -233,7 +233,7 @@ function createGrossLossChart(data, container) {
 function getDefaultMapData() {
   var dataSet = anychart.data.set(data);
   dataSet.remove(0);
-  return dataSet.mapAs(void 0, {'id': 'country', 'value': 'total2015'});
+  return dataSet.mapAs({'id': 'country', 'value': 'total2015'});
 }
 
 $(document).ready(function() {
@@ -275,8 +275,9 @@ $(document).ready(function() {
       .maximumX(20)
       .minimumY(50)
       .maximumY(60);
+
   var chSeries = map.choropleth(getDefaultMapData());
-  chSeries.colorScale(anychart.scales.linearColor(colors));
+  var colorScale = chSeries.colorScale(anychart.scales.linearColor(colors));
   map.container('map').draw();
   
   //configure table

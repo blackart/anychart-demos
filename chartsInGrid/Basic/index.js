@@ -130,7 +130,7 @@ function createValuesChart(data, container) {
       })
       .allowLeaveStage(true);
   sparkline
-      .type('column')
+      .seriesType('column')
       .padding(0, '10%', 0, '10%')
       .background(null)
       .height('100%');
@@ -148,7 +148,7 @@ function createChangesChart(data, container) {
       })
       .allowLeaveStage(true);
   sparkline
-      .type('column')
+      .seriesType('column')
       .height('100%')
       .background(null)
       .padding(0, '10%', 0, '10%');
@@ -157,7 +157,6 @@ function createChangesChart(data, container) {
 
   container[0].chart = sparkline;
 }
-
 
 $(document).ready(function() {
   anychart.licenseKey('test-key-32db1f79-cc9312c4');
@@ -258,4 +257,6 @@ $(document).ready(function() {
     chartContainer.appendTo(node);
     createChangesChart(this.data(), chartContainer);
   });
+
+  var stage = anychart.graphics.create('example', '0px', '0px');
 });

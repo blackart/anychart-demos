@@ -103,10 +103,7 @@ function createDynamicsChart(scale, data, container) {
   ];
   chart = anychart.bar(chartData);
   chart.tooltip()
-      // .title(false)
-      // .separator(false)
       .titleFormat(function() {
-        console.log(this);
         return this.getData('country')
       })
       .format(function() {
