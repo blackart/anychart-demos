@@ -118,24 +118,27 @@ anychart.onDocumentLoad(function() {
   chart = anychart.pie(seriesData2)
       .container('container')
       .innerRadius('33%')
-      .outsideLabelsSpace('30%')
+      .outsideLabelsSpace(0)
       .connectorLength('20%')
-      //.outsideLabelsCriticalAngle(180)
+      // .outsideLabelsCriticalAngle(90)
       .connectorStroke('black .3', 1.5, '4 2')
-      .radius('50%')
-      .startAngle(259)
+      // .radius('30%')
+      .startAngle(201)
       .explode(55);
   chart.labels().position('outside');
+
+  chart.explodeSlices([54,55,56,57,58,59,60,61,62,63,64,65,66,68]);
+  chart.explodeSlices([20, 35,46,47]);
 
 
   chart.title()
       .text('ACME Corp. apparel sales through different retail channels');
 
   chart.labels()
-      .offsetY(0)
+      // .offsetY(0)
       //.offsetX(15)
       .enabled(true)
-      .textFormatter(function() {return this.x + ' ' + this.index});
+      .format(function() {return this.x + ' ' + this.index});
 
   chart.credits(false);
   chart.legend(false);
