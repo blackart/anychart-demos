@@ -123,7 +123,7 @@ anychart.onDocumentLoad(function() {
       //.outsideLabelsCriticalAngle(180)
       .connectorStroke('black .3', 1.5, '4 2')
       .radius('50%')
-      .startAngle(259)
+      .startAngle(191)
       .explode(55);
   chart.labels().position('outside');
 
