@@ -1,69 +1,98 @@
-<!doctype html>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="legend anyChart anyGantt anyStock anyMap"/>
+<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="pie labelsFactory  anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
-    <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
+    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
     <script>
       goog.require("anychart.bundle.entry");
       goog.require("anychart.themes.defaultTheme.entry");
       window.ACDVF = true;
     </script>
-    <script src="utils/anytest.min.js"></script>
 
+    <script src="utils/anytest.min.js"></script>
 </head>
 <body>
-<div id="legendsBody" style="width: 70px"></div>
-<div id="container" style="width: 800px; height: 600px;"></div>
+<div id="container"></div>
 </body>
 <script>
-  var chart, legend0;
+  var chart1, chart2, chart3, chart4;
   anychart.onDocumentLoad(function() {
-    anytest.init();
-    anytest.description('Тест не будет проходить режимы из-за standalone legend');
-    var stage = acgraph.create('container', '100%', '100%');
-    stage.suspend();
-//
-    chart = anychart.line();
-    chart.line([1, 3, 2]);
-//    chart.line([3, 1, 2]);
-//    chart.line([2, 1, 3]);
-    chart.yAxis(false).xAxis(false);
-    chart.container(stage).draw();
+    anytest.setCheckMsg("Info: 3 Description: It is not recommended to use more then 5 - 7 points in Pie Chart." +
+        " Currently there are '8' points. Expert opinion at http://cdn.anychart.com/warning/3.html");
+    anytest.setUp(700, 700).description('');
+    var dataSet = [
+      1, 5, 10, 3, 7, 43, 23, 7
+    ];
 
-    var legendStage = anychart.graphics.create('legendsBody', "100%", "100%");
-    legend0 = anychart.standalones.legend();
-    legend0.position("left").align("top").itemsLayout("vertical").padding("10px");
-    legend0.wordWrap("normal");
-    legend0.textOverflow('...');
-    legend0.itemsSource([chart]);
-    legend0.background("#CFD8DC"); // just to see the bounds
+    chart1 = anychart.pie();
+    chart1.labels().position('outside');
+    chart1.data(dataSet)
+        .connectorLength(3)
+        .legend(null)
+        .bounds(0, '50%', '50%', '50%')
+        .labels()
+        .fontColor('black');
+    chart1.title('connectorLength 3');
 
-    legend0.container(legendStage);
-    legend0.draw();
+    anytest.drawInStage(chart1);
 
-//    anytest.chartListen(chart, function() {
-//      anytest.step(function () {
-//        anytest.CAT.getScreen();
+    chart2 = anychart.pie();
+    chart2.labels().position('inside');
+    chart2.data(dataSet)
+        .legend(null)
+        .connectorLength('20.5px')
+        .bounds('50%', 0, '50%', '50%')
+        .labels().fontColor('black');
+    chart2.title('connectorLength 20.5px');
+
+    anytest.drawInStage(chart2);
+
+    chart3 = anychart.pie();
+    chart3.labels().position('outside');
+    chart3.data(dataSet)
+        .legend(null)
+        .bounds('50%', '50%', '50%', '50%')
+        .labels().fontColor('black');
+    chart3.connectorLength('7%');
+    chart3.title('connectorLength 7%');
+    anytest.drawInStage(chart3);
+
+    chart4 = anychart.pie();
+    chart4.labels().position('outside');
+    chart4.data(dataSet)
+        .legend(null)
+        .connectorLength('60%')
+        .bounds(0, 0, '50%', '50%')
+        .labels().fontColor('black');
+    chart4.title('connectorLength 60%');
+
+    anytest.drawInStage(chart4);
+
+    anytest.stageListen(function() {
+      anytest.step(function() {
+        anytest.CAT.getScreen();
+      });
+      anytest.step(function() {
+        chart2.connectorLength('50px');
+        anytest.CAT.getScreen('afterDrawChangeConnectorLength', -1);
+        chart2.connectorLength('20.5px');
+      });
+      anytest.step(function() {
+        chart4.labels().enabled(false);
+        anytest.CAT.getScreen('labelsFalseChart4', -1);
+      });
+//      anytest.step(function() {
+//        chart4.labels().enabled(true);
+//        anytest.CAT.getScreen('backToInitialState', 1);
 //      });
-//      anytest.step(function () {
-//        legend0.textOverflow('');
-//      });
-//      anytest.step(function () {
-//        anytest.CAT.getScreen('AfterDrawEllipsis', -1);
-//      });
-//      anytest.step(function () {
-//        legend0.textOverflow('...');
-//      });
-//      anytest.step(function () {
-//        anytest.CAT.getScreen('BackToInitialState', 1);
-//      });
-//      anytest.exit();
-//    });
+      anytest.exit();
+    }).charts4modes("chart1", "chart2", "chart3", "chart4");
     stage.resume();
+    /*<< methods
+     anychart.charts.Pie.connectorLength
+     >>*/
   });
 </script>
 </html>

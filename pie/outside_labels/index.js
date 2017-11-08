@@ -45,11 +45,11 @@ anychart.onDocumentLoad(function() {
     {x: 'All other outlets', y: pointData2[2]},
     {x: 'All other outlets', y: pointData2[2]},
 
-    {x: 'Department Stores', hoverLabel: {enabled: true}, y: pointData2[1], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none', hoverFill: 'pink'},
+    {x: 'Department Stores', hoverLabel: {enabled: true}, y: pointData2[1], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none', 'hoverFill': 'black', selected: {explode: '1%'}, hoverLabel: {'fontColor': 'red'}},
 
 
     //{x: 'Department Stores', y: pointData2[0]},
-    {x: 'Department Stores', label: {enabled: true}, y: pointData2[0], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none', hoverFill: 'pink'},
+    {x: 'Department Stores', label: {enabled: true}, y: pointData2[0], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none'},
 
     {x: 'All \nother \noutlets', y: pointData2[2]},
     {x: 'All other outlets', y: pointData2[2]},
@@ -118,15 +118,21 @@ anychart.onDocumentLoad(function() {
   chart = anychart.pie(seriesData2)
       .container('container')
       .innerRadius('33%')
-      .outsideLabelsSpace('30%')
+      // .outsideLabelsSpace('30%')
       .connectorLength('20%')
       //.outsideLabelsCriticalAngle(180)
       .connectorStroke('black .3', 1.5, '4 2')
       .radius('50%')
-      .startAngle(191)
-      .explode(55);
+      // .startAngle(284)
+      .startAngle(179)
+      // .margin(0)
+      // .padding(0)
+      // .explode(0);
   chart.labels().position('outside');
 
+  chart.hovered().labels().fontWeight('bold');
+  chart.selected().labels().fontWeight('bold');
+  // chart.selected().explode(0);
 
   chart.title()
       .text('ACME Corp. apparel sales through different retail channels');

@@ -1,6 +1,7 @@
 <html>
-<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="column anyChart"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="linearGauge anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -13,49 +14,98 @@
     <script src="utils/anytest.min.js"></script>
 
 
-    <style>
-        #container2 {
-            float: left;
-            width: 400px;
-            height: 300px;
-            border: 1px solid #000099;
-        }
-    </style>
 </head>
 <body>
 <div id="container"></div>
-<div id="container2"></div>
 </body>
-<script>
+<script type="text/javascript">
+  var chart0, chart1, chart2, chart3;
   anychart.onDocumentLoad(function() {
-    anytest.init();
-    chart = anychart.column();
-    chart.column([
-      ['A1' , 3.6],
-      ['A2' , 0],
-      ['A3' , 5.5],
-      ['A4' , 9.2],
-      ['A5' , 10.1]
+    anytest.setUp(400, 600);
+    var dataSet = anychart.data.set([
+      {value: 90.60},
+      {low: 20, high: 75},
+      {value: 15},
+      {low: 37, high: 45},
+      {value: 50},
+      10
     ]);
-    chart.container('container');
+    chart0 = anychart.gauges.linear();
+    chart0.hatchFillPalette(["divot"]);
+    chart0.data(dataSet).axis();
+    chart0.thermometer().dataIndex(0).hatchFill(true);
+    chart0.rangeBar().dataIndex(1).hatchFill(false);
+    chart0.marker().dataIndex(2).hatchFill(true);
+    chart0.bounds(0, 0, '50%', '50%');
+    anytest.drawInStage(chart0);
 
-    var flag = 0;
-    anytest.chartListen(chart, function() {
-      if (flag == 1) {
-        anytest.step(function(){
-          anytest.CAT.getScreen();
-        });
-        anytest.exit();
-      } else {
-        anytest.step(function(){
-//          chart.container('container2');
-//          chart.draw();
-        });
-      }
-      flag++;
-    }, false);
+    chart1 = anychart.gauges.thermometer();
+    hatchFillPalette1 = anychart.palettes.hatchFills();
+    chart1.hatchFillPalette(hatchFillPalette1);
+    chart1.data(dataSet).axis();
+    chart1.thermometer().dataIndex(0);
+    chart1.rangeBar().dataIndex(1).hatchFill(true);
+    chart1.marker().dataIndex(2).hatchFill(true);
+    chart1.bounds('50%', 0, '50%', '50%');
+    anytest.drawInStage(chart1);
 
-    chart.draw();
+    chart2 = anychart.gauges.led();
+    var hatchFillPalette2 = anychart.palettes.hatchFills(["divot", "grid", "forward-diagonal"]);
+    chart2.hatchFillPalette(hatchFillPalette2);
+    chart2.data(dataSet).axis();
+    chart2.bar().dataIndex(0).hatchFill(true);
+    chart2.led().dataIndex(4).hatchFill(true);
+    chart2.marker().dataIndex(2).hatchFill(true);
+    chart2.bounds( 0, '50%', '50%', '50%');
+    anytest.drawInStage(chart2);
+
+    chart3 = anychart.gauges.tank();
+    chart3.hatchFillPalette(["divot", 'weave', 'forward-diagonal']);
+    chart3.data(dataSet).axis();
+    chart3.thermometer().dataIndex(2).hatchFill(true);
+    chart3.rangeBar().dataIndex(3).hatchFill(true);
+    chart3.tank().dataIndex(5).hatchFill(true);
+    chart3.bounds('50%', '50%', '50%', '50%');
+    anytest.drawInStage(chart3);
+
+    anytest.stageListen(function() {
+      anytest.step(function() {
+        anytest.CAT.getScreen();
+      });
+      anytest.step(function() {
+        chart3.hatchFillPalette(["checker-board", 'horizontal-brick', 'plaid']);
+        anytest.CAT.getScreen('afterDrawHatchFillPaletteDifferent', -1);
+      });
+      anytest.step(function() {
+        chart3.hatchFillPalette(['solid-diamond']);
+        anytest.CAT.getScreen('afterDrawHatchFillPaletteNew', -1, 'afterDrawHatchFillPaletteDifferent');
+      });
+      anytest.step(function() {
+        chart3.hatchFillPalette(["divot", 'weave', 'forward-diagonal']);
+        anytest.CAT.getScreen('backToInitialState', 1);
+      });
+      anytest.exit();
+    }).charts4modes("chart0", "chart1", "chart2", "chart3");
+    stage.resume();
+    /*« methods
+     anychart.gauges.linear
+     anychart.gauges.thermometer
+     anychart.gauges.led
+     anychart.gauges.tank
+     anychart.core.VisualBaseWithBounds.bounds
+     anychart.charts.LinearGauge.data
+     anychart.charts.LinearGauge.axis
+     anychart.charts.LinearGauge.bar
+     anychart.charts.LinearGauge.marker
+     anychart.charts.LinearGauge.tank
+     anychart.charts.LinearGauge.rangeBar
+     anychart.charts.LinearGauge.thermometer
+     anychart.charts.LinearGauge.led
+     anychart.charts.LinearGauge.hatchFillPalette
+     anychart.core.linearGauge.pointers.Base.hatchFill
+     anychart.palettes.hatchFills
+     »*/
   });
+
 </script>
 </html>
