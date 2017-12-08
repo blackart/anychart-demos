@@ -1,97 +1,117 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="pie labelsFactory  anyChart"/>
+    <meta name="x-cat-tags" content="pie  anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
     <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
     <script>
-      goog.require("anychart.bundle.entry");
-      goog.require("anychart.themes.defaultTheme.entry");
+      goog.require('anychart.themes.defaultTheme');
+      goog.require('anychart.modules.anychart_bundle');
       window.ACDVF = true;
     </script>
-
     <script src="utils/anytest.min.js"></script>
+
+
 </head>
 <body>
 <div id="container"></div>
 </body>
 <script>
-  var chart1, chart2, chart3, chart4;
+  var chart4, chart1, chart2, chart3;
   anychart.onDocumentLoad(function() {
-    anytest.setCheckMsg("Info: 3 Description: It is not recommended to use more then 5 - 7 points in Pie Chart." +
-        " Currently there are '8' points. Expert opinion at http://cdn.anychart.com/warning/3.html");
-    anytest.setUp(700, 700).description('');
-    var dataSet = [
-      1, 5, 10, 3, 7, 43, 23, 7
-    ];
+    anytest.setUp(500, 500);
 
-    chart1 = anychart.pie();
-    chart1.labels().position('outside');
-    chart1.data(dataSet)
-        .connectorLength(3)
-        .legend(null)
-        .bounds(0, '50%', '50%', '50%')
-        .labels()
-        .fontColor('black');
-    chart1.title('connectorLength 3');
+    dataSet = anychart.data.set([
+      {name: 'Chrome', value: 59.2},
+      {name: 'IE', value: 8.9},
+      {name: 'Firefox', value: 24.9},
+      {name: 'Safari', value: 3.8},
+      {name: 'Opera', value: 1.8},
+      {name: 'Other', value: 1.4}
+    ]);
 
-    anytest.drawInStage(chart1);
+    console.log(111);
 
-    chart2 = anychart.pie();
-    chart2.labels().position('inside');
-    chart2.data(dataSet)
-        .legend(null)
-        .connectorLength('20.5px')
-        .bounds('50%', 0, '50%', '50%')
-        .labels().fontColor('black');
-    chart2.title('connectorLength 20.5px');
-
-    anytest.drawInStage(chart2);
-
-    chart3 = anychart.pie();
-    chart3.labels().position('outside');
-    chart3.data(dataSet)
-        .legend(null)
-        .bounds('50%', '50%', '50%', '50%')
-        .labels().fontColor('black');
-    chart3.connectorLength('7%');
-    chart3.title('connectorLength 7%');
-    anytest.drawInStage(chart3);
-
-    chart4 = anychart.pie();
-    chart4.labels().position('outside');
-    chart4.data(dataSet)
-        .legend(null)
-        .connectorLength('60%')
-        .bounds(0, 0, '50%', '50%')
-        .labels().fontColor('black');
-    chart4.title('connectorLength 60%');
-
+    chart4 = anychart.pie(dataSet);
+//    chart4.fill({keys: ['green', 'red'], mode: false, angle: 80});
+//    chart4.labels(false);
+//    chart4.title('fill({keys:[green, red],\n mode: false, angle: 80})');
+    chart4.bounds(0, 0, '50%', '50%');
     anytest.drawInStage(chart4);
 
+//    chart1 = anychart.pie(dataSet);
+//    chart1.fill(['blue .2', 'gray'], 0.6, 0.7, null, 1, .5, .3);
+//    chart1.labels(false);
+//    chart1.title('fill([blue .2, gray], 0.6, 0.7,\n null, 1, .5, .3)');
+//    chart1.bounds('50%', 0, '50%', '50%');
+//    anytest.drawInStage(chart1);
+//
+//    chart2 = anychart.pie([20, 40, 10, 20]);
+//    chart2.hoverFill('black .6');
+//    chart2.labels(false);
+//    chart2.title('stroke(orange, 4, 15)');
+//    chart2.bounds(0, '50%', '50%', '50%');
+//    anytest.drawInStage(chart2);
+//
+//    chart3 = anychart.pie([20, 40, 10, 20]);
+//    chart3.hoverFill(['black', 'yellow', 'blue']);
+//    chart3.labels(false);
+//    chart3.title('stroke([black, yellow, blue], 3)');
+//    chart3.bounds('50%', '50%', '50%', '50%');
+//        anytest.createPanel('interactive');
     anytest.stageListen(function() {
-      anytest.step(function() {
-        anytest.CAT.getScreen();
-      });
-      anytest.step(function() {
-        chart2.connectorLength('50px');
-        anytest.CAT.getScreen('afterDrawChangeConnectorLength', -1);
-        chart2.connectorLength('20.5px');
-      });
-      anytest.step(function() {
-        chart4.labels().enabled(false);
-        anytest.CAT.getScreen('labelsFalseChart4', -1);
-      });
 //      anytest.step(function() {
-//        chart4.labels().enabled(true);
-//        anytest.CAT.getScreen('backToInitialState', 1);
+//        anytest.CAT.getScreen();
 //      });
-      anytest.exit();
-    }).charts4modes("chart1", "chart2", "chart3", "chart4");
+//      anytest.step(function() {
+//        anytest.CAT.action(138, 418, 'mousemove');
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(383, 418, 'mousemove');
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.getScreen('hoverFill', -1);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(138, 418, 'mousemove');
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(383, 418, 'mousemove');
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(0, 0, 'mousemove');
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.getScreen('unhover', 1);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(354, 372, 'mousemove');
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.getScreen('notChangeHoverFill', -1);
+//      });
+//      anytest.step(function() {
+//        chart3.hoverFill(['green', 'yellow', 'blue']);
+//        anytest.CAT.action(0, 0, 'mousemove');
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(354, 372, 'mousemove');
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.getScreen('afterDrawChangeHoverFill', -1, 'notChangeHoverFill');
+//      });
+//      anytest.step(function() {
+//        chart3.hoverFill(['black', 'yellow', 'blue']);
+//        anytest.CAT.action(0, 0, 'mousemove');
+//      });
+//      anytest.exit();
+    }).drawInStage(chart3);
+//    anytest.charts4modes('chart1', 'chart2', 'chart3', 'chart4');
     stage.resume();
     /*<< methods
-     anychart.charts.Pie.connectorLength
+     anychart.charts.Pie.fill
+     anychart.charts.Pie.hoverFill
      >>*/
   });
 </script>

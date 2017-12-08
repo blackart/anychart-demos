@@ -117,20 +117,21 @@ anychart.onDocumentLoad(function() {
 
   chart = anychart.pie(seriesData2)
       .container('container')
-      .innerRadius('33%')
+      .innerRadius('80%')
       // .outsideLabelsSpace('30%')
       .connectorLength('20%')
       //.outsideLabelsCriticalAngle(180)
       .connectorStroke('black .3', 1.5, '4 2')
-      .radius('50%')
+      // .radius('50%')
       // .startAngle(284)
       .startAngle(179)
       // .margin(0)
       // .padding(0)
       // .explode(0);
-  chart.labels().position('outside');
+  // chart.labels().position('outside');
 
-  chart.hovered().labels().fontWeight('bold');
+  chart.hovered()
+      .labels().fontWeight('bold');
   chart.selected().labels().fontWeight('bold');
   // chart.selected().explode(0);
 
@@ -143,8 +144,13 @@ anychart.onDocumentLoad(function() {
       .enabled(true)
       .format(function() {return this.x + ' ' + this.index});
 
+  chart.tooltip().titleFormat('{%Value}')
+
   chart.credits(false);
-  chart.legend(false);
+  chart.legend().itemsFormat('{%index}')
+
+
+  chart.centerContent();
 
   chart.draw();
 
