@@ -45,11 +45,11 @@ anychart.onDocumentLoad(function() {
     {x: 'All other outlets', y: pointData2[2]},
     {x: 'All other outlets', y: pointData2[2]},
 
-    {x: 'Department Stores', hoverLabel: {enabled: true}, y: pointData2[1], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none', hoverFill: 'pink'},
+    {x: 'Department Stores', hoverLabel: {enabled: true}, y: pointData2[1], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none'},
 
 
     //{x: 'Department Stores', y: pointData2[0]},
-    {x: 'Department Stores', label: {enabled: true}, y: pointData2[0], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none', hoverFill: 'pink'},
+    {x: 'Department Stores', label: {enabled: true}, y: pointData2[0], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none'},
 
     {x: 'All \nother \noutlets', y: pointData2[2]},
     {x: 'All other outlets', y: pointData2[2]},
@@ -124,11 +124,11 @@ anychart.onDocumentLoad(function() {
       .connectorStroke('black .3', 1.5, '4 2')
       // .radius('30%')
       .startAngle(201)
-      .explode(55);
+      // .explode(55);
   chart.labels().position('outside');
 
-  chart.explodeSlices([54,55,56,57,58,59,60,61,62,63,64,65,66,68]);
-  chart.explodeSlices([20, 35,46,47]);
+  // chart.explodeSlices([54,55,56,57,58,59,60,61,62,63,64,65,66,68]);
+  // chart.explodeSlices([20, 35,46,47]);
 
 
   chart.title()

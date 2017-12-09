@@ -1,12 +1,10 @@
-<!doctype html>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="legend anyChart anyGantt anyStock anyMap"/>
+<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="anyMap"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
-    <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
+    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
     <script>
       goog.require("anychart.bundle.entry");
       goog.require("anychart.themes.defaultTheme.entry");
@@ -14,55 +12,35 @@
     </script>
     <script src="utils/anytest.min.js"></script>
 
+
+    <script src="http://cat.anychart.com/static/sessions/14068/branch/out/local-cdn/geodata/v2/australia.js"></script>
+
 </head>
 <body>
-<div id="legendsBody" style="width: 70px"></div>
-<div id="container" style="width: 800px; height: 600px;"></div>
+<div id="container"></div>
+<div style="display: none" id="SVGData"></div>
 </body>
 <script>
-  var chart, legend0;
+  xhr = new XMLHttpRequest();
+  xhr.open("GET","http://cat.anychart.com/static/sessions/14068/branch/out/local-cdn/svg_data.svg",false);
+  // Following line is just to be on the safe side;
+  // not needed if your server delivers SVG with correct MIME type
+  xhr.overrideMimeType("image/svg+xml");
+  xhr.send("");
+  document.getElementById("SVGData").appendChild(xhr.responseXML.documentElement);
+  var map;
   anychart.onDocumentLoad(function() {
-    anytest.init();
-    anytest.description('Тест не будет проходить режимы из-за standalone legend');
-    var stage = acgraph.create('container', '100%', '100%');
-    stage.suspend();
-//
-    chart = anychart.line();
-    chart.line([1, 3, 2]);
-//    chart.line([3, 1, 2]);
-//    chart.line([2, 1, 3]);
-    chart.yAxis(false).xAxis(false);
-    chart.container(stage).draw();
+    anytest.setUp();//DVF-2411
 
-    var legendStage = anychart.graphics.create('legendsBody', "100%", "100%");
-    legend0 = anychart.standalones.legend();
-    legend0.position("left").align("top").itemsLayout("vertical").padding("10px");
-    legend0.wordWrap("normal");
-    legend0.textOverflow('...');
-    legend0.itemsSource([chart]);
-    legend0.background("#CFD8DC"); // just to see the bounds
+    svg = document.getElementById("SVGData").innerHTML;
+    map = anychart.seatMap([])
+        .geoData(svg)
+        .unboundRegions('as-is');
+    series = map.getSeries(0);
+    series.labels(true);
+    anytest.drawInStage(map);
 
-    legend0.container(legendStage);
-    legend0.draw();
-
-//    anytest.chartListen(chart, function() {
-//      anytest.step(function () {
-//        anytest.CAT.getScreen();
-//      });
-//      anytest.step(function () {
-//        legend0.textOverflow('');
-//      });
-//      anytest.step(function () {
-//        anytest.CAT.getScreen('AfterDrawEllipsis', -1);
-//      });
-//      anytest.step(function () {
-//        legend0.textOverflow('...');
-//      });
-//      anytest.step(function () {
-//        anytest.CAT.getScreen('BackToInitialState', 1);
-//      });
-//      anytest.exit();
-//    });
+    anytest.stageListen().charts4modes("map");
     stage.resume();
   });
 </script>
