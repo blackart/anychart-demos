@@ -1,161 +1,38 @@
-var randomExt = function(a, b) {
-  return Math.round(Math.random() * (b - a + 1) + a);
-};
+var chart1, chart2;
+anychart.onDocumentLoad(function() {
+  var stage = anychart.graphics.create('container');
 
-var generateData = function(chart) {
-  var data = [];
-  features = chart.geoData()['features'];
-  for (var i = 0, len = features.length; i < len; i++) {
-    var feature = features[i];
-    if (feature['properties']) {
-      id = feature['properties'][chart.geoIdField()];
-      var value;
-      switch (id) {
-        case 'US.WA':
-        case 'US.OR':
-        case 'US.CA':
-        case 'US.NV':
-        case 'US.AK':
-        case 'US.HI':
-          value = 'West';
-          break;
-        case 'US.MT':
-        case 'US.ID':
-        case 'US.WY':
-        case 'US.ND':
-        case 'US.SD':
-        case 'US.NE':
-        case 'US.KS':
-        case 'US.OK':
-        case 'US.CO':
-        case 'US.NM':
-        case 'US.AZ':
-        case 'US.TX':
-        case 'US.UT':
-          value = 'Midwest';
-          break;
-        case 'US.MN':
-        case 'US.WI':
-        case 'US.IL':
-        case 'US.IA':
-        case 'US.MO':
-        case 'US.IN':
-        case 'US.MI':
-        case 'US.KY':
-        case 'US.OH':
-          value = 'Great Lakes';
-          break;
-        case 'US.SC':
-        case 'US.GA':
-        case 'US.FL':
-        case 'US.AL':
-        case 'US.MS':
-        case 'US.LA':
-        case 'US.AR':
-        case 'US.TN':
-        case 'US.TN':
-          value = 'Southeast';
-          break;
-        case 'US.PA':
-        case 'US.WV':
-        case 'US.VA':
-        case 'US.NC':
-        case 'US.NJ':
-        case 'US.MD':
-        case 'US.DE':
-          value = 'Midatlantic';
-          break;
-        default:
-          value = 'Northeast';
-      }
-
-      data.push({'id': id, 'value': value});
-    }
-  }
-  return data;
-};
+  chart1 = anychart.gauges.linear();
+  chart1.data("1|90 2|20|50 3|12 4|37|46", {rowsSeparator: " ", columnsSeparator: "|"});
+  chart1.thermometer().dataIndex(0);
+  chart1.rangeBar().dataIndex(1);
+  chart1.tooltip()
+      .anchor('righttop')
+      .background()
+      .fill({keys: ['red .1', 'orange'], mode: true, angle: 45});
+  chart1.bounds(0, 0, '50%', '100%');
+  chart1.container(stage);
+  chart1.draw();
 
 
-anychart.onDocumentReady(function() {
-  var colors = [
-    '#1F70A8',
-    '#5DB977',
-    '#F9CF52',
-    '#E95B3F',
-    '#7857C1',
-    '#61D6D6'
-  ];
+  chart2 = anychart.gauges.thermometer();
+  dataSet1 = anychart.data.set([[97.6], [12], [7]]);
+  chart2.data(dataSet1);
+  chart2.addPointer(0, 2);
+  chart2.tooltip({
+    background:
+        {
+          fill: 'red'
+        },
+    fontSize: 10,
+    lineHeight: 2,
+    padding: 10,
+    title: false,
+    separator: {
+      orientation: 'left'
+    }});
+  chart2.bounds('50%', 0, '50%', '100%');
+  chart2.container(stage);
+  chart2.draw();
 
-  var data = [
-    {x: 'Northeast', value: 50},
-    {x: 'Midatlantic', value: 90},
-    {x: 'Southeast', value: 50},
-    {x: 'Midwest', value: 30},
-    {x: 'West', value: 45},
-    {x: 'Great Lakes', value: 40},
-  ]
-
-  map = anychart.map();
-  map.geoData(anychart.maps.united_states_of_america);
-
-  var series = map.choropleth(generateData(map));
-  series.stroke('1.5 white');
-  // series.labels()
-  //     .enabled(true)
-  //     .format('{%id}');
-  // series.overlapMode(true);
-  map.title()
-      .enabled(true)
-      .text('SALES')
-      .fontColor('#000')
-      .fontSize(35)
-      .padding(0)
-      .margin(0);
-
-  map.padding(0);
-  // map.grids(true);
-  map.background()
-      // .stroke('green')
-      .fill(null)
-  map.label()
-      .width('80%')
-      .adjustFontSize(true, false)
-      .enabled(true)
-      .text('$212,600,000')
-      .fontColor('#000')
-      .position('center')
-      .offsetY('45%')
-      .anchor('center');
-
-  var colorScale = anychart.scales.ordinalColor();
-  colorScale.ranges([
-    {equal: 'Northeast', color: '#1F70A8'},
-    {equal: 'Midatlantic', color: '#5DB977'},
-    {equal: 'Southeast', color: '#F9CF52'},
-    {equal: 'Midwest', color: '#E95B3F'},
-    {equal: 'West', color: '#7857C1'},
-    {equal: 'Great Lakes', color: '#61D6D6'},
-  ]);
-  series.colorScale(colorScale);
-
-
-
-
-
-
-  chart = anychart.pie(data);
-  // chart.bounds(0, 0, '50%', '100%')
-  chart.palette().items(colors);
-  chart.stroke('2 #fff')
-  chart.legend()
-      .position('right')
-      .itemsLayout('vertical');
-  chart
-      .labels(false)
-      .innerRadius('85%')
-      // .radius('45%')
-      .centerContent(map)
-
-  // map.draw();
-  chart.container('container').draw();
 });

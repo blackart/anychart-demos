@@ -45,7 +45,7 @@ anychart.onDocumentLoad(function() {
     {x: 'All other outlets', y: pointData2[2]},
     {x: 'All other outlets', y: pointData2[2]},
 
-    {x: 'Department Stores', hoverLabel: {enabled: true}, y: pointData2[1], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none'},
+    {x: 'Department Stores', hoverLabel: {enabled: true}, y: pointData2[1], fill: {keys: ['0 red 1', '0.5 green 1', '1 blue 1']}, stroke: 'none', 'hoverFill': 'black', selected: {explode: '1%'}, hoverLabel: {'fontColor': 'red'}},
 
 
     //{x: 'Department Stores', y: pointData2[0]},
@@ -117,31 +117,40 @@ anychart.onDocumentLoad(function() {
 
   chart = anychart.pie(seriesData2)
       .container('container')
-      .innerRadius('33%')
-      .outsideLabelsSpace(0)
+      .innerRadius('80%')
+      // .outsideLabelsSpace('30%')
       .connectorLength('20%')
-      // .outsideLabelsCriticalAngle(90)
+      //.outsideLabelsCriticalAngle(180)
       .connectorStroke('black .3', 1.5, '4 2')
-      // .radius('30%')
-      .startAngle(201)
-      // .explode(55);
-  chart.labels().position('outside');
+      // .radius('50%')
+      // .startAngle(284)
+      .startAngle(179)
+      // .margin(0)
+      // .padding(0)
+      // .explode(0);
+  // chart.labels().position('outside');
 
-  // chart.explodeSlices([54,55,56,57,58,59,60,61,62,63,64,65,66,68]);
-  // chart.explodeSlices([20, 35,46,47]);
-
+  chart.hovered()
+      .labels().fontWeight('bold');
+  chart.selected().labels().fontWeight('bold');
+  // chart.selected().explode(0);
 
   chart.title()
       .text('ACME Corp. apparel sales through different retail channels');
 
   chart.labels()
-      // .offsetY(0)
+      .offsetY(0)
       //.offsetX(15)
       .enabled(true)
       .format(function() {return this.x + ' ' + this.index});
 
+  chart.tooltip().titleFormat('{%Value}')
+
   chart.credits(false);
-  chart.legend(false);
+  chart.legend().itemsFormat('{%index}')
+
+
+  chart.centerContent();
 
   chart.draw();
 
