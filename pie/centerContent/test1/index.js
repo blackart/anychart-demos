@@ -7,6 +7,7 @@ var data = [
   {x: "West", value: 45},
   {x: "Great Lakes", value: 40},
 ];
+var stage;
 
 function map() {
   var generateData = function(chart) {
@@ -262,20 +263,6 @@ function legend(pie) {
   legend.itemsSource(pie)
 
   return legend;
-}
-
-function drawPie(container, bounds, content) {
-  var pie = anychart.pie(data);
-  pie.bounds(bounds);
-  pie.background().stroke('#000').fill('#000');
-  pie.palette().items(colors);
-  pie
-      .labels(false)
-      .legend(false)
-  pie.innerRadius('85%');
-  pie.container(container).draw();
-  if (content)
-    pie.centerContent(content(pie));
 }
 
 function resourceList(pie) {
@@ -1331,6 +1318,7 @@ function galaxy(pie) {
    * Draws axes.
    */
   function drawAxes() {
+    stage.suspend()
     var bounds = pie.getCenterContentBounds();
     var centerX = Math.round(bounds.width / 2);
     var centerY = Math.round(bounds.height / 2);
@@ -1366,6 +1354,7 @@ function galaxy(pie) {
           .moveTo(startScreenCoords.x + addX, startScreenCoords.y + addY)
           .lineTo(startScreenCoords.x + addX + 1, startScreenCoords.y + addY + 1);
     }
+    stage.resume()
   }
 
 
@@ -1435,27 +1424,27 @@ function galaxy(pie) {
 
   var cont = document.getElementById('container');
   // cont.style.backgroundColor = '#000';
-  var stage = acgraph.layer();
+  var layer = acgraph.layer();
 
   generateStars();
 
 //x - green
-  xAxisPath = stage.path().stroke([{color: '#afa', opacity: 0}, {
+  xAxisPath = layer.path().stroke([{color: '#afa', opacity: 0}, {
     color: '#afa',
     opacity: axisOpacity
   }, {color: '#afa', opacity: 0}]);
 //y - red
-  yAxisPath = stage.path().stroke([{color: '#faa', opacity: 0}, {
+  yAxisPath = layer.path().stroke([{color: '#faa', opacity: 0}, {
     color: '#faa',
     opacity: axisOpacity
   }, {color: '#faa', opacity: 0}]);
 //z - blue
-  zAxisPath = stage.path().stroke([{color: '#aaf', opacity: 0}, {
+  zAxisPath = layer.path().stroke([{color: '#aaf', opacity: 0}, {
     color: '#aaf',
     opacity: axisOpacity
   }, {color: '#aaf', opacity: 0}]);
 
-  starsPath = stage.path().stroke({color: '#fff', opacity: 0.7});
+  starsPath = layer.path().stroke({color: '#fff', opacity: 0.7});
 
   var bounds = pie.getCenterContentBounds();
 
@@ -1531,26 +1520,43 @@ function galaxy(pie) {
 
     xAxis.rotateX3D(xRotation);
     xAxis.rotateY3D(yRotation);
-//xAxis.rotateZ3D(zRot);
 
     yAxis.rotateX3D(xRotation);
     yAxis.rotateY3D(yRotation);
-//yAxis.rotateZ3D(zRot);
 
     zAxis.rotateX3D(xRotation);
     zAxis.rotateY3D(yRotation);
-//zAxis.rotateZ3D(zRot);
 
     rotateStars(xRotation, yRotation, 0);
 
     drawAxes();
   }
 
-  return stage;
+  pie.centerContentFill('#000');
+
+  return layer;
+}
+
+function drawPie(container, bounds, content) {
+  var pie = anychart.pie(data);
+  pie.bounds(bounds);
+  pie.background()
+      .stroke('#000')
+      // .fill('#000');
+  pie.palette().items(colors);
+  pie.innerRadius('85%');
+  pie.legend(false)
+  pie.labels(false);
+
+  // pie.labels().position('outside')
+  if (content)
+    pie.centerContent(content(pie));
+  
+  pie.container(container).draw();
 }
 
 anychart.onDocumentReady(function() {
-  var stage = acgraph.create('container');
+  stage = acgraph.create('container');
   stage.suspend();
 
   var width = 100 / 4;
