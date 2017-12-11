@@ -74,7 +74,7 @@ anychart.onDocumentReady(function() {
     return data;
   };
 
-  var map = anychart.map();
+  map = anychart.map();
   map.geoData('anychart.maps.united_states_of_america');
   map.padding(0).margin(0);
 
@@ -84,8 +84,9 @@ anychart.onDocumentReady(function() {
       .enabled(true)
       .text('SALES')
       .adjustFontSize(true, false)
-      .maxFontSize(60)
-      .width('80%')
+      .maxFontSize(40)
+      .minFontSize(2)
+      .width('40%')
       .fontColor('black')
       .position('center')
       .anchor('center')
@@ -97,6 +98,7 @@ anychart.onDocumentReady(function() {
       .text('$212,600,000')
       .adjustFontSize(true, false)
       .maxFontSize(60)
+      .minFontSize(2)
       .width('80%')
       .fontColor('black')
       .position('center')
@@ -137,9 +139,5 @@ anychart.onDocumentReady(function() {
       .itemsLayout('vertical');
   pie.innerRadius('85%');
   pie.centerContent(map);
-
-
-  map.draw();
-
   pie.container('container').draw();
 });
