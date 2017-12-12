@@ -7,7 +7,9 @@ var data = [
   {x: "West", value: 45},
   {x: "Great Lakes", value: 40},
 ];
-var stage;
+var stage, pie1;
+var width = 100 / 1;
+var height = 100 / 1;
 
 function map() {
   var generateData = function(chart) {
@@ -183,7 +185,7 @@ function labelsFactory(pie) {
   return lf;
 }
 
-function merkersFactory(pie) {
+function markersFactory(pie) {
   var parentBounds = pie.center().getBounds();
   var position = {value: {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2}};
 
@@ -1516,7 +1518,7 @@ function galaxy(pie) {
    * Draws.
    */
   function draw() {
-    // window.requestAnimationFrame(draw);
+    window.requestAnimationFrame(draw);
 
     xAxis.rotateX3D(xRotation);
     xAxis.rotateY3D(yRotation);
@@ -1530,6 +1532,9 @@ function galaxy(pie) {
     rotateStars(xRotation, yRotation, 0);
 
     drawAxes();
+
+    pie.invalidate(anychart.ConsistencyState.BOUNDS)
+    pie.draw();
   }
 
   pie.center().fill('#000');
@@ -1537,45 +1542,56 @@ function galaxy(pie) {
   return layer;
 }
 
-function drawPie(container, bounds, content) {
-  var pie = anychart.pie(data);
-  pie.bounds(bounds);
-  pie.background()
-      .stroke('#000')
-      // .fill('#000');
-  pie.palette().items(colors);
-  pie.innerRadius('85%');
-  pie.legend(false)
-  pie.labels(false);
+function drawPie(container, bounds, content, opt_chart) {
+  var pie = opt_chart;
 
-  // pie.labels().position('outside')
+  if (!pie) {
+    var pie = anychart.pie(data);
+    pie.background()
+        .stroke('#000')
+    // .fill('#000');
+    pie.palette().items(colors);
+    pie.innerRadius('85%');
+    pie.legend(false)
+    pie.labels(false);
+
+    // pie.labels().position('outside')
+    pie.container(container);
+  }
+
+  pie.suspendSignalsDispatching()
+
+  if (bounds)
+    pie.bounds(bounds);
+
   if (content)
-    pie.center().content(content(pie));
-  
-  pie.container(container).draw();
+    pie.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(pie) : content);
+
+  pie.resumeSignalsDispatching(false);
+  pie.draw();
+
+  return pie;
 }
 
 anychart.onDocumentReady(function() {
   stage = acgraph.create('container');
   stage.suspend();
 
-  var width = 100 / 4;
-  var height = 100 / 3;
+  pie1 = drawPie(stage, [0 * width + '%', 0 * height + '%', width + '%', height + '%'], galaxy);
 
-  drawPie(stage, [0 * width + '%', 0 * height + '%', width + '%', height + '%'], map);
-  drawPie(stage, [1 * width + '%', 0 * height + '%', width + '%', height + '%'], label);
-  drawPie(stage, [2 * width + '%', 0 * height + '%', width + '%', height + '%'], labelsFactory);
-  drawPie(stage, [3 * width + '%', 0 * height + '%', width + '%', height + '%'], merkersFactory);
 
-  drawPie(stage, [0 * width + '%', 1 * height + '%', width + '%', height + '%'], legend);
-  drawPie(stage, [1 * width + '%', 1 * height + '%', width + '%', height + '%'], background);
-  drawPie(stage, [2 * width + '%', 1 * height + '%', width + '%', height + '%'], colorRange);
-  drawPie(stage, [3 * width + '%', 1 * height + '%', width + '%', height + '%'], resourceList);
 
-  drawPie(stage, [0 * width + '%', 2 * height + '%', width + '%', height + '%'], bender);
-  drawPie(stage, [1 * width + '%', 2 * height + '%', width + '%', height + '%'], galaxy);
-  drawPie(stage, [2 * width + '%', 2 * height + '%', width + '%', height + '%'], legend);
-  drawPie(stage, [3 * width + '%', 2 * height + '%', width + '%', height + '%'], legend);
+  // drawPie(stage, [1 * width + '%', 0 * height + '%', width + '%', height + '%'], label, pie1);
+  // drawPie(stage, [2 * width + '%', 0 * height + '%', width + '%', height + '%'], labelsFactory, pie1);
+  // drawPie(stage, [3 * width + '%', 0 * height + '%', width + '%', height + '%'], markersFactory, pie1);
+  // drawPie(stage, [0 * width + '%', 1 * height + '%', width + '%', height + '%'], legend, pie1);
+  // drawPie(stage, [1 * width + '%', 1 * height + '%', width + '%', height + '%'], background, pie1);
+  // drawPie(stage, [2 * width + '%', 1 * height + '%', width + '%', height + '%'], colorRange, pie1);
+  // drawPie(stage, [3 * width + '%', 1 * height + '%', width + '%', height + '%'], resourceList, pie1);
+  // drawPie(stage, [0 * width + '%', 2 * height + '%', width + '%', height + '%'], bender, pie1);
+  // drawPie(stage, [1 * width + '%', 2 * height + '%', width + '%', height + '%'], galaxy, pie1);
+  // drawPie(stage, [2 * width + '%', 2 * height + '%', width + '%', height + '%'], legend, pie1);
+  // drawPie(stage, [3 * width + '%', 2 * height + '%', width + '%', height + '%'], legend, pie1);
 
   stage.resume();
 });
