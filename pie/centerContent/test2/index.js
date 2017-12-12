@@ -8,8 +8,8 @@ var data = [
   {x: "Great Lakes", value: 40},
 ];
 var stage, pie1;
-var width = 100 / 1;
-var height = 100 / 1;
+var width = 100 / 4;
+var height = 100 / 3;
 
 function map() {
   var generateData = function(chart) {
@@ -174,11 +174,10 @@ function labelsFactory(pie) {
   pie.listen('chartdraw', function() {
     var parentBounds = this.center().getBounds();
     var position = {value: {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2}};
-
-    for (var i = 0, len = lf.labelsCount(); i < len; i++) {
-      lf.getLabel(i).positionProvider(position);
+    var position = function() {
+      return {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2};
     }
-
+    lf.positionFormatter(position);
     lf.draw();
   });
 
@@ -217,12 +216,10 @@ function markersFactory(pie) {
 
   pie.listen('chartdraw', function() {
     var parentBounds = this.center().getBounds();
-    var position = {value: {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2}};
-
-    for (var i = 0, len = 4; i < len; i++) {
-      mf.getMarker(i).positionProvider(position);
+    var position = function() {
+      return {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2};
     }
-
+    mf.positionFormatter(position);
     mf.size(parentBounds.width / 6)
     mf.draw();
   });
@@ -1321,7 +1318,7 @@ function galaxy(pie) {
    */
   function drawAxes() {
     stage.suspend()
-    var bounds = pie.center().getBounds();
+    var bounds = layer.getBounds();
     var centerX = Math.round(bounds.width / 2);
     var centerY = Math.round(bounds.height / 2);
     var addX = centerX;
@@ -1448,7 +1445,7 @@ function galaxy(pie) {
 
   starsPath = layer.path().stroke({color: '#fff', opacity: 0.7});
 
-  var bounds = pie.center().getBounds();
+  var bounds = layer.getBounds();
 
   xAxisLength = Math.round(bounds.width);
   zAxisLength = xAxisLength;
@@ -1487,18 +1484,18 @@ function galaxy(pie) {
         setTimeout(callback, 1000 / 60);
       };
 
-  // cont.addEventListener('mousedown', function () {
-  //   flag = 1;
-  // });
-  // cont.addEventListener('mousemove', function () {
-  //   if (flag === 1) {
-  //     cont.addEventListener('mousemove', galaxyMove);
-  //   }
-  // });
-  // cont.addEventListener('mouseup', function () {
-  //   flag = 0;
-  //   cont.removeEventListener('mousemove', galaxyMove);
-  // });
+  cont.addEventListener('mousedown', function () {
+    flag = 1;
+  });
+  cont.addEventListener('mousemove', function () {
+    if (flag === 1) {
+      cont.addEventListener('mousemove', galaxyMove);
+    }
+  });
+  cont.addEventListener('mouseup', function () {
+    flag = 0;
+    cont.removeEventListener('mousemove', galaxyMove);
+  });
 
   function galaxyMove(e) {
     prevX = isNaN(prevX) ? e.clientX : prevX;
@@ -1518,7 +1515,7 @@ function galaxy(pie) {
    * Draws.
    */
   function draw() {
-    window.requestAnimationFrame(draw);
+    // window.requestAnimationFrame(draw);
 
     xAxis.rotateX3D(xRotation);
     xAxis.rotateY3D(yRotation);
@@ -1533,8 +1530,8 @@ function galaxy(pie) {
 
     drawAxes();
 
-    pie.invalidate(anychart.ConsistencyState.BOUNDS)
-    pie.draw();
+    // pie.invalidate(anychart.ConsistencyState.BOUNDS)
+    // pie.draw();
   }
 
   pie.center().fill('#000');
@@ -1559,15 +1556,12 @@ function drawPie(container, bounds, content, opt_chart) {
     pie.container(container);
   }
 
-  pie.suspendSignalsDispatching()
-
   if (bounds)
     pie.bounds(bounds);
 
   if (content)
     pie.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(pie) : content);
 
-  pie.resumeSignalsDispatching(false);
   pie.draw();
 
   return pie;
@@ -1577,21 +1571,18 @@ anychart.onDocumentReady(function() {
   stage = acgraph.create('container');
   stage.suspend();
 
-  pie1 = drawPie(stage, [0 * width + '%', 0 * height + '%', width + '%', height + '%'], galaxy);
-
-
-
-  // drawPie(stage, [1 * width + '%', 0 * height + '%', width + '%', height + '%'], label, pie1);
-  // drawPie(stage, [2 * width + '%', 0 * height + '%', width + '%', height + '%'], labelsFactory, pie1);
-  // drawPie(stage, [3 * width + '%', 0 * height + '%', width + '%', height + '%'], markersFactory, pie1);
-  // drawPie(stage, [0 * width + '%', 1 * height + '%', width + '%', height + '%'], legend, pie1);
-  // drawPie(stage, [1 * width + '%', 1 * height + '%', width + '%', height + '%'], background, pie1);
-  // drawPie(stage, [2 * width + '%', 1 * height + '%', width + '%', height + '%'], colorRange, pie1);
-  // drawPie(stage, [3 * width + '%', 1 * height + '%', width + '%', height + '%'], resourceList, pie1);
-  // drawPie(stage, [0 * width + '%', 2 * height + '%', width + '%', height + '%'], bender, pie1);
-  // drawPie(stage, [1 * width + '%', 2 * height + '%', width + '%', height + '%'], galaxy, pie1);
-  // drawPie(stage, [2 * width + '%', 2 * height + '%', width + '%', height + '%'], legend, pie1);
-  // drawPie(stage, [3 * width + '%', 2 * height + '%', width + '%', height + '%'], legend, pie1);
+  drawPie(stage, [0 * width + '%', 0 * height + '%', width + '%', height + '%'], map);
+  drawPie(stage, [1 * width + '%', 0 * height + '%', width + '%', height + '%'], label);
+  drawPie(stage, [2 * width + '%', 0 * height + '%', width + '%', height + '%'], labelsFactory);
+  drawPie(stage, [3 * width + '%', 0 * height + '%', width + '%', height + '%'], markersFactory);
+  drawPie(stage, [0 * width + '%', 1 * height + '%', width + '%', height + '%'], legend);
+  drawPie(stage, [1 * width + '%', 1 * height + '%', width + '%', height + '%'], background);
+  drawPie(stage, [2 * width + '%', 1 * height + '%', width + '%', height + '%'], colorRange);
+  drawPie(stage, [3 * width + '%', 1 * height + '%', width + '%', height + '%'], resourceList);
+  drawPie(stage, [0 * width + '%', 2 * height + '%', width + '%', height + '%'], bender);
+  drawPie(stage, [1 * width + '%', 2 * height + '%', width + '%', height + '%'], galaxy);
+  drawPie(stage, [2 * width + '%', 2 * height + '%', width + '%', height + '%'], legend);
+  drawPie(stage, [3 * width + '%', 2 * height + '%', width + '%', height + '%'], legend);
 
   stage.resume();
 });

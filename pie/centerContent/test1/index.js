@@ -8,6 +8,8 @@ var data = [
   {x: "Great Lakes", value: 40},
 ];
 var stage;
+var width = 100 / 4;
+var height = 100 / 3;
 
 function map() {
   var generateData = function(chart) {
@@ -172,18 +174,17 @@ function labelsFactory(pie) {
   pie.listen('chartdraw', function() {
     var parentBounds = this.center().getBounds();
     var position = {value: {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2}};
-
-    for (var i = 0, len = lf.labelsCount(); i < len; i++) {
-      lf.getLabel(i).positionProvider(position);
+    var position = function() {
+      return {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2};
     }
-
+    lf.positionFormatter(position);
     lf.draw();
   });
 
   return lf;
 }
 
-function merkersFactory(pie) {
+function markersFactory(pie) {
   var parentBounds = pie.center().getBounds();
   var position = {value: {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2}};
 
@@ -215,12 +216,10 @@ function merkersFactory(pie) {
 
   pie.listen('chartdraw', function() {
     var parentBounds = this.center().getBounds();
-    var position = {value: {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2}};
-
-    for (var i = 0, len = 4; i < len; i++) {
-      mf.getMarker(i).positionProvider(position);
+    var position = function() {
+      return {x: parentBounds.left + parentBounds.width / 2, y: parentBounds.top + parentBounds.height / 2};
     }
-
+    mf.positionFormatter(position);
     mf.size(parentBounds.width / 6)
     mf.draw();
   });
@@ -1485,18 +1484,18 @@ function galaxy(pie) {
         setTimeout(callback, 1000 / 60);
       };
 
-  // cont.addEventListener('mousedown', function () {
-  //   flag = 1;
-  // });
-  // cont.addEventListener('mousemove', function () {
-  //   if (flag === 1) {
-  //     cont.addEventListener('mousemove', galaxyMove);
-  //   }
-  // });
-  // cont.addEventListener('mouseup', function () {
-  //   flag = 0;
-  //   cont.removeEventListener('mousemove', galaxyMove);
-  // });
+  cont.addEventListener('mousedown', function () {
+    flag = 1;
+  });
+  cont.addEventListener('mousemove', function () {
+    if (flag === 1) {
+      cont.addEventListener('mousemove', galaxyMove);
+    }
+  });
+  cont.addEventListener('mouseup', function () {
+    flag = 0;
+    cont.removeEventListener('mousemove', galaxyMove);
+  });
 
   function galaxyMove(e) {
     prevX = isNaN(prevX) ? e.clientX : prevX;
@@ -1559,13 +1558,10 @@ anychart.onDocumentReady(function() {
   stage = acgraph.create('container');
   stage.suspend();
 
-  var width = 100 / 4;
-  var height = 100 / 3;
-
   drawPie(stage, [0 * width + '%', 0 * height + '%', width + '%', height + '%'], map);
   drawPie(stage, [1 * width + '%', 0 * height + '%', width + '%', height + '%'], label);
   drawPie(stage, [2 * width + '%', 0 * height + '%', width + '%', height + '%'], labelsFactory);
-  drawPie(stage, [3 * width + '%', 0 * height + '%', width + '%', height + '%'], merkersFactory);
+  drawPie(stage, [3 * width + '%', 0 * height + '%', width + '%', height + '%'], markersFactory);
 
   drawPie(stage, [0 * width + '%', 1 * height + '%', width + '%', height + '%'], legend);
   drawPie(stage, [1 * width + '%', 1 * height + '%', width + '%', height + '%'], background);

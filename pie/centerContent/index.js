@@ -138,6 +138,6 @@ anychart.onDocumentReady(function() {
       .position('right')
       .itemsLayout('vertical');
   pie.innerRadius('85%');
-  pie.centerContent(map);
+  pie.center().content(map);
   pie.container('container').draw();
 });
