@@ -1,118 +1,47 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="pie  anyChart"/>
+    <meta name="x-cat-tags" content="anyMap"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
     <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
     <script>
-      goog.require('anychart.themes.defaultTheme');
-      goog.require('anychart.modules.anychart_bundle');
+      goog.require("anychart.bundle.entry");
+      goog.require("anychart.themes.defaultTheme.entry");
       window.ACDVF = true;
     </script>
     <script src="utils/anytest.min.js"></script>
 
 
+    <script src="http://cat.anychart.com/static/sessions/14141/branch/out/local-cdn/geodata/v2/australia.js"></script>
+
 </head>
 <body>
 <div id="container"></div>
+<div style="display: none" id="SVGData"></div>
 </body>
 <script>
-  var chart4, chart1, chart2, chart3;
+  xhr = new XMLHttpRequest();
+  xhr.open("GET","svg_data.svg",false);
+  // Following line is just to be on the safe side;
+  // not needed if your server delivers SVG with correct MIME type
+  xhr.overrideMimeType("image/svg+xml");
+  xhr.send("");
+  document.getElementById("SVGData").appendChild(xhr.responseXML.documentElement);
+  var map;
   anychart.onDocumentLoad(function() {
-    anytest.setUp(500, 500);
+    anytest.setUp();//DVF-2411
 
-    dataSet = anychart.data.set([
-      {name: 'Chrome', value: 59.2},
-      {name: 'IE', value: 8.9},
-      {name: 'Firefox', value: 24.9},
-      {name: 'Safari', value: 3.8},
-      {name: 'Opera', value: 1.8},
-      {name: 'Other', value: 1.4}
-    ]);
+    svg = document.getElementById("SVGData").innerHTML;
+    map = anychart.seatMap([])
+        .geoData(svg)
+        .unboundRegions('as-is');
+    series = map.getSeries(0);
+    series.labels(true);
+    anytest.drawInStage(map);
 
-    console.log(111);
-
-    chart4 = anychart.pie(dataSet);
-//    chart4.fill({keys: ['green', 'red'], mode: false, angle: 80});
-//    chart4.labels(false);
-//    chart4.title('fill({keys:[green, red],\n mode: false, angle: 80})');
-    chart4.bounds(0, 0, '50%', '50%');
-    anytest.drawInStage(chart4);
-
-//    chart1 = anychart.pie(dataSet);
-//    chart1.fill(['blue .2', 'gray'], 0.6, 0.7, null, 1, .5, .3);
-//    chart1.labels(false);
-//    chart1.title('fill([blue .2, gray], 0.6, 0.7,\n null, 1, .5, .3)');
-//    chart1.bounds('50%', 0, '50%', '50%');
-//    anytest.drawInStage(chart1);
-//
-//    chart2 = anychart.pie([20, 40, 10, 20]);
-//    chart2.hoverFill('black .6');
-//    chart2.labels(false);
-//    chart2.title('stroke(orange, 4, 15)');
-//    chart2.bounds(0, '50%', '50%', '50%');
-//    anytest.drawInStage(chart2);
-//
-//    chart3 = anychart.pie([20, 40, 10, 20]);
-//    chart3.hoverFill(['black', 'yellow', 'blue']);
-//    chart3.labels(false);
-//    chart3.title('stroke([black, yellow, blue], 3)');
-//    chart3.bounds('50%', '50%', '50%', '50%');
-//        anytest.createPanel('interactive');
-    anytest.stageListen(function() {
-//      anytest.step(function() {
-//        anytest.CAT.getScreen();
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(138, 418, 'mousemove');
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(383, 418, 'mousemove');
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.getScreen('hoverFill', -1);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(138, 418, 'mousemove');
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(383, 418, 'mousemove');
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(0, 0, 'mousemove');
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.getScreen('unhover', 1);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(354, 372, 'mousemove');
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.getScreen('notChangeHoverFill', -1);
-//      });
-//      anytest.step(function() {
-//        chart3.hoverFill(['green', 'yellow', 'blue']);
-//        anytest.CAT.action(0, 0, 'mousemove');
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(354, 372, 'mousemove');
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.getScreen('afterDrawChangeHoverFill', -1, 'notChangeHoverFill');
-//      });
-//      anytest.step(function() {
-//        chart3.hoverFill(['black', 'yellow', 'blue']);
-//        anytest.CAT.action(0, 0, 'mousemove');
-//      });
-//      anytest.exit();
-    }).drawInStage(chart3);
-//    anytest.charts4modes('chart1', 'chart2', 'chart3', 'chart4');
+    anytest.stageListen().charts4modes("map");
     stage.resume();
-    /*<< methods
-     anychart.charts.Pie.fill
-     anychart.charts.Pie.hoverFill
-     >>*/
   });
 </script>
 </html>

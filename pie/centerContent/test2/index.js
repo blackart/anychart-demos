@@ -1,15 +1,25 @@
 var colors = ['#0072A5', '#3BBA7B', '#FFCD61', '#FA5446', '#7D58BD', '#29D8D5'];
 var data = [
-  {x: "Northeast", value: 50},
-  {x: "Midatlantic", value: 80},
-  {x: "Southeast", value: 50},
-  {x: "Midwest", value: 30},
-  {x: "West", value: 45},
-  {x: "Great Lakes", value: 40},
+  {x: "Northeast", value: 1},
+  {x: "Midatlantic", value: 1},
+  {x: "Southeast", value: 1},
+  {x: "Midwest", value: 1},
+  {x: "West", value: 1},
+  {x: "Great Lakes", value: 1},
 ];
 var stage, pie1;
-var width = 100 / 4;
-var height = 100 / 3;
+var width = 100 / 1;
+var height = 100 / 1;
+
+window.requestAnimationFrame = window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function (callback) {
+      setTimeout(callback, 1000 / 60);
+    };
+
 
 function map() {
   var generateData = function(chart) {
@@ -1475,15 +1485,6 @@ function galaxy(pie) {
   zAxis.fromPoint.z = Math.round(zAxisLength / 2);
   zAxis.toPoint.z = -zAxis.fromPoint.z;
 
-  window.requestAnimationFrame = window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      function (callback) {
-        setTimeout(callback, 1000 / 60);
-      };
-
   cont.addEventListener('mousedown', function () {
     flag = 1;
   });
@@ -1515,7 +1516,7 @@ function galaxy(pie) {
    * Draws.
    */
   function draw() {
-    // window.requestAnimationFrame(draw);
+    window.requestAnimationFrame(draw);
 
     xAxis.rotateX3D(xRotation);
     xAxis.rotateY3D(yRotation);
@@ -1571,18 +1572,25 @@ anychart.onDocumentReady(function() {
   stage = acgraph.create('container');
   stage.suspend();
 
-  drawPie(stage, [0 * width + '%', 0 * height + '%', width + '%', height + '%'], map);
-  drawPie(stage, [1 * width + '%', 0 * height + '%', width + '%', height + '%'], label);
-  drawPie(stage, [2 * width + '%', 0 * height + '%', width + '%', height + '%'], labelsFactory);
-  drawPie(stage, [3 * width + '%', 0 * height + '%', width + '%', height + '%'], markersFactory);
-  drawPie(stage, [0 * width + '%', 1 * height + '%', width + '%', height + '%'], legend);
-  drawPie(stage, [1 * width + '%', 1 * height + '%', width + '%', height + '%'], background);
-  drawPie(stage, [2 * width + '%', 1 * height + '%', width + '%', height + '%'], colorRange);
-  drawPie(stage, [3 * width + '%', 1 * height + '%', width + '%', height + '%'], resourceList);
-  drawPie(stage, [0 * width + '%', 2 * height + '%', width + '%', height + '%'], bender);
-  drawPie(stage, [1 * width + '%', 2 * height + '%', width + '%', height + '%'], galaxy);
-  drawPie(stage, [2 * width + '%', 2 * height + '%', width + '%', height + '%'], legend);
-  drawPie(stage, [3 * width + '%', 2 * height + '%', width + '%', height + '%'], legend);
+  pie1 = drawPie(stage, [0 * width + '%', 0 * height + '%', width + '%', height + '%'], galaxy);
+  // drawPie(stage, [1 * width + '%', 0 * height + '%', width + '%', height + '%'], label);
+  // drawPie(stage, [2 * width + '%', 0 * height + '%', width + '%', height + '%'], labelsFactory);
+  // drawPie(stage, [3 * width + '%', 0 * height + '%', width + '%', height + '%'], markersFactory);
+  // drawPie(stage, [0 * width + '%', 1 * height + '%', width + '%', height + '%'], legend);
+  // drawPie(stage, [1 * width + '%', 1 * height + '%', width + '%', height + '%'], background);
+  // drawPie(stage, [2 * width + '%', 1 * height + '%', width + '%', height + '%'], colorRange);
+  // drawPie(stage, [3 * width + '%', 1 * height + '%', width + '%', height + '%'], resourceList);
+  // drawPie(stage, [0 * width + '%', 2 * height + '%', width + '%', height + '%'], bender);
+  // drawPie(stage, [1 * width + '%', 2 * height + '%', width + '%', height + '%'], galaxy);
+  // drawPie(stage, [2 * width + '%', 2 * height + '%', width + '%', height + '%'], legend);
+  // drawPie(stage, [3 * width + '%', 2 * height + '%', width + '%', height + '%'], legend);
 
   stage.resume();
+
+  spinPie();
+  function spinPie() {
+    window.requestAnimationFrame(spinPie)
+
+    pie1.startAngle(pie1.startAngle() + .5);
+  }
 });

@@ -1,0 +1,238 @@
+<svg xmlns="http://www.w3.org/2000/svg" border="0" data-ac-wrapper-id="2" width="400" height="300"
+     class="anychart-ui-support" style="display: block;">
+    <defs>
+        <linearGradient id="#ac_linearGradient_0" x1="0.41183650964576746" y1="1" x2="0.5881634903542325" y2="0"
+                        gradientUnits="objectBoundingBox">
+            <stop offset="0" style="stop-color:green;stop-opacity:1"/>
+            <stop offset="1" style="stop-color:red;stop-opacity:1"/>
+        </linearGradient>
+        <clipPath clip-rule="nonzero" id="#ac_clip_2">
+            <path data-ac-wrapper-id="67" d="M 10 10 L 380 10 380 270 10 270 10 10 Z" fill="none" stroke="black"/>
+        </clipPath>
+        <clipPath clip-rule="nonzero" id="#ac_clip_4">
+            <path data-ac-wrapper-id="87" d="M 10 10 L 380 10 380 270 10 270 10 10 Z" fill="none" stroke="black"/>
+        </clipPath>
+    </defs>
+    <g data-ac-wrapper-id="3">
+        <g data-ac-wrapper-id="11">
+            <path data-ac-wrapper-id="12" d="M 0.5 0.5 L 399.5 0.5 399.5 299.5 0.5 299.5 0.5 0.5 Z" fill="#ffffff"
+                  stroke="none"/>
+            <g data-ac-wrapper-id="13" transform="matrix(1,0,0,1,57.5,270)">
+                <g data-ac-wrapper-id="14">
+                    <g data-ac-wrapper-id="15" transform="matrix(1,0,0,1,10,10)">
+                        <text data-ac-wrapper-id="16" font-style="normal" font-variant="normal"
+                              font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                              fill="#7c868e" letter-spacing="normal" text-decoration="none" direction="ltr"
+                              text-anchor="start" x="20" y="12"
+                              style="-webkit-user-select: none; opacity: 1; cursor: pointer;">
+                            <tspan dy="0">0</tspan>
+                        </text>
+                        <path data-ac-wrapper-id="17" d="M 0 0 L 15 0 15 15 0 15 Z" fill="url(##ac_linearGradient_0)"
+                              stroke="none" style="cursor: pointer;"/>
+                        <path data-ac-wrapper-id="18" d="M 0 0 L 28 0 28 15 0 15 0 0 Z" fill="#FFFFFF"
+                              fill-opacity="0.00001" stroke="none" style="cursor: pointer;"/>
+                    </g>
+                    <g data-ac-wrapper-id="19" transform="matrix(1,0,0,1,53,10)">
+                        <text data-ac-wrapper-id="20" font-style="normal" font-variant="normal"
+                              font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                              fill="#7c868e" letter-spacing="normal" text-decoration="none" direction="ltr"
+                              text-anchor="start" x="20" y="12"
+                              style="-webkit-user-select: none; opacity: 1; cursor: pointer;">
+                            <tspan dy="0">5</tspan>
+                        </text>
+                        <path data-ac-wrapper-id="21" d="M 0 0 L 15 0 15 15 0 15 Z" fill="#1976d2" stroke="none"
+                              style="cursor: pointer;"/>
+                        <path data-ac-wrapper-id="22" d="M 0 0 L 28 0 28 15 0 15 0 0 Z" fill="#FFFFFF"
+                              fill-opacity="0.00001" stroke="none" style="cursor: pointer;"/>
+                    </g>
+                    <g data-ac-wrapper-id="23" transform="matrix(1,0,0,1,96,10)">
+                        <text data-ac-wrapper-id="24" font-style="normal" font-variant="normal"
+                              font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                              fill="#7c868e" letter-spacing="normal" text-decoration="none" direction="ltr"
+                              text-anchor="start" x="20" y="12"
+                              style="-webkit-user-select: none; opacity: 1; cursor: pointer;">
+                            <tspan dy="0">7</tspan>
+                        </text>
+                        <path data-ac-wrapper-id="25" d="M 0 0 L 15 0 15 15 0 15 Z" fill="#ef6c00" stroke="none"
+                              style="cursor: pointer;"/>
+                        <path data-ac-wrapper-id="26" d="M 0 0 L 28 0 28 15 0 15 0 0 Z" fill="#FFFFFF"
+                              fill-opacity="0.00001" stroke="none" style="cursor: pointer;"/>
+                    </g>
+                    <g data-ac-wrapper-id="27" transform="matrix(1,0,0,1,139,10)">
+                        <text data-ac-wrapper-id="28" font-style="normal" font-variant="normal"
+                              font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                              fill="#7c868e" letter-spacing="normal" text-decoration="none" direction="ltr"
+                              text-anchor="start" x="20" y="12"
+                              style="-webkit-user-select: none; opacity: 1; cursor: pointer;">
+                            <tspan dy="0">8</tspan>
+                        </text>
+                        <path data-ac-wrapper-id="29" d="M 0 0 L 15 0 15 15 0 15 Z" fill="#ffd54f" stroke="none"
+                              style="cursor: pointer;"/>
+                        <path data-ac-wrapper-id="30" d="M 0 0 L 28 0 28 15 0 15 0 0 Z" fill="#FFFFFF"
+                              fill-opacity="0.00001" stroke="none" style="cursor: pointer;"/>
+                    </g>
+                    <g data-ac-wrapper-id="31" transform="matrix(1,0,0,1,182,10)">
+                        <text data-ac-wrapper-id="32" font-style="normal" font-variant="normal"
+                              font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                              fill="#7c868e" letter-spacing="normal" text-decoration="none" direction="ltr"
+                              text-anchor="start" x="20" y="12"
+                              style="-webkit-user-select: none; opacity: 1; cursor: pointer;">
+                            <tspan dy="0">2</tspan>
+                        </text>
+                        <path data-ac-wrapper-id="33" d="M 0 0 L 15 0 15 15 0 15 Z" fill="#455a64" stroke="none"
+                              style="cursor: pointer;"/>
+                        <path data-ac-wrapper-id="34" d="M 0 0 L 28 0 28 15 0 15 0 0 Z" fill="#FFFFFF"
+                              fill-opacity="0.00001" stroke="none" style="cursor: pointer;"/>
+                    </g>
+                    <g data-ac-wrapper-id="35" transform="matrix(1,0,0,1,225,10)">
+                        <text data-ac-wrapper-id="36" font-style="normal" font-variant="normal"
+                              font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                              fill="#7c868e" letter-spacing="normal" text-decoration="none" direction="ltr"
+                              text-anchor="start" x="20" y="12"
+                              style="-webkit-user-select: none; opacity: 1; cursor: pointer;">
+                            <tspan dy="0">1.7</tspan>
+                        </text>
+                        <path data-ac-wrapper-id="37" d="M 0 0 L 15 0 15 15 0 15 Z" fill="#96a6a6" stroke="none"
+                              style="cursor: pointer;"/>
+                        <path data-ac-wrapper-id="38" d="M 0 0 L 40 0 40 15 0 15 0 0 Z" fill="#FFFFFF"
+                              fill-opacity="0.00001" stroke="none" style="cursor: pointer;"/>
+                    </g>
+                </g>
+            </g>
+            <g data-ac-wrapper-id="39">
+                <path data-ac-wrapper-id="40"
+                      d="M 65.5 10 L 324.5 10 315.53271794871796 33.629999999999995 74.46728205128204 33.629999999999995 Z"
+                      fill="url(##ac_linearGradient_0)" stroke="none"/>
+                <path data-ac-wrapper-id="41"
+                      d="M 74.46728205128204 33.629999999999995 L 315.53271794871796 33.629999999999995 310.1553846153846 47.8 79.8446153846154 47.8 Z"
+                      fill="#1976d2" stroke="none"/>
+                <path data-ac-wrapper-id="42"
+                      d="M 79.8446153846154 47.8 L 310.1553846153846 47.8 306.5654358974359 57.26 83.43456410256411 57.26 Z"
+                      fill="#ef6c00" stroke="none"/>
+                <path data-ac-wrapper-id="43"
+                      d="M 83.43456410256411 57.26 L 306.5654358974359 57.26 297.5981538461539 80.89 92.40184615384615 80.89 Z"
+                      fill="#ffd54f" stroke="none"/>
+                <path data-ac-wrapper-id="44"
+                      d="M 92.40184615384615 80.89 L 297.5981538461539 80.89 250.5 205 250.5 222.72000000000003 139.5 222.72000000000003 139.5 205 Z"
+                      fill="#455a64" stroke="none"/>
+                <path data-ac-wrapper-id="45"
+                      d="M 139.5 222.72000000000003 L 250.5 222.72000000000003 250.5 269.99 139.5 269.99 Z"
+                      fill="#96a6a6" stroke="none"/>
+            </g>
+            <g data-ac-wrapper-id="46" pointer-events="none">
+                <path data-ac-wrapper-id="47"
+                      d="M 65.5 10 L 324.5 10 315.53271794871796 33.629999999999995 74.46728205128204 33.629999999999995 Z"
+                      fill="none" stroke="none"/>
+                <path data-ac-wrapper-id="48"
+                      d="M 74.46728205128204 33.629999999999995 L 315.53271794871796 33.629999999999995 310.1553846153846 47.8 79.8446153846154 47.8 Z"
+                      fill="none" stroke="none"/>
+                <path data-ac-wrapper-id="49"
+                      d="M 79.8446153846154 47.8 L 310.1553846153846 47.8 306.5654358974359 57.26 83.43456410256411 57.26 Z"
+                      fill="none" stroke="none"/>
+                <path data-ac-wrapper-id="50"
+                      d="M 83.43456410256411 57.26 L 306.5654358974359 57.26 297.5981538461539 80.89 92.40184615384615 80.89 Z"
+                      fill="none" stroke="none"/>
+                <path data-ac-wrapper-id="51"
+                      d="M 92.40184615384615 80.89 L 297.5981538461539 80.89 250.5 205 250.5 222.72000000000003 139.5 222.72000000000003 139.5 205 Z"
+                      fill="none" stroke="none"/>
+                <path data-ac-wrapper-id="52"
+                      d="M 139.5 222.72000000000003 L 250.5 222.72000000000003 250.5 269.99 139.5 269.99 Z" fill="none"
+                      stroke="none"/>
+            </g>
+            <g data-ac-wrapper-id="60" clip-path="url(##ac_clip_2)" clipPathUnits="userSpaceOnUse">
+                <path data-ac-wrapper-id="61" d="M 26 41.5 L 69.98364102564102 21.816" fill="none" stroke="#CECECE"/>
+                <path data-ac-wrapper-id="62" d="M 26 64.5 L 77.15594871794872 40.715999999999994" fill="none"
+                      stroke="#CECECE"/>
+                <path data-ac-wrapper-id="63" d="M 26 87.5 L 81.63958974358974 52.531" fill="none" stroke="#CECECE"/>
+                <path data-ac-wrapper-id="64" d="M 26 110.5 L 87.91820512820513 69.07600000000001" fill="none"
+                      stroke="#CECECE"/>
+                <path data-ac-wrapper-id="65" d="M 26 171.805 L 119.3131794871795 151.806" fill="none"
+                      stroke="#CECECE"/>
+                <path data-ac-wrapper-id="66" d="M 38 266.355 L 139.5 246.35600000000002" fill="none" stroke="#CECECE"/>
+            </g>
+            <g id="1" data-ac-wrapper-id="53">
+                <path data-ac-wrapper-id="54"
+                      d="M 203 21.814999999999998 A 8 8 0 0 1 187 21.814999999999998 A 8 8 0 0 1 203 21.814999999999994"
+                      fill="#64b5f6" stroke="#467fac"/>
+                <path data-ac-wrapper-id="55"
+                      d="M 203 40.714999999999996 L 199 44.714999999999996 195 48.714999999999996 191 44.714999999999996 187 40.714999999999996 191 36.714999999999996 195 32.714999999999996 199 36.714999999999996 203 40.714999999999996 Z"
+                      fill="#1976d2" stroke="#125393"/>
+                <path data-ac-wrapper-id="56" d="M 187 44.53 L 203 44.53 203 60.53 187 60.53 187 44.53 Z" fill="#ef6c00"
+                      stroke="#a74c00"/>
+                <path data-ac-wrapper-id="57"
+                      d="M 195 77.075 L 191.53589838486224 71.075 188.0717967697245 65.075 195 65.075 201.9282032302755 65.075 198.46410161513776 71.075 195 77.075 Z"
+                      fill="#ffd54f" stroke="#b39537"/>
+                <path data-ac-wrapper-id="58"
+                      d="M 195 143.805 L 198.46410161513776 149.805 201.9282032302755 155.805 195 155.805 188.0717967697245 155.805 191.53589838486224 149.805 195 143.805 Z"
+                      fill="#455a64" stroke="#303f46"/>
+                <path data-ac-wrapper-id="59"
+                      d="M 189.82842712474618 238.35500000000002 L 195 243.52657287525383 200.17157287525382 238.35500000000002 203 241.1834271247462 197.82842712474618 246.35500000000002 203 251.52657287525383 200.17157287525382 254.35500000000002 195 249.1834271247462 189.82842712474618 254.35500000000002 187 251.52657287525383 192.17157287525382 246.35500000000002 187 241.1834271247462 Z"
+                      fill="#96a6a6" stroke="#697474"/>
+            </g>
+            <g data-ac-wrapper-id="68" clip-path="url(##ac_clip_4)" clipPathUnits="userSpaceOnUse">
+                <g data-ac-wrapper-id="69">
+                    <path data-ac-wrapper-id="70" d="M 10.5 30.5 L 25.5 30.5 25.5 52.5 10.5 52.5 10.5 30.5 Z"
+                          fill="#fef" stroke="none"/>
+                    <text data-ac-wrapper-id="71" font-style="normal" font-variant="normal"
+                          font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                          fill="#545f69" letter-spacing="normal" text-decoration="none" direction="ltr"
+                          text-anchor="start" x="14" y="46" style="-webkit-user-select: none; opacity: 1;">
+                        <tspan dy="0">0</tspan>
+                    </text>
+                </g>
+                <g data-ac-wrapper-id="72">
+                    <path data-ac-wrapper-id="73" d="M 10.5 53.5 L 25.5 53.5 25.5 75.5 10.5 75.5 10.5 53.5 Z"
+                          fill="#fef" stroke="none"/>
+                    <text data-ac-wrapper-id="74" font-style="normal" font-variant="normal"
+                          font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                          fill="#545f69" letter-spacing="normal" text-decoration="none" direction="ltr"
+                          text-anchor="start" x="14" y="69" style="-webkit-user-select: none; opacity: 1;">
+                        <tspan dy="0">5</tspan>
+                    </text>
+                </g>
+                <g data-ac-wrapper-id="75">
+                    <path data-ac-wrapper-id="76" d="M 10.5 76.5 L 25.5 76.5 25.5 98.5 10.5 98.5 10.5 76.5 Z"
+                          fill="#fef" stroke="none"/>
+                    <text data-ac-wrapper-id="77" font-style="normal" font-variant="normal"
+                          font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                          fill="#545f69" letter-spacing="normal" text-decoration="none" direction="ltr"
+                          text-anchor="start" x="14" y="92" style="-webkit-user-select: none; opacity: 1;">
+                        <tspan dy="0">7</tspan>
+                    </text>
+                </g>
+                <g data-ac-wrapper-id="78">
+                    <path data-ac-wrapper-id="79" d="M 10.5 99.5 L 25.5 99.5 25.5 121.5 10.5 121.5 10.5 99.5 Z"
+                          fill="#fef" stroke="none"/>
+                    <text data-ac-wrapper-id="80" font-style="normal" font-variant="normal"
+                          font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                          fill="#545f69" letter-spacing="normal" text-decoration="none" direction="ltr"
+                          text-anchor="start" x="14" y="115" style="-webkit-user-select: none; opacity: 1;">
+                        <tspan dy="0">8</tspan>
+                    </text>
+                </g>
+                <g data-ac-wrapper-id="81">
+                    <path data-ac-wrapper-id="82"
+                          d="M 10.5 160.805 L 25.5 160.805 25.5 182.805 10.5 182.805 10.5 160.805 Z" fill="#fef"
+                          stroke="none"/>
+                    <text data-ac-wrapper-id="83" font-style="normal" font-variant="normal"
+                          font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                          fill="#545f69" letter-spacing="normal" text-decoration="none" direction="ltr"
+                          text-anchor="start" x="14" y="176.305" style="-webkit-user-select: none; opacity: 1;">
+                        <tspan dy="0">2</tspan>
+                    </text>
+                </g>
+                <g data-ac-wrapper-id="84">
+                    <path data-ac-wrapper-id="85"
+                          d="M 10.5 255.35500000000002 L 37.5 255.35500000000002 37.5 277.355 10.5 277.355 10.5 255.35500000000002 Z"
+                          fill="#fef" stroke="none"/>
+                    <text data-ac-wrapper-id="86" font-style="normal" font-variant="normal"
+                          font-family="Verdana, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal"
+                          fill="#545f69" letter-spacing="normal" text-decoration="none" direction="ltr"
+                          text-anchor="start" x="14" y="270.855" style="-webkit-user-select: none; opacity: 1;">
+                        <tspan dy="0">1.7</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
