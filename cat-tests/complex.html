@@ -1,6 +1,6 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="anyMap"/>
+    <meta name="x-cat-tags" content="pie3d labelsFactory  anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -13,34 +13,136 @@
     <script src="utils/anytest.min.js"></script>
 
 
-    <script src="http://cat.anychart.com/static/sessions/14141/branch/out/local-cdn/geodata/v2/australia.js"></script>
-
 </head>
 <body>
 <div id="container"></div>
-<div style="display: none" id="SVGData"></div>
 </body>
 <script>
-  xhr = new XMLHttpRequest();
-  xhr.open("GET","svg_data.svg",false);
-  // Following line is just to be on the safe side;
-  // not needed if your server delivers SVG with correct MIME type
-  xhr.overrideMimeType("image/svg+xml");
-  xhr.send("");
-  document.getElementById("SVGData").appendChild(xhr.responseXML.documentElement);
-  var map;
+  var chart, formatLabels;
   anychart.onDocumentLoad(function() {
-    anytest.setUp();//DVF-2411
+    anytest.setUp(400, 400);
+    var dataSet = [
+      0.2, 0.2, 0.2, 0.2, 10
+    ];
+    formatLabels = function () {
+      return this.value + ' some long text'
+    };
+    chart1 = anychart.pie3d();
+    chart1.data(dataSet)
+        .padding(0)
+        .explode(0) // explode = 0
+        .legend(null);
+    chart1.overlapMode('allow-overlap');
+    chart1.labels()
+        .background('green')
+        .height('30px')
+        .width('60px')
+        .fontSize(8)
+        .position('outside')
+        .fontColor('red')
+        .format(formatLabels)
+        .wordWrap('break-word');
+    chart1.background('grey 0.3');
+    chart1.bounds(0, 0, '50%', '50%');
+    anytest.drawInStage(chart1);
 
-    svg = document.getElementById("SVGData").innerHTML;
-    map = anychart.seatMap([])
-        .geoData(svg)
-        .unboundRegions('as-is');
-    series = map.getSeries(0);
-    series.labels(true);
-    anytest.drawInStage(map);
+    chart2 = anychart.pie3d();
+    chart2.data(dataSet).padding(0) // explode = default not equal 0
+        .legend(null);
+    chart2.overlapMode('allow-overlap');
+    chart2.labels()
+        .background('green')
+        .height('30px')
+        .width('60px')
+        .fontSize(8)
+        .position('outside')
+        .fontColor('red')
+        .format(formatLabels)
+        .wordWrap('break-word');
+    chart2.background('grey 0.1');
+    chart2.bounds('50%', 0, '50%', '50%');
+    anytest.drawInStage(chart2);
 
-    anytest.stageListen().charts4modes("map");
+    chart3 = anychart.pie3d();
+    chart3.data(dataSet) // explode, padding = default not equal 0
+        .legend(null);
+    chart3.overlapMode('allow-overlap');
+    chart3.labels()
+        .background('green')
+        .height('30px')
+        .width('60px')
+        .fontSize(8)
+        .position('outside')
+        .fontColor('red')
+        .format(formatLabels)
+        .wordWrap('break-word');
+    chart3.bounds(0, '50%', '50%', '50%');
+    anytest.drawInStage(chart3);
+
+    chart4 = anychart.pie3d();
+    chart4.data(dataSet).explode(0)  // padding = default not equal 0
+        .legend(null);
+    chart4.overlapMode('allow-overlap');
+    chart4.labels()
+        .background('green')
+        .height('30px')
+        .width('60px')
+        .fontSize(8)
+        .position('outside')
+        .fontColor('red')
+        .format(formatLabels)
+        .wordWrap('break-word');
+    chart4.background('grey 0.2');
+    chart4.bounds('50%', '50%', '50%', '50%');
+    anytest.drawInStage(chart4);
+
+    anytest.stageListen(function() {
+      anytest.step(function() {
+        chart1.labels().format(formatLabels);
+        chart2.labels().format(formatLabels);
+        chart3.labels().format(formatLabels);
+        chart4.labels().format(formatLabels);
+        anytest.CAT.getScreen();
+      });
+      anytest.step(function() {
+        anytest.CAT.action(87, 118);
+      });
+      anytest.step(function() {
+        anytest.CAT.action(2, 2);
+      });
+      anytest.step(function() {
+        anytest.CAT.getScreen("explodeChart1", 1);
+      });
+      anytest.step(function() {
+        anytest.CAT.action(296, 278);
+      });
+      anytest.step(function() {
+        anytest.CAT.action(2, 2);
+      });
+      anytest.step(function() {
+        anytest.CAT.getScreen("explodeChart4", 1);
+      });
+      anytest.step(function() {
+        anytest.CAT.action(301, 78);
+      });
+      anytest.step(function() {
+        anytest.CAT.action(2, 2);
+      });
+      anytest.step(function() {
+        anytest.CAT.getScreen("explodeChart2", -1);
+      });
+      anytest.step(function() {
+        anytest.CAT.action(301, 71);
+      });
+      anytest.step(function() {
+        anytest.CAT.action(2, 2);
+      });
+      anytest.step(function() {
+        anytest.CAT.getScreen("explodeChart2Back", 1);
+      });
+      anytest.exit();
+    }).charts4modes("chart1");
+       // anytest.createPanel('interactive');
     stage.resume();
   });
 </script>

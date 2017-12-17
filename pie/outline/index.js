@@ -5,7 +5,7 @@ anychart.onDocumentReady(function() {
   // chart.fill('aquastyle');
   chart.hovered().fill('red');
 
-  // chart.outline(null);
+  chart.outline().fill(null);
 
   chart.container('container').draw();
 });
