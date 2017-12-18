@@ -139,5 +139,17 @@ anychart.onDocumentReady(function() {
       .itemsLayout('vertical');
   pie.innerRadius('85%');
   pie.center().content(map);
-  pie.container('container').draw();
+  // pie.container('container').draw();
+
+
+  var pie1 = anychart.pie(data);
+  pie1.palette().items(colors);
+  pie1.stroke('2 #fff')
+  pie1.labels(false);
+  pie1.legend()
+      .position('right')
+      .itemsLayout('vertical');
+  pie1.innerRadius('85%');
+  pie1.center().content(pie);
+  pie1.container('container').draw();
 });

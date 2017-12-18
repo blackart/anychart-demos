@@ -1,6 +1,6 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="anyMap"/>
+    <meta name="x-cat-tags" content="cartesian anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -12,36 +12,62 @@
     </script>
     <script src="utils/anytest.min.js"></script>
 
-
-    <script src="http://cat.anychart.com/static/sessions/14141/branch/out/local-cdn/geodata/v2/australia.js"></script>
-
 </head>
 <body>
 <div id="container"></div>
-<div style="display: none" id="SVGData"></div>
-</body>
 <script>
-  xhr = new XMLHttpRequest();
-  xhr.open("GET","svg_data.svg",false);
-  // Following line is just to be on the safe side;
-  // not needed if your server delivers SVG with correct MIME type
-  xhr.overrideMimeType("image/svg+xml");
-  xhr.send("");
-  document.getElementById("SVGData").appendChild(xhr.responseXML.documentElement);
-  var map;
+  var chart;
   anychart.onDocumentLoad(function() {
-    anytest.setUp();//DVF-2411
+    anytest.setUp();
 
-    svg = document.getElementById("SVGData").innerHTML;
-    map = anychart.seatMap([])
-        .geoData(svg)
-        .unboundRegions('as-is');
-    series = map.getSeries(0);
-    series.labels(true);
-    anytest.drawInStage(map);
+    chart = anychart.cartesian();
+    chart.area([1, 3, 2, 4]).markers(true).tooltip(false);
+    chart.interactivity({multiSelectOnClick: true});
+    anytest.drawInStage(chart);
 
-    anytest.stageListen().charts4modes("map");
+    anytest.stageListen(function() {
+//      anytest.step(function() {
+//        anytest.CAT.getScreen();
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(57, 223);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(148, 101);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(240, 161);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.getScreen('multiSelect', -1);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(159, 33);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.getScreen('unselect', 1);
+//        chart.interactivity().multiSelectOnClick(false);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(57, 223);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.action(148, 101);
+//      });
+//      anytest.step(function() {
+//        anytest.CAT.getScreen('multiSelectOf', -1, 'multiSelect');
+//        anytest.CAT.action(10,10);
+//      });
+//      anytest.step(function(){
+//        anytest.CAT.getScreen('def', 1);
+//      });
+      anytest.exit();
+    }).charts4modes('chart');
+        anytest.createPanel('interactive');
+
     stage.resume();
   });
+
 </script>
+</body>
 </html>

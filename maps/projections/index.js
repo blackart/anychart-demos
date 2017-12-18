@@ -227,7 +227,7 @@ anychart.onDocumentReady(function() {
   map.container('container').draw();
 
 
-  setInterval(changeProjection, 500);
+  // setInterval(changeProjection, 500);
 
   proj.on('change', function() {
     map.crs(this.value);

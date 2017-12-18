@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+
+    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
+    <link href="https://cdn.anychart.com/fonts/2.7.0/anychart.css" type="text/css" rel="stylesheet">
+    <script src="../../out/anychart-bundle.min.js"></script>
+
+    <script src="https://cdn.anychart.com/geodata/1.2.0/custom/world/world.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qv-panel-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .qv-stage-container {
+
+        }
+
+        .qv-panel {
+            position: absolute;
+            width: 100%;
+            height: -webkit-calc(100% - 44px);
+            height: calc(100% - 44px);
+        }
+
+        .qv-panel-stage {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-direction: normal;
+            -moz-box-direction: normal;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+
+        .qv-panel-stage .flex-row {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-direction: normal;
+            -moz-box-direction: normal;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .qv-panel-stage > * {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }
+
+        .qv-panel-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .qv-panel-stage .qvt-sheet-container {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-direction: normal;
+            -moz-box-direction: normal;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+
+        .qv-panel-stage .flex-row > * {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }
+
+        .qv-panel-stage .qvt-sheet-container > * {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }
+
+        .qv-panel-sheet {
+            position: relative;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-direction: normal;
+            -moz-box-direction: normal;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            overflow: initial;
+            padding: 0 0 0 0;
+            background-color: #fff;
+        }
+
+        #grid-wrap.sheet-grid {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            position: relative;
+        }
+
+        .borderbox {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .sheet-grid #grid {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            bottom: 5px;
+            right: 5px;
+        }
+
+        #grid .qv-gridcell {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .sheet-grid .qv-gridcell {
+            position: absolute;
+            border: 2px solid rgba(0, 0, 0, 0);
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        #grid .cell-content {
+            width: 100%;
+            height: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .qv-object-wrapper {
+            position: relative;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-direction: normal;
+            -moz-box-direction: normal;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            height: 100%;
+            width: 100%;
+        }
+
+        .qv-object {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            border: solid transparent;
+            border-width: 0 1px 1px;
+            border-radius: 0px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            font-size: 13px;
+            z-index: 1;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-direction: normal;
+            -moz-box-direction: normal;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            background-color: #FFFFFF;
+        }
+
+        .qv-object .qv-inner-object {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-direction: normal;
+            -moz-box-direction: normal;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            overflow: hidden;
+            background-color: inherit;
+        }
+
+        .qv-object .qv-object-content-container {
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+
+        .qv-object .qv-object-content-container {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            position: relative;
+            background-color: inherit;
+        }
+
+        .qv-object .qv-object-content {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-color: inherit;
+        }
+
+        #container {
+
+        }
+    </style>
+
+    <script src="index.js"></script>
+</head>
+<body>
+<div class="qv-panel-wrap">
+    <div class="qv-stage-container">
+        <div class="qv-panel qv-panel-stage">
+            <div class="qv-panel-content flex-row">
+                <div class="qvt-sheet-container">
+                    <div class="qvt-sheet qv-panel-sheet ng-scope ng-isolate-scope">
+                        <div id="grid-wrap" class="sheet-grid borderbox">
+                            <div id="grid">
+                                <div class="cell qv-gridcell qvt-gridcell ng-scope"
+                                     style="width: calc(41.6667% - 4px); height: calc(75% - 4px); left: calc(25% + 2px); top: calc(8.33333% + 2px);">
+                                    <div class="cell-content qv-object-wrapper ng-scope ng-isolate-scope">
+                                        <article class="qv-object qvt-visualization qv-can-take-snapshot qv-layout-medium qv-object-anychart-qlik">
+                                            <div class="qv-inner-object">
+                                                <div class="qv-object-content-container">
+                                                    <div class="qv-object-content ng-isolate-scope">
+                                                        <div style="height: 100%; position: relative;">
+                                                            <div id="container" style="width: 100%; height: 100%; position: relative;"
+                                                                 class="chart-container"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
