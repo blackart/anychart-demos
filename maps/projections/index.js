@@ -88,24 +88,26 @@ function changeProjection() {
   proj_index++;
 }
 
-
 anychart.onDocumentReady(function() {
   proj = $('<select></select>');
   for (var i = 0; len = i < projections.length; i++) {
-    proj.append('<option value=' + projections[i] + '>' + projections[i] + '</option>');
+    var projection = projections[i];
+    var name = typeof projection == 'string' ? projection : projection.name;
+    var value = typeof projection == 'string' ? projection : projection.value;
+    proj.append('<option value=' + value + '>' + name + '</option>');
   }
   $('#projections').append(proj);
 
   map = anychart.map();
 
-  map.geoData(anychart.maps.world_source);
+  map.geoData('anychart.maps.world');
   // // map.geoData(anychart.maps.australia);
   //
   // map.legend(true);
   //
   // // map.crs('+proj=mill +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R_A +datum=WGS84 +units=m +no_defs');
   // // map.crs('Mercator');
-  // //
+
   var choroplethData = [];
   var features = map.geoData()['features'];
   for (var i = 0, len = features.length; i < len; i++) {
@@ -230,6 +232,7 @@ anychart.onDocumentReady(function() {
   // setInterval(changeProjection, 500);
 
   proj.on('change', function() {
+    console.log(this.value);
     map.crs(this.value);
   });
 
