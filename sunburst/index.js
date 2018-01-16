@@ -3,159 +3,176 @@ anychart.onDocumentReady(function() {
   var data = [{
     "id": "00",
     "product": "Products by Revenue",
-    "parent": null
+    "parent": null,
+    "value": 1000
   }, {
     "parent": "00",
     "id": "01",
     "product": "Fruits",
-    "value": 692000
+    "value": 200
   }, {
     "parent": "00",
     "id": "02",
     "product": "Vegetables",
-    "value": 597000
+    "value": 300
   }, {
     "parent": "00",
     "id": "03",
     "product": "Dairy",
-    "value": 1359000
+    "value": 100
   }, {
     "parent": "00",
     "id": "04",
     "product": "Meat",
-    "value": 596000
+    "value": 100
+  }, {
+    "parent": "00",
+    "id": "05",
+    "product": "Meat",
+    "value": 150
+  }, {
+    "parent": "05",
+    "id": "50",
+    "value": 100
+  }, {
+    "parent": "50",
+    "id": "500",
+    "value": 50
   }, {
     "parent": "01",
     "id": "11",
     "product": "Apples",
-    "value": 138000
+    "value": 10
   }, {
     "parent": "01",
     "id": "12",
     "product": "Oranges",
-    "value": 22000
+    "value": 10
   }, {
     "parent": "01",
     "id": "13",
     "product": "Bananas",
-    "value": 88000
+    "value": 10
   }, {
     "parent": "01",
     "id": "14",
     "product": "Melons",
-    "value": 77000
+    "value": 10
   }, {
     "parent": "01",
     "id": "15",
     "product": "Apricots",
-    "value": 48000
+    "value": 10
   }, {
     "parent": "01",
     "id": "16",
     "product": "Plums",
-    "value": 48000
+    "value": 10
   }, {
     "parent": "01",
     "id": "17",
     "product": "Pineapples",
-    "value": 41000
+    "value": 10
   }, {
     "parent": "01",
     "id": "18",
     "product": "Cherries",
-    "value": 39000
+    "value": 10
   }, {
     "parent": "01",
     "id": "19",
     "product": "Tangerines",
-    "value": 32000
+    "value": 10
   }, {
     "parent": "02",
     "id": "21",
     "product": "Potato",
-    "value": 189000
+    "value": 10
   }, {
     "parent": "02",
     "id": "22",
     "product": "Eggplants",
-    "value": 94000
+    "value": 10
   }, {
     "parent": "02",
     "id": "23",
     "product": "Tomatoes",
-    "value": 63000
+    "value": 10
   }, {
     "parent": "02",
     "id": "24",
     "product": "Cucumbers",
-    "value": 43000
+    "value": 10
   }, {
     "parent": "02",
     "id": "25",
     "product": "Cabbage",
-    "value": 30000
+    "value": 10
   }, {
     "parent": "02",
     "id": "26",
     "product": "Carrot",
-    "value": 29000
+    "value": 10
   }, {
     "parent": "02",
     "id": "27",
     "product": "Squash",
-    "value": 26000
+    "value": 10
   }, {
     "parent": "02",
     "id": "28",
     "product": "Capsicums",
-    "value": 23000
+    "value": 10
   }, {
     "parent": "03",
     "id": "31",
     "product": "Milk",
-    "value": 154000
+    "value": 10
   }, {
     "parent": "03",
     "id": "32",
     "product": "Curd",
-    "value": 142000
+    "value": 10
   }, {
     "parent": "03",
     "id": "33",
     "product": "Cheese",
-    "value": 43000
+    "value": 10
   }, {
     "parent": "03",
     "id": "34",
     "product": "Yogurt",
-    "value": 38000
+    "value": 10
   }, {
     "parent": "03",
     "id": "35",
     "product": "Kefir",
-    "value": 32000
+    "value": 10
   }, {
     "parent": "04",
     "id": "41",
     "product": "Mutton",
-    "value": 154000
+    "value": 10
   }, {
     "parent": "04",
     "id": "42",
     "product": "Beef",
-    "value": 142000
+    "value": 10
   }, {
     "parent": "04",
     "id": "43",
     "product": "Pork",
-    "value": 43000
+    "value": 10
   }, {
     "parent": "04",
     "id": "44",
     "product": "Veal",
-    "value": 38000
+    "value": 10
   }];
   var dataTree = anychart.data.tree(data, 'as-table');
   chart = anychart.sunburst(dataTree);
+  // chart.calculatingMode('parentDepend');
+  // chart.calculatingMode('parentIndependent');
+  chart.calculatingMode('ordinal');
   chart.container('container').draw();
 });
