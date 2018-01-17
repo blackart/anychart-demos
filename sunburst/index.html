@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 <head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
     <meta charset="utf-8">
@@ -10,15 +12,37 @@
     </script>
     <!--<script src="../../out/anychart-bundle.min.js"></script>-->
     <style>
-        html, body, #container {
+        html, body {
             width: 100%;
             height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            width: 100%;
+            height: 80%;
             margin: 0;
         }
     </style>
     <script src="index.js"></script>
 </head>
 <body>
+
+<div style="display: inline-block">
+    <fieldset>
+        <legend>Calculation mode:</legend>
+        <input type="radio" name="calculationMode" id="parentDependent" value="parentDependent">
+        <label for="parentDependent">parent dependent</label><br>
+        <input type="radio" name="calculationMode" id="parentIndependent" value="parentIndependent">
+        <label for="parentIndependent">parent independent</label><br>
+        <input type="radio" name="calculationMode" id="ordinalFromRoot" value="ordinalFromRoot">
+        <label for="ordinalFromRoot">ordinal from root</label><br>
+        <input type="radio" name="calculationMode" id="ordinalFromLeaves" value="ordinalFromLeaves">
+        <label for="ordinalFromLeaves">ordinal from leaves</label>
+    </fieldset>
+</div>
+
 <div id="container"></div>
 </body>
 </html>
