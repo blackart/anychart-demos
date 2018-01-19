@@ -186,16 +186,20 @@ anychart.onDocumentReady(function() {
   ];
   var dataTree = anychart.data.tree(data, 'as-table');
   chart = anychart.sunburst(dataTree);
-  chart.calculatingMode('parentDependent');
+
   chart.innerRadius('30%');
   chart.labels()
       .enabled(true)
+      // .background('red')
       .format('{%Value}')
       .fontColor('#000')
 
   chart.startAngle(45);
-  // chart.calculatingMode('parentIndependent');
+
+  // chart.calculatingMode('parentDependent');
+  chart.calculatingMode('parentIndependent');
   // chart.calculatingMode('ordinal');
+
   chart.container('container').draw();
 
 
