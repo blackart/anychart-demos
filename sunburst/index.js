@@ -1,6 +1,20 @@
 var chart;
 anychart.onDocumentReady(function() {
   var data = [
+    // {
+    //   "id": "100",
+    //   "product": "Root 2",
+    //   "parent": null,
+    //   "value": 500
+    // },
+    //
+    // {
+    //   "id": "200",
+    //   "product": "Root 3",
+    //   "parent": null,
+    //   "value": 4
+    // },
+
     {
       "id": "00",
       "product": "Products by Revenue",
@@ -187,18 +201,22 @@ anychart.onDocumentReady(function() {
   var dataTree = anychart.data.tree(data, 'as-table');
   chart = anychart.sunburst(dataTree);
 
-  chart.innerRadius('30%');
+  // chart.innerRadius('30%');
   chart.labels()
+      .position('circular')
       .enabled(true)
       // .background('red')
       .format('{%Value}')
-      .fontColor('#000')
 
   chart.startAngle(45);
 
   // chart.calculatingMode('parentDependent');
   chart.calculatingMode('parentIndependent');
   // chart.calculatingMode('ordinal');
+
+  chart.hovered().labels()
+      .fontColor('red')
+      .fontWeight('bold');
 
   chart.container('container').draw();
 
