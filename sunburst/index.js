@@ -213,7 +213,7 @@ anychart.onDocumentReady(function() {
       // .background('red')
       // .format('{%Value}')
 
-  chart.startAngle(-90);
+  chart.startAngle(-130);
   chart.innerRadius('10%');
 
   // chart.calculatingMode('parentDependent');
