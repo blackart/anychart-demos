@@ -3,21 +3,21 @@ anychart.onDocumentReady(function() {
   var data = [
     // {
     //   "id": "100",
-    //   "product": "Root 2",
+    //   "name": "Root 2",
     //   "parent": null,
     //   "value": 500
     // },
     //
     // {
     //   "id": "200",
-    //   "product": "Root 3",
+    //   "name": "Root 3",
     //   "parent": null,
     //   "value": 4
     // },
 
     {
       "id": "00",
-      "product": "Products by Revenue",
+      "name": "Products by Revenue",
       "parent": null,
       "value": 1000
     },
@@ -26,27 +26,27 @@ anychart.onDocumentReady(function() {
     {
       "parent": "00",
       "id": "01",
-      "product": "Fruits",
+      "name": "Fruits",
       "value": 200
     }, {
       "parent": "00",
       "id": "02",
-      "product": "Vegetables",
+      "name": "Vegetables",
       "value": 300
     }, {
       "parent": "00",
       "id": "03",
-      "product": "Dairy",
+      "name": "Dairy",
       "value": 100
     }, {
       "parent": "00",
       "id": "04",
-      "product": "Meat",
+      "name": "Meat",
       "value": 100
     }, {
       "parent": "00",
       "id": "05",
-      "product": "Meat",
+      "name": "Meat",
       "value": 150
     },
 
@@ -54,6 +54,7 @@ anychart.onDocumentReady(function() {
     {
       "parent": "05",
       "id": "50",
+      "name": "Meat 1",
       "value": 100
     },
 
@@ -61,6 +62,7 @@ anychart.onDocumentReady(function() {
     {
       "parent": "50",
       "id": "500",
+      "name": "Meat 2",
       "value": 50
     },
 
@@ -69,146 +71,150 @@ anychart.onDocumentReady(function() {
     {
       "parent": "01",
       "id": "11",
-      "product": "Apples",
+      "name": "Apples",
       "value": 10
     }, {
       "parent": "01",
       "id": "12",
-      "product": "Oranges",
+      "name": "Oranges",
       "value": 10
     }, {
       "parent": "01",
       "id": "13",
-      "product": "Bananas",
+      "name": "Bananas",
       "value": 10
     }, {
       "parent": "01",
       "id": "14",
-      "product": "Melons",
+      "name": "Melons",
       "value": 10
     }, {
       "parent": "01",
       "id": "15",
-      "product": "Apricots",
+      "name": "Apricots",
       "value": 10
     }, {
       "parent": "01",
       "id": "16",
-      "product": "Plums",
+      "name": "Plums",
       "value": 10
     }, {
       "parent": "01",
       "id": "17",
-      "product": "Pineapples",
+      "name": "Pineapples",
       "value": 10
     }, {
       "parent": "01",
       "id": "18",
-      "product": "Cherries",
+      "name": "Cherries",
       "value": 10
     }, {
       "parent": "01",
       "id": "19",
-      "product": "Tangerines",
+      "name": "Tangerines",
       "value": 10
     }, {
       "parent": "02",
       "id": "21",
-      "product": "Potato",
+      "name": "Potato",
       "value": 10
     }, {
       "parent": "02",
       "id": "22",
-      "product": "Eggplants",
+      "name": "Eggplants",
       "value": 10
     }, {
       "parent": "02",
       "id": "23",
-      "product": "Tomatoes",
+      "name": "Tomatoes",
       "value": 10
     }, {
       "parent": "02",
       "id": "24",
-      "product": "Cucumbers",
+      "name": "Cucumbers",
       "value": 10
     }, {
       "parent": "02",
       "id": "25",
-      "product": "Cabbage",
+      "name": "Cabbage",
       "value": 10
     }, {
       "parent": "02",
       "id": "26",
-      "product": "Carrot",
+      "name": "Carrot",
       "value": 10
     }, {
       "parent": "02",
       "id": "27",
-      "product": "Squash",
+      "name": "Squash",
       "value": 10
     }, {
       "parent": "02",
       "id": "28",
-      "product": "Capsicums",
+      "name": "Capsicums",
       "value": 10
     }, {
       "parent": "03",
       "id": "31",
-      "product": "Milk",
+      "name": "Milk",
       "value": 10
     }, {
       "parent": "03",
       "id": "32",
-      "product": "Curd",
+      "name": "Curd",
       "value": 10
     }, {
       "parent": "03",
       "id": "33",
-      "product": "Cheese",
+      "name": "Cheese",
       "value": 10
     }, {
       "parent": "03",
       "id": "34",
-      "product": "Yogurt",
+      "name": "Yogurt",
       "value": 10
     }, {
       "parent": "03",
       "id": "35",
-      "product": "Kefir",
+      "name": "Kefir",
       "value": 10
     }, {
       "parent": "04",
       "id": "41",
-      "product": "Mutton",
+      "name": "Mutton",
       "value": 10
     }, {
       "parent": "04",
       "id": "42",
-      "product": "Beef",
+      "name": "Beef",
       "value": 10
     }, {
       "parent": "04",
       "id": "43",
-      "product": "Pork",
+      "name": "Pork",
       "value": 10
     }, {
       "parent": "04",
       "id": "44",
-      "product": "Veal",
+      "name": "Veal",
       "value": 10
     }
   ];
   var dataTree = anychart.data.tree(data, 'as-table');
   chart = anychart.sunburst(dataTree);
 
+  // chart.stroke('10 blue');
+  // chart.selected().stroke('10 red');
+
   // chart.innerRadius('30%');
   chart.labels()
       .position('circular')
       .enabled(true)
       // .background('red')
-      .format('{%Value}')
+      // .format('{%Value}')
 
-  chart.startAngle(45);
+  chart.startAngle(-90);
+  chart.innerRadius('10%');
 
   // chart.calculatingMode('parentDependent');
   chart.calculatingMode('parentIndependent');
