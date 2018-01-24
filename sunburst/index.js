@@ -27,7 +27,8 @@ anychart.onDocumentReady(function() {
       "parent": "00",
       "id": "01",
       "name": "Fruits",
-      "value": 200
+      "value": 200,
+      "fill": "green"
     }, {
       "parent": "00",
       "id": "02",
@@ -223,6 +224,12 @@ anychart.onDocumentReady(function() {
   chart.hovered().labels()
       .fontColor('red')
       .fontWeight('bold');
+
+
+  chart.fill(function() {
+    // console.log(this);
+    return this.autoColor;
+  });
 
   chart.container('container').draw();
 
