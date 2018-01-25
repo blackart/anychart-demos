@@ -226,12 +226,25 @@ anychart.onDocumentReady(function() {
       .fontWeight('bold');
 
 
-  chart.fill(function() {
-    // console.log(this);
-    return this.autoColor;
-  });
+  // chart.fill(function() {
+  //   return this.autoColor;
+  // });
+  chart.level(0).enabled(false);
+  chart.level(2)
+      .thickness('50%')
+      .labels()
+      // .fontColor('red')
+      // .fontWeight('bold')
+      .format('{%Name}')
+      .autoRotate(true)
+      .rotation(90)
+      // .hAlign('left')
+      .position('normal');
+  // chart.level(-1).enabled(false);
 
   chart.container('container').draw();
+
+
 
 
   $('#' + chart.calculatingMode()).attr('checked', 'checked');
