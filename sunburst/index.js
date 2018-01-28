@@ -1,4 +1,57 @@
-var chart;
+function createChart(container, data, bouds, levels) {
+  var dataTree = anychart.data.tree(data, 'as-table');
+
+  var chart = anychart.sunburst(dataTree);
+  chart.bounds(bouds)
+
+  // chart.stroke('10 blue');
+  // chart.selected().stroke('10 red');
+
+  // chart.innerRadius('30%');
+  chart.labels()
+      .position('circular')
+      .enabled(true)
+  // .background('red')
+  // .format('{%Value}')
+
+  // chart.startAngle(-90);
+  chart.innerRadius('10%');
+
+  chart.calculatingMode('parentDependent');
+  // chart.calculatingMode('parentIndependent');
+  // chart.calculatingMode('ordinal');
+
+  chart.hovered().labels()
+      .fontColor('red')
+      .fontWeight('bold');
+
+
+  // chart.fill(function() {
+  //   return this.autoColor;
+  // });
+  chart.level(0).enabled(levels[0]);
+  chart.level(1).enabled(levels[1]);
+  chart.level(2)
+  .enabled(levels[2])
+      .thickness('50%')
+      .labels()
+      // .fontColor('red')
+      // .fontWeight('bold')
+      .format('{%Name}')
+      .hAlign('end')
+
+      // .autoRotate(true)
+      // .rotation(90)
+      // .hAlign('left')
+      .position('radial');
+  chart.level(3).enabled(levels[3]);
+
+  chart.container(container).draw();
+
+  return chart;
+}
+
+
 anychart.onDocumentReady(function() {
   var data = [
     // {
@@ -73,7 +126,7 @@ anychart.onDocumentReady(function() {
       "parent": "01",
       "id": "11",
       "name": "Apples",
-      "value": 10
+      "value": 30
     }, {
       "parent": "01",
       "id": "12",
@@ -201,54 +254,30 @@ anychart.onDocumentReady(function() {
       "value": 10
     }
   ];
-  var dataTree = anychart.data.tree(data, 'as-table');
-  chart = anychart.sunburst(dataTree);
-
-  // chart.stroke('10 blue');
-  // chart.selected().stroke('10 red');
-
-  // chart.innerRadius('30%');
-  chart.labels()
-      .position('circular')
-      .enabled(true)
-      // .background('red')
-      // .format('{%Value}')
-
-  chart.startAngle(-130);
-  chart.innerRadius('10%');
-
-  // chart.calculatingMode('parentDependent');
-  chart.calculatingMode('parentIndependent');
-  // chart.calculatingMode('ordinal');
-
-  chart.hovered().labels()
-      .fontColor('red')
-      .fontWeight('bold');
+  var stage = anychart.graphics.create('container');
+  var chart1 = createChart(stage, data, anychart.math.rect(0, 0, '50%', '50%'), [true,true,true,true]);
+  var chart2 = createChart(stage, data, anychart.math.rect('50%', 0, '50%', '50%'), [false,true,true,true]);
+  var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
+  var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
 
 
-  // chart.fill(function() {
-  //   return this.autoColor;
-  // });
-  // chart.level(1).enabled(false);
-  chart.level(2)
-      .thickness('50%')
-      .labels()
-      // .fontColor('red')
-      // .fontWeight('bold')
-      .format('{%Name}')
-      .hAlign('end')
-
-      // .autoRotate(true)
-      // .rotation(90)
-      // .hAlign('left')
-      .position('radial');
-  // chart.level(-1).enabled(false);
-
-  chart.container('container').draw();
-
-
-  $('#' + chart.calculatingMode()).attr('checked', 'checked');
+  $('#' + chart1.calculatingMode()).attr('checked', 'checked');
   $('input[name=calculationMode]').on('change', function() {
-    chart.calculatingMode($(this).val());
-  })
+    chart1.calculatingMode($(this).val());
+    chart2.calculatingMode($(this).val());
+    chart3.calculatingMode($(this).val());
+    chart4.calculatingMode($(this).val());
+  });
+
+  var maxDepth = chart4.getStat('maxDepth');
+  for (var i = 0; i <= maxDepth; i++) {
+    var enabled = chart4.level(i).enabled();
+    $('#levels').append('<input type="checkbox" name="levels" id="level ' + i + '" value="' + i + '" ' + (enabled ? 'checked' : '') + '>');
+    $('#levels').append('<label for="' + i + '">Level ' + i + '</label><br>');
+  }
+
+  $('input[name=levels]').on('change', function() {
+    chart4.level(+$(this).val()).enabled($(this).is(':checked'));
+  });
+
 });

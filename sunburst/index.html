@@ -2,6 +2,7 @@
 <html>
 <head>
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!--<script src="../jquery-1.7.1.min.js"></script>-->
 
     <!--<script src="../../libs/closure-library/closure/goog/base.js"></script>-->
     <!--<script src="../../src/deps.js"></script>-->
@@ -20,7 +21,9 @@
         }
 
         #container {
-            width: 100%;
+            border: 1px solid #000;
+            float: left;
+            width: 80%;
             height: 80%;
             margin: 0;
         }
@@ -30,7 +33,7 @@
 <body>
 
 <div style="display: inline-block">
-    <fieldset>
+    <fieldset id="calculationMode">
         <legend>Calculation mode:</legend>
         <input type="radio" name="calculationMode" id="parentDependent" value="parentDependent">
         <label for="parentDependent">parent dependent</label><br>
@@ -40,6 +43,10 @@
         <label for="ordinalFromRoot">ordinal from root</label><br>
         <input type="radio" name="calculationMode" id="ordinalFromLeaves" value="ordinalFromLeaves">
         <label for="ordinalFromLeaves">ordinal from leaves</label>
+    </fieldset>
+    <fieldset id="levels">
+        <legend>Levels:</legend>
+
     </fieldset>
 </div>
 
