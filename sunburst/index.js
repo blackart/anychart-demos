@@ -15,6 +15,7 @@ function createChart(container, data, bouds, levels) {
   // .format('{%Value}')
 
   // chart.startAngle(-90);
+  chart.radius('50%');
   chart.innerRadius('10%');
 
   chart.calculatingMode('parentDependent');
@@ -32,18 +33,8 @@ function createChart(container, data, bouds, levels) {
   chart.level(0).enabled(levels[0]);
   chart.level(1).enabled(levels[1]);
   chart.level(2)
-  .enabled(levels[2])
-      .thickness('50%')
-      .labels()
-      // .fontColor('red')
-      // .fontWeight('bold')
-      .format('{%Name}')
-      .hAlign('end')
-
-      // .autoRotate(true)
-      // .rotation(90)
-      // .hAlign('left')
-      .position('radial');
+      .enabled(levels[2])
+      // .thickness('30%')
   chart.level(3).enabled(levels[3]);
 
   chart.container(container).draw();
@@ -255,17 +246,18 @@ anychart.onDocumentReady(function() {
     }
   ];
   var stage = anychart.graphics.create('container');
-  var chart1 = createChart(stage, data, anychart.math.rect(0, 0, '50%', '50%'), [true,true,true,true]);
-  var chart2 = createChart(stage, data, anychart.math.rect('50%', 0, '50%', '50%'), [false,true,true,true]);
-  var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
-  var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
+  // var chart1 = createChart(stage, data, anychart.math.rect(0, 0, '50%', '50%'), [true,true,true,true]);
+  // var chart2 = createChart(stage, data, anychart.math.rect('50%', 0, '50%', '50%'), [false,true,true,true]);
+  // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
+  // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
+  var chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true]);
 
 
-  $('#' + chart1.calculatingMode()).attr('checked', 'checked');
+  $('#' + chart4.calculatingMode()).attr('checked', 'checked');
   $('input[name=calculationMode]').on('change', function() {
-    chart1.calculatingMode($(this).val());
-    chart2.calculatingMode($(this).val());
-    chart3.calculatingMode($(this).val());
+    // chart1.calculatingMode($(this).val());
+    // chart2.calculatingMode($(this).val());
+    // chart3.calculatingMode($(this).val());
     chart4.calculatingMode($(this).val());
   });
 
