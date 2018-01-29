@@ -32,9 +32,7 @@ function createChart(container, data, bouds, levels) {
   // });
   chart.level(0).enabled(levels[0]);
   chart.level(1).enabled(levels[1]);
-  chart.level(2)
-      .enabled(levels[2])
-      // .thickness('30%')
+  chart.level(2).enabled(levels[2])
   chart.level(3).enabled(levels[3]);
 
   chart.container(container).draw();
@@ -94,6 +92,12 @@ anychart.onDocumentReady(function() {
       "name": "Meat",
       "value": 150
     },
+    {
+      "parent": "00",
+      "id": "06",
+      "name": "Timpthy A. Loginov",
+      "value": 30
+    },
 
 
     {
@@ -110,7 +114,6 @@ anychart.onDocumentReady(function() {
       "name": "Meat 2",
       "value": 50
     },
-
 
 
     {
