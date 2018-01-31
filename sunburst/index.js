@@ -11,7 +11,7 @@ function createChart(container, data, bouds, levels) {
 
   // chart.innerRadius('30%');
   chart.labels()
-      .position('circular')
+      // .position('circular')
       .enabled(true)
   // .background('red')
   // .format('{%Value}')
