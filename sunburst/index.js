@@ -28,7 +28,8 @@ function createChart(container, data, bouds, levels) {
   //     .fontColor('red')
   //     .fontWeight('bold');
 
-  chart.labels().format('{%Name}');
+  chart.labels().format('{%Id}');
+  
 
 
   // chart.fill(function() {
