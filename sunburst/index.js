@@ -40,6 +40,7 @@ function createChart(container, data, bouds, levels) {
   chart.level(3).enabled(levels[3]);
 
   chart.leaves().thickness('40%')
+  chart.leaves().hovered().labels().fontColor('red');
 
   chart.container(container).draw();
 
@@ -261,7 +262,7 @@ anychart.onDocumentReady(function() {
   // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
   // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
 
-  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,false,false,true]);
+  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true]);
 
 
   $('#' + chart4.calculatingMode()).attr('checked', 'checked');
