@@ -29,8 +29,7 @@ function createChart(container, data, bouds, levels) {
   //     .fontWeight('bold');
 
   chart.labels().format('{%Id}');
-  
-
+  chart.tooltip().format('value: {%Value}\nid: {%Id}\ndepth: {%Depth}');
 
   // chart.fill(function() {
   //   return this.autoColor;
@@ -40,7 +39,7 @@ function createChart(container, data, bouds, levels) {
   chart.level(2).enabled(levels[2])
   chart.level(3).enabled(levels[3]);
 
-  chart.leaves().thickness('40%')
+  chart.leaves().thickness('50%')
   chart.leaves().hovered().labels().fontColor('red');
 
   chart.container(container).draw();
@@ -50,19 +49,19 @@ function createChart(container, data, bouds, levels) {
 
 anychart.onDocumentReady(function() {
   var data = [
-    // {
-    //   "id": "100",
-    //   "name": "Root 2",
-    //   "parent": null,
-    //   "value": 500
-    // },
-    //
-    // {
-    //   "id": "200",
-    //   "name": "Root 3",
-    //   "parent": null,
-    //   "value": 4
-    // },
+    {
+      "id": "0001",
+      "name": "Root 2",
+      "parent": null,
+      "value": 500
+    },
+
+    {
+      "id": "0002",
+      "name": "Root 3",
+      "parent": null,
+      "value": 4
+    },
 
     {
       "id": "00",
@@ -95,7 +94,7 @@ anychart.onDocumentReady(function() {
       "value": 100
     }, {
       "parent": "00",
-      "id": "05",
+      "id": "5",
       "name": "Meat",
       "value": 150
     },
@@ -108,7 +107,7 @@ anychart.onDocumentReady(function() {
 
 
     {
-      "parent": "05",
+      "parent": "5",
       "id": "50",
       "name": "Meat 1",
       "value": 100
@@ -121,6 +120,67 @@ anychart.onDocumentReady(function() {
       "name": "Meat 2",
       "value": 50
     },
+
+
+    {
+      "parent": "500",
+      "id": "5000",
+      "name": "Meat 3",
+      "value": 30
+    },
+
+
+    {
+      "parent": "02",
+      "id": "200",
+      "name": "Potato",
+      "value": 100
+    },
+
+    {
+      "parent": "200",
+      "id": "210",
+      "name": "Potato",
+      "value": 10
+    }, {
+      "parent": "200",
+      "id": "220",
+      "name": "Eggplants",
+      "value": 10
+    }, {
+      "parent": "200",
+      "id": "230",
+      "name": "Tomatoes",
+      "value": 10
+    }, {
+      "parent": "200",
+      "id": "240",
+      "name": "Cucumbers",
+      "value": 10
+    }, {
+      "parent": "200",
+      "id": "250",
+      "name": "Cabbage",
+      "value": 10
+    }, {
+      "parent": "200",
+      "id": "260",
+      "name": "Carrot",
+      "value": 10
+    }, {
+      "parent": "200",
+      "id": "270",
+      "name": "Squash",
+      "value": 10
+    }, {
+      "parent": "200",
+      "id": "280",
+      "name": "Capsicums",
+      "value": 10
+    },
+
+
+
 
 
     {
@@ -274,7 +334,7 @@ anychart.onDocumentReady(function() {
     chart4.calculatingMode($(this).val());
   });
 
-  var maxDepth = chart4.getStat('maxDepth');
+  var maxDepth = chart4.getStat('treeMaxDepth');
   for (var i = 0; i <= maxDepth; i++) {
     var enabled = chart4.level(i).enabled();
     $('#levels').append('<input type="checkbox" name="levels" id="level ' + i + '" value="' + i + '" ' + (enabled ? 'checked' : '') + '>');
