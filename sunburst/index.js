@@ -60,8 +60,25 @@ anychart.onDocumentReady(function() {
       "id": "0002",
       "name": "Root 3",
       "parent": null,
-      "value": 4
+      "value": 1000
     },
+
+    {
+      "id": "00021",
+      "name": "Child",
+      "parent": "0002",
+      "value": 100
+    },
+
+    {
+      "id": "00022",
+      "name": "Child",
+      "parent": "0002",
+      "value": 300
+    },
+
+
+
 
     {
       "id": "00",
