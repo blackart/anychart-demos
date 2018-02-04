@@ -34,12 +34,12 @@ function createChart(container, data, bouds, levels) {
   // chart.fill(function() {
   //   return this.autoColor;
   // });
-  chart.level(0).enabled(levels[0]);
-  chart.level(1).enabled(levels[1]);
-  chart.level(2).enabled(levels[2])
-  chart.level(3).enabled(levels[3]);
 
-  chart.leaves().thickness('50%')
+  for (var i = 0; i < levels.length; i++) {
+    chart.level(i).enabled(levels[i]);
+  }
+
+  chart.leaves().thickness('20%')
   chart.leaves().hovered().labels().fontColor('red');
 
   chart.container(container).draw();
@@ -75,6 +75,13 @@ anychart.onDocumentReady(function() {
       "name": "Child",
       "parent": "0002",
       "value": 300
+    },
+
+    {
+      "id": "000221",
+      "name": "Child",
+      "parent": "00022",
+      "value": 70
     },
 
 
@@ -340,7 +347,7 @@ anychart.onDocumentReady(function() {
   // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
   // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
 
-  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true]);
+  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [false,true,true,true,false]);
 
 
   $('#' + chart4.calculatingMode()).attr('checked', 'checked');
