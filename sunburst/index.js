@@ -21,8 +21,8 @@ function createChart(container, data, bouds, levels) {
   chart.innerRadius('10%');
 
   // chart.calculatingMode('parent-dependent');
-  chart.calculatingMode('parent-independent');
-  // chart.calculatingMode('ordinal');
+  // chart.calculatingMode('parent-independent');
+  chart.calculatingMode('ordinal-from-root');
 
   // chart.hovered().labels()
   //     .fontColor('red')
@@ -425,7 +425,7 @@ anychart.onDocumentReady(function() {
   // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
   // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
 
-  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [false,false,false,true,false]);
+  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [false,false,true,true,false]);
 
 
   $('#' + chart4.calculatingMode()).attr('checked', 'checked');
