@@ -20,8 +20,8 @@ function createChart(container, data, bouds, levels) {
   chart.radius('50%');
   chart.innerRadius('10%');
 
-  chart.calculatingMode('parentDependent');
-  // chart.calculatingMode('parentIndependent');
+  // chart.calculatingMode('parent-dependent');
+  chart.calculatingMode('parent-independent');
   // chart.calculatingMode('ordinal');
 
   // chart.hovered().labels()
@@ -29,7 +29,7 @@ function createChart(container, data, bouds, levels) {
   //     .fontWeight('bold');
 
   chart.labels().format('{%Id}');
-  chart.tooltip().format('value: {%Value}\nid: {%Id}\ndepth: {%Depth}');
+  chart.tooltip().format('value: {%Value}\nid: {%Id}\ndepth: {%Depth}\nChild sum: {%childSumValue}\nFull sum: {%fullSumValue}');
 
   // chart.fill(function() {
   //   return this.autoColor;
@@ -39,7 +39,7 @@ function createChart(container, data, bouds, levels) {
     chart.level(i).enabled(levels[i]);
   }
 
-  chart.leaves().thickness('20%')
+  // chart.leaves().thickness('20%')
   chart.leaves().hovered().labels().fontColor('red');
 
   chart.container(container).draw();
@@ -340,6 +340,84 @@ anychart.onDocumentReady(function() {
     }
   ];
 
+  var data_ = [
+    {
+      "id": "0001",
+      "name": "Root 2",
+      "parent": null,
+      "value": 500
+    },
+
+    {
+      "id": "0002",
+      "name": "Root 3",
+      "parent": null,
+      "value": 1000
+    },
+
+    {
+      "id": "00021",
+      "name": "Child",
+      "parent": "0002",
+      "value": 100
+    },
+
+    {
+      "id": "00022",
+      "name": "Child",
+      "parent": "0002",
+      "value": 300
+    },
+
+    {
+      "id": "000221",
+      "name": "Child",
+      "parent": "00022",
+      "value": 70
+    },
+
+
+
+
+    {
+      "id": "00",
+      "name": "Products by Revenue",
+      "parent": null,
+      "value": 1000
+    },
+
+
+     {
+      "parent": "00",
+      "id": "5",
+      "name": "Meat",
+      "value": 150
+    },
+    {
+      "parent": "00",
+      "id": "06",
+      "name": "Timpthy A. Loginov",
+      "value": 30
+    },
+
+
+    {
+      "parent": "5",
+      "id": "5000",
+      "name": "Meat",
+      "value": 50
+    },
+    {
+      "parent": "5",
+      "id": "6000",
+      "name": "Timpthy A. Loginov",
+      "value": 30
+    },
+
+
+
+  ];
+
 
   var stage = anychart.graphics.create('container');
   // var chart1 = createChart(stage, data, anychart.math.rect(0, 0, '50%', '50%'), [true,true,true,true]);
@@ -347,7 +425,7 @@ anychart.onDocumentReady(function() {
   // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
   // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
 
-  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [false,true,true,true,false]);
+  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [false,false,false,true,false]);
 
 
   $('#' + chart4.calculatingMode()).attr('checked', 'checked');
