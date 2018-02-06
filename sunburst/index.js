@@ -49,7 +49,7 @@ function createChart(container, data, bouds, levels) {
 }
 
 anychart.onDocumentReady(function() {
-  var data = [
+  var data1 = [
     {
       "id": "0001",
       "name": "Root 2",
@@ -341,7 +341,7 @@ anychart.onDocumentReady(function() {
     }
   ];
 
-  var data_ = [
+  var data2 = [
     {
       "id": "0001",
       "name": "Root 2",
@@ -417,6 +417,53 @@ anychart.onDocumentReady(function() {
 
 
 
+  ];
+
+  var data = [
+    {
+      "id": "0000",
+      "name": "Root 1",
+      "parent": null,
+      "value": 1000
+    },
+    {
+      "id": "0002",
+      "name": "Root 3",
+      "parent": null,
+      "value": 1000
+    },
+
+
+    // {
+    //   "id": "00022",
+    //   "name": "Child 1 ",
+    //   "parent": "0002",
+    //   "value": 100
+    // },
+    {
+      "id": "00020",
+      "name": "Child 1 ",
+      "parent": "0002",
+      "value": 100
+    },
+    {
+      "id": "000201",
+      "name": "Child 1 ",
+      "parent": "00020",
+      "value": 100
+    },
+    {
+      "id": "00021",
+      "name": "Child 1 ",
+      "parent": "0002",
+      "value": 100
+    },
+    {
+      "id": "000211",
+      "name": "Child 2",
+      "parent": "00021",
+      "value": 300
+    }
   ];
 
 
