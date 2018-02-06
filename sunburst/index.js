@@ -49,7 +49,7 @@ function createChart(container, data, bouds, levels) {
 }
 
 anychart.onDocumentReady(function() {
-  var data1 = [
+  var data = [
     {
       "id": "0001",
       "name": "Root 2",
@@ -419,7 +419,7 @@ anychart.onDocumentReady(function() {
 
   ];
 
-  var data = [
+  var data1 = [
     {
       "id": "0000",
       "name": "Root 1",
