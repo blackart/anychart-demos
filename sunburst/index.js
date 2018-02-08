@@ -20,8 +20,8 @@ function createChart(container, data, bouds, levels) {
   chart.radius('50%');
   chart.innerRadius('10%');
 
-  // chart.calculatingMode('parent-dependent');
-  chart.calculatingMode('parent-independent');
+  chart.calculatingMode('parent-dependent');
+  // chart.calculatingMode('parent-independent');
   // chart.calculatingMode('ordinal-from-root');
 
   // chart.hovered().labels()
@@ -35,12 +35,14 @@ function createChart(container, data, bouds, levels) {
   //   return this.autoColor;
   // });
 
-  for (var i = 0; i < levels.length; i++) {
-    chart.level(i).enabled(levels[i]);
-  }
+  // for (var i = 0; i < levels.length; i++) {
+  //   chart.level(i).enabled(levels[i]);
+  // }
 
-  // chart.leaves().thickness('20%')
-  // chart.level(0).thickness('10%')
+
+
+  chart.leaves().thickness('10%');
+  // chart.level(1).thickness('10%')
   chart.leaves().hovered().labels().fontColor('red');
 
   chart.container(container).draw();
@@ -50,40 +52,40 @@ function createChart(container, data, bouds, levels) {
 
 anychart.onDocumentReady(function() {
   var data = [
-    {
-      "id": "0001",
-      "name": "Root 2",
-      "parent": null,
-      "value": 500
-    },
-
-    {
-      "id": "0002",
-      "name": "Root 3",
-      "parent": null,
-      "value": 1000
-    },
-
-    {
-      "id": "00021",
-      "name": "Child",
-      "parent": "0002",
-      "value": 100
-    },
-
-    {
-      "id": "00022",
-      "name": "Child",
-      "parent": "0002",
-      "value": 300
-    },
-
-    {
-      "id": "000221",
-      "name": "Child",
-      "parent": "00022",
-      "value": 70
-    },
+    // {
+    //   "id": "0001",
+    //   "name": "Root 2",
+    //   "parent": null,
+    //   "value": 500
+    // },
+    //
+    // {
+    //   "id": "0002",
+    //   "name": "Root 3",
+    //   "parent": null,
+    //   "value": 1000
+    // },
+    //
+    // {
+    //   "id": "00021",
+    //   "name": "Child",
+    //   "parent": "0002",
+    //   "value": 100
+    // },
+    //
+    // {
+    //   "id": "00022",
+    //   "name": "Child",
+    //   "parent": "0002",
+    //   "value": 300
+    // },
+    //
+    // {
+    //   "id": "000221",
+    //   "name": "Child",
+    //   "parent": "00022",
+    //   "value": 70
+    // },
 
 
 
@@ -106,7 +108,8 @@ anychart.onDocumentReady(function() {
       "parent": "00",
       "id": "02",
       "name": "Vegetables",
-      "value": 300
+      "value": 300,
+      "fill": 'blue'
     }, {
       "parent": "00",
       "id": "03",
@@ -480,7 +483,11 @@ anychart.onDocumentReady(function() {
   // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
   // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
 
-  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,false,false,true,true]);
+  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true,true]);
+
+  chart4.listen(anychart.enums.EventType.DRILL_CHANGE, function(e) {
+    console.log(e);
+  });
 
 
   $('#' + chart4.calculatingMode()).attr('checked', 'checked');
