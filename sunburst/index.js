@@ -20,15 +20,15 @@ function createChart(container, data, bouds, levels) {
   chart.radius('50%');
   chart.innerRadius('10%');
 
-  chart.calculatingMode('parent-dependent');
-  // chart.calculatingMode('parent-independent');
-  // chart.calculatingMode('ordinal-from-root');
+  chart.calculationMode('parent-dependent');
+  // chart.calculationMode('parent-independent');
+  // chart.calculationMode('ordinal-from-root');
 
   // chart.hovered().labels()
   //     .fontColor('red')
   //     .fontWeight('bold');
 
-  chart.labels().format('{%Id}');
+  chart.labels().format('{%Value}');
   chart.tooltip().format('value: {%Value}\nid: {%Id}\ndepth: {%Depth}\nChild sum: {%childSumValue}\nFull sum: {%fullSumValue}');
 
   // chart.fill(function() {
@@ -41,7 +41,7 @@ function createChart(container, data, bouds, levels) {
 
 
 
-  chart.leaves().thickness('10%');
+  // chart.leaves().enabled(false);
   // chart.level(1).thickness('10%')
   chart.leaves().hovered().labels().fontColor('red');
 
@@ -52,40 +52,40 @@ function createChart(container, data, bouds, levels) {
 
 anychart.onDocumentReady(function() {
   var data = [
-    // {
-    //   "id": "0001",
-    //   "name": "Root 2",
-    //   "parent": null,
-    //   "value": 500
-    // },
-    //
-    // {
-    //   "id": "0002",
-    //   "name": "Root 3",
-    //   "parent": null,
-    //   "value": 1000
-    // },
-    //
-    // {
-    //   "id": "00021",
-    //   "name": "Child",
-    //   "parent": "0002",
-    //   "value": 100
-    // },
-    //
-    // {
-    //   "id": "00022",
-    //   "name": "Child",
-    //   "parent": "0002",
-    //   "value": 300
-    // },
-    //
-    // {
-    //   "id": "000221",
-    //   "name": "Child",
-    //   "parent": "00022",
-    //   "value": 70
-    // },
+    {
+      "id": "0001",
+      "name": "Root 2",
+      "parent": null,
+      "value": 500
+    },
+
+    {
+      "id": "0002",
+      "name": "Root 3",
+      "parent": null,
+      "value": 1000
+    },
+
+    {
+      "id": "00021",
+      "name": "Child",
+      "parent": "0002",
+      "value": 100
+    },
+
+    {
+      "id": "00022",
+      "name": "Child",
+      "parent": "0002",
+      "value": 300
+    },
+
+    {
+      "id": "000221",
+      "name": "Child",
+      "parent": "00022",
+      "value": 70
+    },
 
 
 
@@ -490,14 +490,18 @@ anychart.onDocumentReady(function() {
   });
 
 
-  $('#' + chart4.calculatingMode()).attr('checked', 'checked');
+  $('#' + chart4.calculationMode()).attr('checked', 'checked');
   $('input[name=calculationMode]').on('change', function() {
-    // chart1.calculatingMode($(this).val());
-    // chart2.calculatingMode($(this).val());
-    // chart3.calculatingMode($(this).val());
-    chart4.calculatingMode($(this).val());
+    // chart1.calculationMode($(this).val());
+    // chart2.calculationMode($(this).val());
+    // chart3.calculationMode($(this).val());
+    chart4.calculationMode($(this).val());
   });
 
+  var enabled = chart4.leaves().enabled();
+  enabled = enabled == null || enabled == void 0 ? true : enabled;
+  $('#levels').append('<input type="checkbox" name="levels" id="leaves" value="leaves" ' + (enabled ? 'checked' : '') + '>');
+  $('#levels').append('<label for="leaves">Leaves</label><br>');
   var maxDepth = chart4.getStat('treeMaxDepth');
   for (var i = 0; i <= maxDepth; i++) {
     var enabled = chart4.level(i).enabled();
@@ -506,7 +510,13 @@ anychart.onDocumentReady(function() {
   }
 
   $('input[name=levels]').on('change', function() {
-    chart4.level(+$(this).val()).enabled($(this).is(':checked'));
+    var val = $(this).val();
+    if (val == 'leaves') {
+      chart4.leaves().enabled($(this).is(':checked'));
+    } else {
+      chart4.level(+val).enabled($(this).is(':checked'));
+    }
   });
+
 
 });
