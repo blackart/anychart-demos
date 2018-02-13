@@ -13,12 +13,12 @@ function createChart(container, data, bouds, levels, content) {
   var dataTree = anychart.data.tree(data, 'as-table');
 
   var chart = anychart.sunburst(dataTree);
-  noDataLabel = chart.noData().label();
-  noDataLabel.enabled(true);
-  noDataLabel.text("Error: could not connect to data server");
-  noDataLabel.background().enabled(true);
-  noDataLabel.background().fill("White 0.5");
-  noDataLabel.padding(40);
+  // noDataLabel = chart.noData().label();
+  // noDataLabel.enabled(true);
+  // noDataLabel.text("Error: could not connect to data server");
+  // noDataLabel.background().enabled(true);
+  // noDataLabel.background().fill("White 0.5");
+  // noDataLabel.padding(40);
 
 
   chart.bounds(bouds);
@@ -30,15 +30,15 @@ function createChart(container, data, bouds, levels, content) {
   // chart.selected().stroke('10 red');
 
   // chart.innerRadius('30%');
-  chart.labels()
+  // chart.labels()
       // .position('circular')
-      .enabled(true)
+      // .enabled(true)
   // .background('red')
   // .format('{%Value}')
 
   // chart.startAngle(-90);
-  chart.radius('50%');
-  chart.innerRadius('50%');
+  // chart.radius('50%');
+  // chart.innerRadius('50%');
 
   chart.calculationMode('parent-dependent');
   // chart.calculationMode('parent-independent');
@@ -48,8 +48,8 @@ function createChart(container, data, bouds, levels, content) {
   //     .fontColor('red')
   //     .fontWeight('bold');
 
-  chart.labels().format('{%Value}');
-  chart.tooltip().format('value: {%Value}\nid: {%Id}\ndepth: {%Depth}\nChild sum: {%childSumValue}\nFull sum: {%fullSumValue}');
+  // chart.labels().format('{%Value}');
+  // chart.tooltip().format('value: {%Value}\nid: {%Id}\ndepth: {%Depth}\nChild sum: {%childSumValue}\nFull sum: {%fullSumValue}');
 
   // chart.fill(function() {
   //   return this.autoColor;
@@ -63,7 +63,7 @@ function createChart(container, data, bouds, levels, content) {
 
   // chart.leaves().enabled(false);
   // chart.level(1).thickness('10%')
-  chart.leaves().hovered().labels().fontColor('red');
+  // chart.leaves().hovered().labels().fontColor('red');
 
   chart.container(container).draw();
 
