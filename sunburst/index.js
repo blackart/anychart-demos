@@ -22,7 +22,7 @@ function createChart(container, data, bouds, levels, content) {
 
 
   chart.bounds(bouds);
-
+  // chart.hatchFill(false);
   // if (content)
   //   chart.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(chart) : content);
 
@@ -505,9 +505,9 @@ anychart.onDocumentReady(function() {
 
   chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true,true], map);
 
-  chart4.listen(anychart.enums.EventType.DRILL_CHANGE, function(e) {
-    console.log(e);
-  });
+  // chart4.listen(anychart.enums.EventType.DRILL_CHANGE, function(e) {
+  //   console.log(e);
+  // });
 
 
   $('#' + chart4.calculationMode()).attr('checked', 'checked');
