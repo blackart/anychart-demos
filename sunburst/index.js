@@ -13,18 +13,18 @@ function createChart(container, data, bouds, levels, content) {
   var dataTree = anychart.data.tree(data, 'as-table');
 
   var chart = anychart.sunburst(dataTree);
-  // noDataLabel = chart.noData().label();
-  // noDataLabel.enabled(true);
-  // noDataLabel.text("Error: could not connect to data server");
-  // noDataLabel.background().enabled(true);
-  // noDataLabel.background().fill("White 0.5");
-  // noDataLabel.padding(40);
+  noDataLabel = chart.noData().label();
+  noDataLabel.enabled(true);
+  noDataLabel.text("Error: could not connect to data server");
+  noDataLabel.background().enabled(true);
+  noDataLabel.background().fill("White 0.5");
+  noDataLabel.padding(40);
 
 
   chart.bounds(bouds);
-  // chart.hatchFill(false);
-  // if (content)
-  //   chart.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(chart) : content);
+  // chart.hatchFill(true);
+  if (content)
+    chart.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(chart) : content);
 
   // chart.stroke('10 blue');
   // chart.selected().stroke('10 red');
@@ -38,7 +38,9 @@ function createChart(container, data, bouds, levels, content) {
 
   // chart.startAngle(-90);
   // chart.radius('50%');
-  // chart.innerRadius('50%');
+  chart.innerRadius('50%');
+
+  chart.sort('none');
 
   chart.calculationMode('parent-dependent');
   // chart.calculationMode('parent-independent');
@@ -114,7 +116,7 @@ anychart.onDocumentReady(function() {
       "id": "00",
       "name": "Products by Revenue",
       "parent": null,
-      "value": 1000
+      "value": 900
     },
 
 
@@ -512,10 +514,12 @@ anychart.onDocumentReady(function() {
 
   $('#' + chart4.calculationMode()).attr('checked', 'checked');
   $('input[name=calculationMode]').on('change', function() {
-    // chart1.calculationMode($(this).val());
-    // chart2.calculationMode($(this).val());
-    // chart3.calculationMode($(this).val());
     chart4.calculationMode($(this).val());
+  });
+
+  $('#' + chart4.sort()).attr('checked', 'checked');
+  $('input[name=sort]').on('change', function() {
+    chart4.sort($(this).val());
   });
 
   var enabled = chart4.leaves().enabled();
