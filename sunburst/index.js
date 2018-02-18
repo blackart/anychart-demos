@@ -23,8 +23,8 @@ function createChart(container, data, bouds, levels, content) {
 
   chart.bounds(bouds);
   // chart.hatchFill(true);
-  if (content)
-    chart.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(chart) : content);
+  // if (content)
+  //   chart.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(chart) : content);
 
   // chart.stroke('10 blue');
   // chart.selected().stroke('10 red');
@@ -37,13 +37,14 @@ function createChart(container, data, bouds, levels, content) {
   // .format('{%Value}')
 
   // chart.startAngle(-90);
-  // chart.radius('50%');
-  chart.innerRadius('50%');
+  chart.padding(0);
+  chart.radius('100%');
+  chart.innerRadius('10%');
 
   chart.sort('none');
 
-  chart.calculationMode('parent-dependent');
-  // chart.calculationMode('parent-independent');
+  // chart.calculationMode('parent-dependent');
+  chart.calculationMode('parent-independent');
   // chart.calculationMode('ordinal-from-root');
 
   // chart.hovered().labels()
@@ -51,15 +52,22 @@ function createChart(container, data, bouds, levels, content) {
   //     .fontWeight('bold');
 
   // chart.labels().format('{%Value}');
-  // chart.tooltip().format('value: {%Value}\nid: {%Id}\ndepth: {%Depth}\nChild sum: {%childSumValue}\nFull sum: {%fullSumValue}');
+  chart.tooltip().format('' +
+      'name: {%name}\n' +
+      'value: {%value}\n' +
+      'id: {%id}\n' +
+      'depth: {%depth}\n' +
+      'visibleLeavesSum: {%visibleLeavesSum}\n' +
+      'Child sum: {%childSumValue}\n' +
+      'Full sum: {%fullSumValue}');
 
   // chart.fill(function() {
   //   return this.autoColor;
   // });
 
-  // for (var i = 0; i < levels.length; i++) {
-  //   chart.level(i).enabled(levels[i]);
-  // }
+  for (var i = 0; i < levels.length; i++) {
+    chart.level(i).enabled(levels[i]);
+  }
 
 
 
@@ -131,7 +139,7 @@ anychart.onDocumentReady(function() {
       "id": "02",
       "name": "Vegetables",
       "value": 300,
-      "fill": 'blue'
+      "fill": 'green'
     }, {
       "parent": "00",
       "id": "03",
@@ -505,7 +513,7 @@ anychart.onDocumentReady(function() {
   // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
   // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
 
-  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true,true], map);
+  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [false,false,false,true,false], map);
 
   // chart4.listen(anychart.enums.EventType.DRILL_CHANGE, function(e) {
   //   console.log(e);
