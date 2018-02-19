@@ -20,7 +20,7 @@ function createChart(container, data, bouds, levels, content) {
   noDataLabel.background().fill("White 0.5");
   noDataLabel.padding(40);
 
-
+  // chart.hatchFill(true);
   chart.bounds(bouds);
   // chart.hatchFill(true);
   // if (content)
@@ -93,7 +93,7 @@ anychart.onDocumentReady(function() {
   //   console.log(e);
   // });
 
-  chart4.stroke('10 grey .5')
+  // chart4.selected().stroke('10 grey .5')
 
 
   $('#' + chart4.calculationMode()).attr('checked', 'checked');
