@@ -44,7 +44,7 @@ function createChart(container, data, bouds, levels, content) {
   chart.sort('none');
 
   // chart.calculationMode('parent-dependent');
-  // chart.calculationMode('parent-independent');
+  chart.calculationMode('parent-independent');
   // chart.calculationMode('ordinal-from-root');
 
   // chart.hovered().labels()
@@ -74,7 +74,7 @@ function createChart(container, data, bouds, levels, content) {
       'depth:', this.item.meta('depth'), '\n',
       'visibleLeavesSum:', this.item.meta('visibleLeavesSum'), '\n',
       'Child sum:', this.item.meta('childSumValue'), '\n',
-      'Full sum:', this.item.meta('fullSumValue'),
+      'Full sum:', this.item.meta('fullSumValue'), '\n',
       'Path:', path
     ].join(' ');
   });
@@ -105,7 +105,7 @@ anychart.onDocumentReady(function() {
   // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
   // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
 
-  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,false,false,false,true], map);
+  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,false,true,true,true], map);
 
   // chart4.listen(anychart.enums.EventType.DRILL_CHANGE, function(e) {
   //   console.log(e);
