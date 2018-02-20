@@ -52,14 +52,32 @@ function createChart(container, data, bouds, levels, content) {
   //     .fontWeight('bold');
 
   // chart.labels().format('{%Value}');
-  chart.tooltip().format('' +
-      'name: {%name}\n' +
-      'value: {%value}\n' +
-      'id: {%id}\n' +
-      'depth: {%depth}\n' +
-      'visibleLeavesSum: {%visibleLeavesSum}\n' +
-      'Child sum: {%childSumValue}\n' +
-      'Full sum: {%fullSumValue}');
+  // chart.tooltip().format('' +
+  //     'name: {%name}\n' +
+  //     'value: {%value}\n' +
+  //     'id: {%id}\n' +
+  //     'depth: {%depth}\n' +
+  //     'visibleLeavesSum: {%visibleLeavesSum}\n' +
+  //     'Child sum: {%childSumValue}\n' +
+  //     'Full sum: {%fullSumValue}');
+
+  chart.tooltip().format(function() {
+    var path = ''
+    this.item.meta('pathFromRoot').forEach(function(item) {
+      path += item.get('name') + '>';
+    })
+
+    return [
+      'name:', this.item.get('name'), '\n',
+      'value:', this.item.get('value'), '\n',
+      'id:', this.item.get('id'), '\n',
+      'depth:', this.item.meta('depth'), '\n',
+      'visibleLeavesSum:', this.item.meta('visibleLeavesSum'), '\n',
+      'Child sum:', this.item.meta('childSumValue'), '\n',
+      'Full sum:', this.item.meta('fullSumValue'),
+      'Path:', path
+    ].join(' ');
+  });
 
   // chart.fill(function() {
   //   return this.autoColor;
@@ -87,7 +105,7 @@ anychart.onDocumentReady(function() {
   // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
   // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
 
-  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true,true], map);
+  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,false,false,false,true], map);
 
   // chart4.listen(anychart.enums.EventType.DRILL_CHANGE, function(e) {
   //   console.log(e);
