@@ -32,6 +32,7 @@ function createChart(container, data, bouds, levels, content) {
   // chart.innerRadius('30%');
   // chart.labels()
       // .position('circular')
+      // .position('radial')
       // .enabled(true)
   // .background('red')
   // .format('{%Value}')
@@ -43,9 +44,12 @@ function createChart(container, data, bouds, levels, content) {
 
   chart.sort('none');
 
+  // chart.labels(false);
+
   // chart.calculationMode('parent-dependent');
-  chart.calculationMode('parent-independent');
+  // chart.calculationMode('parent-independent');
   // chart.calculationMode('ordinal-from-root');
+  chart.calculationMode('ordinal-from-leaves');
 
   // chart.hovered().labels()
   //     .fontColor('red')
@@ -151,7 +155,8 @@ var data = [
     "id": "0001",
     "name": "Root 2",
     "parent": null,
-    "value": 500
+    "value": 500,
+    stroke: {keys: ['blue', 'green'], thickness : 15}
   },
 
   {
