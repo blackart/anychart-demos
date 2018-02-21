@@ -71,8 +71,6 @@ function createChart(container, data, bouds, levels, content) {
       path += item.get('name') + '>';
     })
 
-    this.getData('id')
-
     return [
       'name:', this.item.get('name'), '\n',
       'value:', this.item.get('value'), '\n',
