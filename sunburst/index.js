@@ -10,12 +10,11 @@ var data = [
 ];
 
 function createChart(container, data, bouds, levels, content) {
-  var dataTree = anychart.data.tree(data, 'as-table');
+  var dataTree = anychart.data.tree([data], 'as-tree');
 
   var chart = anychart.sunburst(dataTree);
   noDataLabel = chart.noData().label();
   noDataLabel.enabled(true);
-  noDataLabel.text("Error: could not connect to data server");
   noDataLabel.background().enabled(true);
   noDataLabel.background().fill("White 0.5");
   noDataLabel.padding(40);
@@ -44,12 +43,12 @@ function createChart(container, data, bouds, levels, content) {
 
   chart.sort('none');
 
-  // chart.labels(false);
+  chart.labels(false);
 
   // chart.calculationMode('parent-dependent');
-  // chart.calculationMode('parent-independent');
+  chart.calculationMode('parent-independent');
   // chart.calculationMode('ordinal-from-root');
-  chart.calculationMode('ordinal-from-leaves');
+  // chart.calculationMode('ordinal-from-leaves');
 
   // chart.hovered().labels()
   //     .fontColor('red')
@@ -69,7 +68,10 @@ function createChart(container, data, bouds, levels, content) {
     var path = ''
     this.item.meta('pathFromRoot').forEach(function(item) {
       path += item.get('name') + '>';
-    })
+    });
+
+    attendingOnNextVisLevel = this.item.meta('attendingOnNextVisLevel');
+    attendingOnNextVisLevel = attendingOnNextVisLevel ? attendingOnNextVisLevel.length : 0;
 
     return [
       'name:', this.item.get('name'), '\n',
@@ -77,8 +79,9 @@ function createChart(container, data, bouds, levels, content) {
       'id:', this.item.get('id'), '\n',
       'depth:', this.item.meta('depth'), '\n',
       'visibleLeavesSum:', this.item.meta('visibleLeavesSum'), '\n',
-      'Child sum:', this.item.meta('childSumValue'), '\n',
-      'Full sum:', this.item.meta('fullSumValue'), '\n',
+      'Child sum:', this.item.meta('childSum'), '\n',
+      'Leaves sum:', this.item.meta('leavesSum'), '\n',
+      'AttendingOnNextVisLevel:', attendingOnNextVisLevel, '\n',
       'Path:', path
     ].join(' ');
   });
@@ -104,12 +107,14 @@ function createChart(container, data, bouds, levels, content) {
 
 anychart.onDocumentReady(function() {
   var stage = anychart.graphics.create('container');
-  // var chart1 = createChart(stage, data, anychart.math.rect(0, 0, '50%', '50%'), [true,true,true,true]);
-  // var chart2 = createChart(stage, data, anychart.math.rect('50%', 0, '50%', '50%'), [false,true,true,true]);
-  // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true]);
-  // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,false,true,true]);
+  // var chart1 = createChart(stage, data, anychart.math.rect(0, 0, '50%', '50%'), [true,true,true,true,true]);
+  // var chart2 = createChart(stage, data, anychart.math.rect('50%', 0, '50%', '50%'), [false,true,true,true,true]);
+  // var chart3 = createChart(stage, data, anychart.math.rect(0, '50%', '50%', '50%'), [false,false,true,true,true]);
+  // var chart4 = createChart(stage, data, anychart.math.rect('50%', '50%', '50%', '50%'), [true,true,true,false,true]);
 
-  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,false,true,true,true], map);
+  var rndData = genNode('root');
+
+  chart4 = createChart(stage, rndData, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true,true], map);
 
   // chart4.listen(anychart.enums.EventType.DRILL_CHANGE, function(e) {
   //   console.log(e);
@@ -163,7 +168,8 @@ var data = [
     "id": "0002",
     "name": "Root 3",
     "parent": null,
-    "value": 1000
+    "value": 1000,
+    stroke: {keys: ['orange', 'green'], thickness : 15}
   },
 
   {
@@ -398,7 +404,7 @@ var data = [
     "id": "27",
     "name": "Squash",
     "value": 10
-  }, {
+  }, {                                                                                        
     "parent": "02",
     "id": "28",
     "name": "Capsicums",
@@ -575,6 +581,24 @@ var data1 = [
     "value": 300
   }
 ];
+
+
+const CHILDREN_PROB_DECAY = 0.15; // per level
+const MAX_CHILDREN = 7;
+const MAX_VALUE = 100;
+
+function genNode(name='root', probOfChildren=1) {
+  if (Math.random() < probOfChildren) {
+    return {
+      name,
+      children: [...Array(Math.round(Math.random() * MAX_CHILDREN))].map((_, i) => genNode(i, probOfChildren - CHILDREN_PROB_DECAY))}
+  } else {
+    return {
+      name,
+      value: Math.round(Math.random() * MAX_VALUE)
+    }
+  }
+}
 
 
 function map() {
