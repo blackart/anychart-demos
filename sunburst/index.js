@@ -10,7 +10,8 @@ var data = [
 ];
 
 function createChart(container, data, bouds, levels, content) {
-  var dataTree = anychart.data.tree([data], 'as-tree');
+  // var dataTree = anychart.data.tree([data], 'as-tree');
+  var dataTree = anychart.data.tree(data, 'as-table');
 
   var chart = anychart.sunburst(dataTree);
   noDataLabel = chart.noData().label();
@@ -22,8 +23,6 @@ function createChart(container, data, bouds, levels, content) {
   // chart.hatchFill(true);
   chart.bounds(bouds);
   // chart.hatchFill(true);
-  // if (content)
-  //   chart.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(chart) : content);
 
   // chart.stroke('10 blue');
   // chart.selected().stroke('10 red');
@@ -39,11 +38,9 @@ function createChart(container, data, bouds, levels, content) {
   // chart.startAngle(-90);
   chart.padding(0);
   chart.radius('100%');
-  chart.innerRadius('10%');
+  chart.innerRadius('40%');
 
   chart.sort('none');
-
-  chart.labels(false);
 
   // chart.calculationMode('parent-dependent');
   chart.calculationMode('parent-independent');
@@ -75,7 +72,8 @@ function createChart(container, data, bouds, levels, content) {
 
     return [
       'name:', this.item.get('name'), '\n',
-      'value:', this.item.get('value'), '\n',
+      'value:', this.value, '\n',
+      'self value:', this.item.get('value'), '\n',
       'id:', this.item.get('id'), '\n',
       'depth:', this.item.meta('depth'), '\n',
       'visibleLeavesSum:', this.item.meta('visibleLeavesSum'), '\n',
@@ -102,6 +100,11 @@ function createChart(container, data, bouds, levels, content) {
 
   chart.container(container).draw();
 
+  if (content)
+    chart.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(chart) : content);
+
+  // chart.center().fill('red').stroke('5 orange')
+
   return chart;
 }
 
@@ -114,7 +117,7 @@ anychart.onDocumentReady(function() {
 
   var rndData = genNode('root');
 
-  chart4 = createChart(stage, rndData, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true,true], map);
+  chart4 = createChart(stage, data, anychart.math.rect(0, 0, '100%', '100%'), [true,true,true,true,true], map);
 
   // chart4.listen(anychart.enums.EventType.DRILL_CHANGE, function(e) {
   //   console.log(e);
@@ -584,7 +587,7 @@ var data1 = [
 
 
 const CHILDREN_PROB_DECAY = 0.15; // per level
-const MAX_CHILDREN = 7;
+const MAX_CHILDREN = 10;
 const MAX_VALUE = 100;
 
 function genNode(name='root', probOfChildren=1) {
