@@ -38,7 +38,7 @@ function createChart(container, data, bouds, levels, content) {
   // chart.startAngle(-90);
   chart.padding(0);
   chart.radius('100%');
-  chart.innerRadius('40%');
+  chart.innerRadius('10%');
 
   chart.sort('none');
 
@@ -95,13 +95,13 @@ function createChart(container, data, bouds, levels, content) {
 
 
   // chart.leaves().enabled(false);
-  // chart.level(1).thickness('10%')
+  chart.level(0).thickness('30%')
   // chart.leaves().hovered().labels().fontColor('red');
 
   chart.container(container).draw();
 
-  if (content)
-    chart.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(chart) : content);
+  // if (content)
+  //   chart.center().content(Object.prototype.toString.call(content) == '[object Function]' ? content(chart) : content);
 
   // chart.center().fill('red').stroke('5 orange')
 
