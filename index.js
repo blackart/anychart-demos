@@ -1,38 +1,92 @@
-var chart1, chart2;
-anychart.onDocumentLoad(function() {
-  var stage = anychart.graphics.create('container');
+var chart, plot;
 
-  chart1 = anychart.gauges.linear();
-  chart1.data("1|90 2|20|50 3|12 4|37|46", {rowsSeparator: " ", columnsSeparator: "|"});
-  chart1.thermometer().dataIndex(0);
-  chart1.rangeBar().dataIndex(1);
-  chart1.tooltip()
-      .anchor('righttop')
-      .background()
-      .fill({keys: ['red .1', 'orange'], mode: true, angle: 45});
-  chart1.bounds(0, 0, '50%', '100%');
-  chart1.container(stage);
-  chart1.draw();
+anychart.onDocumentReady(function () {
+  // var djiDataTable = anychart.data.table();
+  // djiDataTable.addData(get_dji_daily_short_data());
+
+  var ixicDataTable = anychart.data.table();
+  ixicDataTable.addData(get_ixic_daily_short_data());
+
+  // var gspcDataTable = anychart.data.table();
+  // gspcDataTable.addData(get_gspc_daily_short_data());
+  //
+  // var msftDataTable = anychart.data.table();
+  // msftDataTable.addData(get_msft_daily_short_data());
+  //
+  // var orclDataTable = anychart.data.table();
+  // orclDataTable.addData(get_orcl_daily_short_data());
+  //
+  // var cscoDataTable = anychart.data.table();
+  // cscoDataTable.addData(get_csco_daily_short_data());
+  //
+  // var ibmDataTable = anychart.data.table();
+  // ibmDataTable.addData(get_ibm_daily_short_data());
+
+  chart = anychart.stock();
+  plot = chart.plot(0);
+
+  plot.yScale().comparisonMode('percent');
+
+  plot.yAxis().labels().format('{%Value}%');
+
+  plot.yGrid(true)
+      .xGrid(true)
+      .yMinorGrid(true)
+      .xMinorGrid(true);
+
+  plot.line(ixicDataTable.mapAs({'value': 4})).name('IXIC');
+
+  chart.selectRange('2004-01-21', '2012-02-01');
+  chart.container('container').draw();
 
 
-  chart2 = anychart.gauges.thermometer();
-  dataSet1 = anychart.data.set([[97.6], [12], [7]]);
-  chart2.data(dataSet1);
-  chart2.addPointer(0, 2);
-  chart2.tooltip({
-    background:
-        {
-          fill: 'red'
-        },
-    fontSize: 10,
-    lineHeight: 2,
-    padding: 10,
-    title: false,
-    separator: {
-      orientation: 'left'
-    }});
-  chart2.bounds('50%', 0, '50%', '100%');
-  chart2.container(stage);
-  chart2.draw();
-
+  rangePicker = anychart.ui.rangePicker();
+  rangePicker.render(chart);
+  rangeSelector = anychart.ui.rangeSelector();
+  rangeSelector.render(chart);
 });
+
+
+function get_ixic_daily_short_data() {
+  return [
+    ['2004-01-02', 2011.08, 2022.37, 1999.77, 2006.6801, 1666780032],
+    ['2004-01-05', 2020.78, 2047.36, 2020.78, 2047.36, 2362909952],
+    ['2004-01-06', 2044.55, 2061.54, 2039.63, 2057.3701, 2273220096],
+    ['2004-01-07', 2056.75, 2078.0901, 2047.02, 2077.6799, 2294279936],
+    ['2004-01-08', 2089.6001, 2100.25, 2078.05, 2100.25, 2683950080],
+    ['2004-01-09', 2083.6399, 2113.3301, 2077.0901, 2086.9199, 2482759936],
+    ['2004-01-12', 2093.54, 2112.52, 2085.1499, 2111.78, 2284009984],
+    ['2004-01-13', 2113.1101, 2114.9099, 2080.29, 2096.4399, 2385700096],
+    ['2004-01-14', 2104.29, 2111.73, 2094.3201, 2111.1299, 2099970048],
+    ['2004-01-15', 2101.8601, 2121.6101, 2088.1001, 2109.0801, 2235589888],
+    ['2004-01-16', 2126.1201, 2140.47, 2119.3501, 2140.46, 2614390016],
+    ['2004-01-20', 2149.03, 2149.8501, 2130.2, 2147.98, 2574190080],
+
+    ['2004-01-21', 2139.3301, 2150.1101, 2120.2, 2142.45, 2421860096],
+    ['2004-01-22', 2146.3201, 2152.1201, 2119.01, 2119.01, 2353370112],
+    ['2004-01-23', 2124.76, 2138.4099, 2108.45, 2123.8701, 2253910016],
+    ['2004-01-26', 2120.5601, 2153.8301, 2115.3401, 2153.8301, 1946050048],
+    ['2004-01-27', 2148.05, 2152.75, 2116.04, 2116.04, 2151259904],
+
+    ['2014-01-28', 2125.02, 2128, 2073.1499, 2077.3701, 2319549952],
+    ['2014-01-29', 2085.54, 2087.3301, 2041.0699, 2068.23, 2637760000],
+    ['2014-01-30', 2068.3601, 2078.8799, 2058.54, 2066.1499, 1931180032],
+    ['2014-02-02', 2072.1299, 2085.49, 2053.79, 2063.1499, 1915680000],
+    ['2014-02-03', 2061.28, 2071.4399, 2057.3301, 2066.21, 1844839936],
+
+    ['2014-02-04', 2042.83, 2044.6801, 2013.92, 2014.14, 2267579904],
+    ['2014-02-05', 2024.48, 2031.39, 2012.79, 2019.5601, 1956029952],
+    ['2014-02-06', 2025.96, 2064.01, 2025.91, 2064.01, 1855510016],
+    ['2014-02-09', 2069.29, 2074.27, 2060.4399, 2060.5701, 1745350016],
+    ['2014-02-10', 2061.1001, 2075.3301, 2060.4399, 2075.3301, 1656760064],
+    ['2014-02-11', 2072.8999, 2089.6599, 2064.77, 2089.6599, 2185700096],
+    ['2014-02-12', 2084.02, 2091.22, 2072.0601, 2073.6101, 1937689984],
+    ['2014-02-13', 2080.1699, 2085.71, 2049.76, 2053.5601, 1818019968],
+    ['2014-02-17', 2068.4199, 2084.72, 2068.01, 2080.3501, 1618060032],
+    ['2014-02-18', 2084.23, 2088.51, 2072.1899, 2076.47, 1781240064],
+    ['2014-02-19', 2091.71, 2094.9199, 2045.96, 2045.96, 2065539968],
+    ['2014-02-20', 2052.1299, 2052.3601, 2022.79, 2037.9301, 1914329984],
+    ['2014-02-23', 2044.41, 2045.1, 1999.59, 2007.52, 1953330048],
+    ['2014-02-24', 2000.75, 2018.0699, 1991.05, 2005.4399, 2069420032],
+  ]
+};
