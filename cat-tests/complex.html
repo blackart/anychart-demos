@@ -1,6 +1,7 @@
 <html>
-<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="cartesian anyChart"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="dataGrid skipmodes dataTree"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -12,62 +13,32 @@
     </script>
     <script src="utils/anytest.min.js"></script>
 
+
 </head>
 <body>
-<div id="container"></div>
-<script>
-  var chart;
-  anychart.onDocumentLoad(function() {
-    anytest.setUp();
-
-    chart = anychart.cartesian();
-    chart.area([1, 3, 2, 4]).markers(true).tooltip(false);
-    chart.interactivity({multiSelectOnClick: true});
-    anytest.drawInStage(chart);
-
-    anytest.stageListen(function() {
-//      anytest.step(function() {
-//        anytest.CAT.getScreen();
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(57, 223);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(148, 101);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(240, 161);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.getScreen('multiSelect', -1);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(159, 33);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.getScreen('unselect', 1);
-//        chart.interactivity().multiSelectOnClick(false);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(57, 223);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.action(148, 101);
-//      });
-//      anytest.step(function() {
-//        anytest.CAT.getScreen('multiSelectOf', -1, 'multiSelect');
-//        anytest.CAT.action(10,10);
-//      });
-//      anytest.step(function(){
-//        anytest.CAT.getScreen('def', 1);
-//      });
-      anytest.exit();
-    }).charts4modes('chart');
-        anytest.createPanel('interactive');
-
-    stage.resume();
-  });
-
-</script>
+<div id='container'></div>
 </body>
+<script>
+  anychart.onDocumentReady(function () {
+
+    tree = anychart.data.tree([
+      {id: 'Continents', name: 'Continents'},
+      {id: 0, name: 'Asia', parent: 'Continents'},
+      {id: 1, name: 'Europe', parent: 'Continents'},
+      {id: 2, name: 'Asia 1', parent: 0, value: 300},
+      {id: 5, name: 'Europe 1', parent: 1,  value: 300}
+    ], 'as-table');
+
+    chart1 = anychart.treeMap().tooltip(false);
+    chart1.data(tree);
+    chart1.markers()
+        .enabled(true)
+        .anchor('left-center')
+        .fill('yellow')
+        .size(10)
+        .type('triangle-up');
+    chart1.container("container");
+    chart1.draw();
+  });
+</script>
 </html>

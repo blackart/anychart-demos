@@ -52,18 +52,16 @@ anychart.onDocumentReady(function () {
   plot.yScale()
       .ticks().count(3);
 
-  // plot.xAxis()
-  //     .minorLabels()
-  //         .enabled(true)
-  //         .format('{%tickValue}{dateTimeFormat:d MMM}');
-  // plot.xAxis()
-  //     .labels()
-  //     .enabled(true)
-  //     .format('{%tickValue}{dateTimeFormat:d MMM}');
+  plot.xAxis().minorLabels()
+      .enabled(true)
+      .format('{%tickValue}{dateTimeFormat:d MMM yyyy!!!}');
+  plot.xAxis().labels()
+      .enabled(true)
+      .format('{%tickValue}{dateTimeFormat:d MMM yyyy}');
 
   // chart.xScale().ticksCount(4);
 
-  chart.xScale().ticksCalback(function() {
+  chart.xScale().ticksCallback(function() {
     return [
       [
         anychart.utils.normalizeTimestamp('2004-01-13'),
@@ -80,7 +78,7 @@ anychart.onDocumentReady(function () {
   chart.selectRange('2004-01-01', '2004-04-01');
 
   // create scroller series with mapped data
-    chart.scroller(false);
+    chart.scroller(true);
 
   // set container id for the chart
   chart.container('container');
