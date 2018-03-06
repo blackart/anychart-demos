@@ -1,7 +1,6 @@
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="dataGrid skipmodes dataTree"/>
+<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="sunburst"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -16,29 +15,234 @@
 
 </head>
 <body>
-<div id='container'></div>
+<div id="container"></div>
 </body>
 <script>
-  anychart.onDocumentReady(function () {
+  var chart;
+  anychart.onDocumentLoad(function() {
+    anytest.setUp();
+    data1 = [
+      {
+        "id": "00",
+        "name": "Products by Revenue",
+        "parent": null,
+        "value": 1000
+      },
+      {
+        "id": "99",
+        "name": "fklajsgfh",
+        "parent": null,
+        "value": 500
+      },
+      {
+        "parent": "00",
+        "id": "01",
+        "name": "Fruits",
+        "value": 200
+      }, {
+        "parent": "00",
+        "id": "02",
+        "name": "Vegetables",
+        "value": 300
+      }, {
+        "parent": "00",
+        "id": "03",
+        "name": "Dairy",
+        "value": 100
+      }, {
+        "parent": "00",
+        "id": "04",
+        "name": "Meat",
+        "value": 100
+      }, {
+        "parent": "00",
+        "id": "05",
+        "name": "Meat",
+        "value": 150
+      },
+      {
+        "parent": "05",
+        "id": "50",
+        "name": "Meat 1",
+        "value": 100
+      },
+      {
+        "parent": "50",
+        "id": "500",
+        "name": "Meat 2",
+        "value": 50
+      },
+      {
+        "parent": "01",
+        "id": "11",
+        "name": "Apples",
+        "value": 30
+      }, {
+        "parent": "01",
+        "id": "12",
+        "name": "Oranges",
+        "value": 10
+      }, {
+        "parent": "01",
+        "id": "13",
+        "name": "Bananas",
+        "value": 10
+      }, {
+        "parent": "01",
+        "id": "14",
+        "name": "Melons",
+        "value": 10
+      }, {
+        "parent": "01",
+        "id": "15",
+        "name": "Apricots",
+        "value": 10
+      }, {
+        "parent": "01",
+        "id": "16",
+        "name": "Plums",
+        "value": 10
+      }, {
+        "parent": "01",
+        "id": "17",
+        "name": "Pineapples",
+        "value": 10
+      }, {
+        "parent": "01",
+        "id": "18",
+        "name": "Cherries",
+        "value": 10
+      }, {
+        "parent": "01",
+        "id": "19",
+        "name": "Tangerines",
+        "value": 10
+      }, {
+        "parent": "02",
+        "id": "21",
+        "name": "Potato",
+        "value": 10
+      }, {
+        "parent": "02",
+        "id": "22",
+        "name": "Eggplants",
+        "value": 10
+      }, {
+        "parent": "02",
+        "id": "23",
+        "name": "Tomatoes",
+        "value": 10
+      }, {
+        "parent": "02",
+        "id": "24",
+        "name": "Cucumbers",
+        "value": 10
+      }, {
+        "parent": "02",
+        "id": "25",
+        "name": "Cabbage",
+        "value": 10
+      }, {
+        "parent": "02",
+        "id": "26",
+        "name": "Carrot",
+        "value": 10
+      }, {
+        "parent": "02",
+        "id": "27",
+        "name": "Squash",
+        "value": 10
+      }, {
+        "parent": "02",
+        "id": "28",
+        "name": "Capsicums",
+        "value": 10
+      }, {
+        "parent": "03",
+        "id": "31",
+        "name": "Milk",
+        "value": 10
+      }, {
+        "parent": "03",
+        "id": "32",
+        "name": "Curd",
+        "value": 10
+      }, {
+        "parent": "03",
+        "id": "33",
+        "name": "Cheese",
+        "value": 10
+      }, {
+        "parent": "03",
+        "id": "34",
+        "name": "Yogurt",
+        "value": 10
+      }, {
+        "parent": "03",
+        "id": "35",
+        "name": "Kefir",
+        "value": 10
+      }, {
+        "parent": "04",
+        "id": "41",
+        "name": "Mutton",
+        "value": 10
+      }, {
+        "parent": "04",
+        "id": "42",
+        "name": "Beef",
+        "value": 10
+      }, {
+        "parent": "04",
+        "id": "43",
+        "name": "Pork",
+        "value": 10
+      }, {
+        "parent": "04",
+        "id": "44",
+        "name": "Veal",
+        "value": 10
+      },
+      {
+        "parent": "99",
+        "id": "98",
+        "name": "Fruits",
+        "value": 200
+      }
+    ];
+    dataTable1 = anychart.data.tree(data1, 'as-table');
 
-    tree = anychart.data.tree([
-      {id: 'Continents', name: 'Continents'},
-      {id: 0, name: 'Asia', parent: 'Continents'},
-      {id: 1, name: 'Europe', parent: 'Continents'},
-      {id: 2, name: 'Asia 1', parent: 0, value: 300},
-      {id: 5, name: 'Europe 1', parent: 1,  value: 300}
-    ], 'as-table');
+    chart = anychart.sunburst(dataTable1);
+    anytest.drawInStage(chart);
 
-    chart1 = anychart.treeMap().tooltip(false);
-    chart1.data(tree);
-    chart1.markers()
-        .enabled(true)
-        .anchor('left-center')
-        .fill('yellow')
-        .size(10)
-        .type('triangle-up');
-    chart1.container("container");
-    chart1.draw();
+    anytest.stageListen(function () {
+      anytest.step(function(){
+        anytest.CAT.getScreen();
+        drillPath = chart.getDrilldownPath()[0].index;
+      });
+      anytest.step(function(){
+        chart.drillTo('03');
+        anytest.CAT.getScreen('drillDownId03', -1);
+        anytest.asserts.equal(chart.getDrilldownPath()[0].index, drillPath);
+      });
+      anytest.step(function(){
+        chart.drillTo('100');
+        anytest.CAT.getScreen('drillToNotExistNode', 1, 'drillDownId03');
+      });
+      anytest.step(function(){
+        chart.drillTo('99');
+        anytest.CAT.getScreen('drillDownId99', -1);
+        anytest.asserts.notEqual(chart.getDrilldownPath()[0].index, drillPath);
+      });
+      anytest.step(function(){
+        chart.drillUp();
+        anytest.asserts.equal(chart.getDrilldownPath()[0].index, drillPath);
+        anytest.CAT.getScreen('def', 1);
+      });
+      anytest.exit();
+    }).charts4modes('chart');
+//        anytest.createPanel('interactive');
+    stage.resume();
   });
 </script>
 </html>

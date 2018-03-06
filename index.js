@@ -11,26 +11,26 @@ anychart.onDocumentReady(function () {
   // https://cdn.anychart.com/csv-data/ibm-daily-short.js
 
   // create data tables on loaded data
-  var djiDataTable = anychart.data.table();
-  djiDataTable.addData(get_dji_daily_short_data());
+  // var djiDataTable = anychart.data.table();
+  // djiDataTable.addData(get_dji_daily_short_data());
 
   var ixicDataTable = anychart.data.table();
   ixicDataTable.addData(get_ixic_daily_short_data());
 
-  var gspcDataTable = anychart.data.table();
-  gspcDataTable.addData(get_gspc_daily_short_data());
-
-  var msftDataTable = anychart.data.table();
-  msftDataTable.addData(get_msft_daily_short_data());
-
-  var orclDataTable = anychart.data.table();
-  orclDataTable.addData(get_orcl_daily_short_data());
-
-  var cscoDataTable = anychart.data.table();
-  cscoDataTable.addData(get_csco_daily_short_data());
-
-  var ibmDataTable = anychart.data.table();
-  ibmDataTable.addData(get_ibm_daily_short_data());
+  // var gspcDataTable = anychart.data.table();
+  // gspcDataTable.addData(get_gspc_daily_short_data());
+  //
+  // var msftDataTable = anychart.data.table();
+  // msftDataTable.addData(get_msft_daily_short_data());
+  //
+  // var orclDataTable = anychart.data.table();
+  // orclDataTable.addData(get_orcl_daily_short_data());
+  //
+  // var cscoDataTable = anychart.data.table();
+  // cscoDataTable.addData(get_csco_daily_short_data());
+  //
+  // var ibmDataTable = anychart.data.table();
+  // ibmDataTable.addData(get_ibm_daily_short_data());
 
   // create stock chart
   chart = anychart.stock();
@@ -61,21 +61,38 @@ anychart.onDocumentReady(function () {
 
   // chart.xScale().ticksCount(4);
 
-  chart.xScale().ticksCallback(function() {
-    return [
-      [
-        anychart.utils.normalizeTimestamp('2004-01-13'),
-        anychart.utils.normalizeTimestamp('2004-02-14'),
-        anychart.utils.normalizeTimestamp('2004-03-15')
-      ],
-      []
-    ]
+  chart.xScale().ticks(function(tt) {
+    console.log(tt);
+    var ticks = [];
+    var tickCount = 4;
+    var tickInterval = (this.max - this.min) / tickCount;
+    for (var i = 0; i < tickCount; i++) {
+      ticks.push(this.min + (tickInterval * i));
+    }
+    return ticks;
+
+    // return [
+    //   anychart.utils.normalizeTimestamp('2004-01-13'),
+    //   {
+    //     value: anychart.utils.normalizeTimestamp('2004-02-14')
+    //   },
+    //   {
+    //     value: anychart.utils.normalizeTimestamp('2004-03-15'),
+    //     isMinor: false
+    //   },
+    //   {
+    //     value: anychart.utils.normalizeTimestamp('2004-03-27'),
+    //     isMinor: true
+    //   },
+    //   'sdfsdf'
+    // ]
   })
 
   // create plot series with mapped data
   plot.line(ixicDataTable.mapAs({'value': 4})).name('IXIC');
 
   chart.selectRange('2004-01-01', '2004-04-01');
+  // chart.selectRange('2004-01-22', '2014-02-10');
 
   // create scroller series with mapped data
     chart.scroller(true);
