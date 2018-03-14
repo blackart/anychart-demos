@@ -52,17 +52,19 @@ anychart.onDocumentReady(function () {
   plot.yScale()
       .ticks().count(3);
 
+  plot.xAxis()
+      .ticks(true)
+      .minorTicks(true);
   plot.xAxis().minorLabels()
       .enabled(true)
-      .format('{%tickValue}{dateTimeFormat:d MMM yyyy!!!}');
+      .format('{%dataValue}{dateTimeFormat:d MMM yyyy!!!}');
   plot.xAxis().labels()
       .enabled(true)
-      .format('{%tickValue}{dateTimeFormat:d MMM yyyy}');
+      .format('{%dataValue}{dateTimeFormat:d MMM yyyy}');
 
   // chart.xScale().ticksCount(4);
 
   chart.xScale().ticks(function(tt) {
-    console.log(tt);
     var ticks = [];
     var tickCount = 4;
     var tickInterval = (this.max - this.min) / tickCount;
@@ -70,23 +72,7 @@ anychart.onDocumentReady(function () {
       ticks.push(this.min + (tickInterval * i));
     }
     return ticks;
-
-    // return [
-    //   anychart.utils.normalizeTimestamp('2004-01-13'),
-    //   {
-    //     value: anychart.utils.normalizeTimestamp('2004-02-14')
-    //   },
-    //   {
-    //     value: anychart.utils.normalizeTimestamp('2004-03-15'),
-    //     isMinor: false
-    //   },
-    //   {
-    //     value: anychart.utils.normalizeTimestamp('2004-03-27'),
-    //     isMinor: true
-    //   },
-    //   'sdfsdf'
-    // ]
-  })
+  });
 
   // create plot series with mapped data
   plot.line(ixicDataTable.mapAs({'value': 4})).name('IXIC');
@@ -95,7 +81,10 @@ anychart.onDocumentReady(function () {
   // chart.selectRange('2004-01-22', '2014-02-10');
 
   // create scroller series with mapped data
-    chart.scroller(true);
+  chart.scroller(true);
+
+  chart.crosshair()
+      .xLabel({anchor: 'center-bottom', background: {fill: "#CFD8DC", stroke: "#455A64"}, fontColor: "yellow"});
 
   // set container id for the chart
   chart.container('container');
