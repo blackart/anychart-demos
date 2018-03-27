@@ -1,92 +1,97 @@
-var chart, plot;
-
 anychart.onDocumentReady(function () {
-  // var djiDataTable = anychart.data.table();
-  // djiDataTable.addData(get_dji_daily_short_data());
+  // create data tree on our data
+  var treeData = anychart.data.tree(getData(), "as-table");
 
-  var ixicDataTable = anychart.data.table();
-  ixicDataTable.addData(get_ixic_daily_short_data());
+  // create resource gantt chart
+  var chart = anychart.ganttResource();
 
-  // var gspcDataTable = anychart.data.table();
-  // gspcDataTable.addData(get_gspc_daily_short_data());
-  //
-  // var msftDataTable = anychart.data.table();
-  // msftDataTable.addData(get_msft_daily_short_data());
-  //
-  // var orclDataTable = anychart.data.table();
-  // orclDataTable.addData(get_orcl_daily_short_data());
-  //
-  // var cscoDataTable = anychart.data.table();
-  // cscoDataTable.addData(get_csco_daily_short_data());
-  //
-  // var ibmDataTable = anychart.data.table();
-  // ibmDataTable.addData(get_ibm_daily_short_data());
+  // set container id for the chart
+  chart.container('container');
 
-  chart = anychart.stock();
-  plot = chart.plot(0);
+  // set data for the chart
+  chart.data(treeData);
+  // set start splitter position settings
+  chart.splitterPosition(150);
 
-  plot.yScale().comparisonMode('percent');
+  var now = (new Date()).getTime();
+  var sec = 1000;
+  var min = 60*sec;
+  var hour = 60*min;
+  var day = 24*hour;
 
-  plot.yAxis().labels().format('{%Value}%');
+// create linemarkers
+  var tl = chart.getTimeline();
+  tl.lineMarker(0).value("current");
+  tl.lineMarker(1).value(now + 5*day);
 
-  plot.yGrid(true)
-      .xGrid(true)
-      .yMinorGrid(true)
-      .xMinorGrid(true);
+  // get chart data grid link to set column settings
+  var dataGrid = chart.dataGrid();
 
-  plot.line(ixicDataTable.mapAs({'value': 4})).name('IXIC');
+  // set first column settings
+  var firstColumn = dataGrid.column(0);
+  firstColumn.title('#');
+  firstColumn.width(30);
+  firstColumn.cellTextSettings().hAlign('center');
 
-  chart.selectRange('2004-01-21', '2014-02-03');
-  chart.container('container').draw();
+  // set second column settings
+  var secondColumn = dataGrid.column(1);
+  secondColumn.title('Person');
+  secondColumn.width(120);
+  secondColumn.cellTextSettings().hAlign('left');
+  secondColumn.format(function (item) {
+    return item.get('name');
+  });
 
+  // initiate chart drawing
+  chart.draw();
 
-  rangePicker = anychart.ui.rangePicker();
-  rangePicker.render(chart);
-  rangeSelector = anychart.ui.rangeSelector();
-  rangeSelector.render(chart);
+  // zoom chart to specified date
+  chart.fitAll();
 });
 
+function getData() {
+  var now = (new Date()).getTime();
+  var sec = 1000;
+  var min = 60*sec;
+  var hour = 60*min;
+  var day = 24*hour;
 
-function get_ixic_daily_short_data() {
   return [
-    ['2004-01-02', 2011.08, 2022.37, 1999.77, 2006.6801, 1666780032],
-    ['2004-01-05', 2020.78, 2047.36, 2020.78, 2047.36, 2362909952],
-    ['2004-01-06', 2044.55, 2061.54, 2039.63, 2057.3701, 2273220096],
-    ['2004-01-07', 2056.75, 2078.0901, 2047.02, 2077.6799, 2294279936],
-    ['2004-01-08', 2089.6001, 2100.25, 2078.05, 2100.25, 2683950080],
-    ['2004-01-09', 2083.6399, 2113.3301, 2077.0901, 2086.9199, 2482759936],
-    ['2004-01-12', 2093.54, 2112.52, 2085.1499, 2111.78, 2284009984],
-    ['2004-01-13', 2113.1101, 2114.9099, 2080.29, 2096.4399, 2385700096],
-    ['2004-01-14', 2104.29, 2111.73, 2094.3201, 2111.1299, 2099970048],
-    ['2004-01-15', 2101.8601, 2121.6101, 2088.1001, 2109.0801, 2235589888],
-    ['2004-01-16', 2126.1201, 2140.47, 2119.3501, 2140.46, 2614390016],
-    ['2004-01-20', 2149.03, 2149.8501, 2130.2, 2147.98, 2574190080],
+    {
+      "id": "1",
+      "name": "Alex Exler",
+      "periods": [
+        {"id": "1_1", "start": now - 10*day, "end": now + 4*day, },
+        {"id": "1_2", "start": now + 20*day, "end": now + 28*day}]
+    },
+    {
+      "id": "2",
+      "name": "Philip Kineyko",
+      "periods": [
+        {"id": "2_1", "start": now - 3*day, "end": now + 16*day},
+        {"id": "2_2", "start": now + 19*day, "end": now + 25*day}]
+    },
+    {
+      "id": "3",
+      "name": "Luke Liakos",
+      "periods": [
+        {"id": "3_1", "start": now + 5*day, "end": now + 10*day},
+        {"id": "3_2", "start": now + 25*day, "end": now + 29*day}]
+    },
+    {
+      "id": "4",
+      "name": "Judy Penfold",
+      "periods": [
+        {"id": "4_1", "start": now - 8*day, "end": now + 2*day},
+        {"id": "4_2", "start": now + 14*day, "end": now + 20*day}]
+    },
+    {
+      "id": "5",
+      "name": "Patricia Darmon",
+      "periods": [
+        {"id": "5_1", "start": now - 18*day, "end": now - 5*day},
+        {"id": "5_2", "start": now, "end": now + 12*day}]
 
-    ['2004-01-21', 2139.3301, 2150.1101, 2120.2, 2142.45, 2421860096],
-    ['2004-01-22', 2146.3201, 2152.1201, 2119.01, 2119.01, 2353370112],
-    ['2004-01-23', 2124.76, 2138.4099, 2108.45, 2123.8701, 2253910016],
-    ['2004-01-26', 2120.5601, 2153.8301, 2115.3401, 2153.8301, 1946050048],
-    ['2004-01-27', 2148.05, 2152.75, 2116.04, 2116.04, 2151259904],
-
-    ['2014-01-28', 2125.02, 2128, 2073.1499, 2077.3701, 2319549952],
-    ['2014-01-29', 2085.54, 2087.3301, 2041.0699, 2068.23, 2637760000],
-    ['2014-01-30', 2068.3601, 2078.8799, 2058.54, 2066.1499, 1931180032],
-    ['2014-02-02', 2072.1299, 2085.49, 2053.79, 2063.1499, 1915680000],
-    ['2014-02-03', 2061.28, 2071.4399, 2057.3301, 2066.21, 1844839936],
-
-    ['2014-02-04', 2042.83, 2044.6801, 2013.92, 2014.14, 2267579904],
-    ['2014-02-05', 2024.48, 2031.39, 2012.79, 2019.5601, 1956029952],
-    ['2014-02-06', 2025.96, 2064.01, 2025.91, 2064.01, 1855510016],
-    ['2014-02-09', 2069.29, 2074.27, 2060.4399, 2060.5701, 1745350016],
-    ['2014-02-10', 2061.1001, 2075.3301, 2060.4399, 2075.3301, 1656760064],
-    ['2014-02-11', 2072.8999, 2089.6599, 2064.77, 2089.6599, 2185700096],
-    ['2014-02-12', 2084.02, 2091.22, 2072.0601, 2073.6101, 1937689984],
-    ['2014-02-13', 2080.1699, 2085.71, 2049.76, 2053.5601, 1818019968],
-    ['2014-02-17', 2068.4199, 2084.72, 2068.01, 2080.3501, 1618060032],
-    ['2014-02-18', 2084.23, 2088.51, 2072.1899, 2076.47, 1781240064],
-    ['2014-02-19', 2091.71, 2094.9199, 2045.96, 2045.96, 2065539968],
-    ['2014-02-20', 2052.1299, 2052.3601, 2022.79, 2037.9301, 1914329984],
-    ['2014-02-23', 2044.41, 2045.1, 1999.59, 2007.52, 1953330048],
-    ['2014-02-24', 2000.75, 2018.0699, 1991.05, 2005.4399, 2069420032],
-  ]
-};
+    }
+  ];
+}
