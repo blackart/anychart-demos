@@ -34,8 +34,8 @@ anychart.onDocumentReady(function () {
   plot.line(ixicDataTable.mapAs({'value': 4})).name('IXIC');
 
   chart.selectRange('1489418760000', '1489483800000');
-  //chart.plot().xAxis().labels().format('{%dataValue}{dateTimeFormat:d MMM HH:m}');
-  //chart.plot().xAxis().minorLabels().format('{%dataValue}{dateTimeFormat: HH:m}');
+  // chart.plot().xAxis().labels().format('{%dataValue}{dateTimeFormat:d MMM HH:m}');
+  // chart.plot().xAxis().minorLabels().format('{%dataValue}{dateTimeFormat: HH:m}');
   chart.crosshair()
       .xLabel({anchor: 'center-bottom', background: {fill: "#CFD8DC", stroke: "#455A64"}, fontColor: "yellow"});
   // set container id for the chart
