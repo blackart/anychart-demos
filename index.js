@@ -13,22 +13,23 @@ anychart.onDocumentReady(function () {
     {x: 'ноябрь', value: 11},
     {x: 'декабрь', value: 12}
   ]);
-  chart.padding(50).margin(0);
+  // chart.padding(0).margin(0);
 
-  var position = 'inside';
+  // var position = 'inside';
+  var position = 'center';
   // var position = 'outside';
 
   //bottom
-  // chart.xAxis()
-  //     .staggerMode(true)
-  //     .staggerMaxLines(10)
-  //     .title(true)
-  //     .ticks().position(position);
-  // chart.xAxis()
-  //     .labels().position(position);
+  chart.xAxis()
+      .staggerMode(true)
+      .staggerMaxLines(10)
+      .title(true)
+      .ticks().position(position);
+  chart.xAxis()
+      .labels().position(position);
 
   // chart.yAxis(false);
-  chart.xAxis(false);
+  // chart.xAxis(false);
 
   //left
   chart.yAxis()
@@ -51,8 +52,8 @@ anychart.onDocumentReady(function () {
 
   //top
   chart.xAxis(1)
-      .staggerMode(true)
-      .staggerMaxLines(10)
+      // .staggerMode(true)
+      // .staggerMaxLines(10)
       // .title(true)
       .orientation('top')
       .ticks().position(position);
@@ -60,12 +61,12 @@ anychart.onDocumentReady(function () {
       .labels().position(position);
 
   //right
-  // chart.yAxis(1)
-  //     // .title(true)
-  //     .orientation('right')
-  //     .ticks().position(position);
-  // chart.yAxis(1)
-  //     .labels().position(position);
+  chart.yAxis(1)
+      // .title(true)
+      .orientation('right')
+      .ticks().position(position);
+  chart.yAxis(1)
+      .labels().position(position);
 
   chart.container("container").draw();
 });

@@ -1,6 +1,6 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="sunburst"/>
+    <meta name="x-cat-tags" content="anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -12,253 +12,22 @@
     </script>
     <script src="utils/anytest.min.js"></script>
 
-
 </head>
 <body>
 <div id="container"></div>
-<img src="http://static.anychart.com/images/underwater.jpg" style="display:none;">
 </body>
 <script>
-  var chart1;
-  anychart.onDocumentLoad(function() {
-    anytest.setUp(800, 800);
-    data1 = [
-      {
-        "id": "00",
-        "name": "Products by Revenue",
-        "parent": null,
-        "value": 1000
-      },
-      {
-        "parent": "00",
-        "id": "01",
-        "name": "Fruits",
-        "value": 200
-      }, {
-        "parent": "00",
-        "id": "02",
-        "name": "Vegetables",
-        "value": 300
-      }, {
-        "parent": "00",
-        "id": "03",
-        "name": "Dairy",
-        "value": 100
-      }, {
-        "parent": "00",
-        "id": "04",
-        "name": "Meat",
-        "value": 100
-      }, {
-        "parent": "00",
-        "id": "05",
-        "name": "Meat",
-        "value": 150
-      },
-      {
-        "parent": "05",
-        "id": "50",
-        "name": "Meat 1",
-        "value": 100
-      },
-      {
-        "parent": "50",
-        "id": "500",
-        "name": "Meat 2",
-        "value": 50
-      },
-      {
-        "parent": "01",
-        "id": "11",
-        "name": "Apples",
-        "value": 30
-      }, {
-        "parent": "01",
-        "id": "12",
-        "name": "Oranges",
-        "value": 30
-      }, {
-        "parent": "01",
-        "id": "13",
-        "name": "Bananas",
-        "value": 41
-      }, {
-        "parent": "01",
-        "id": "14",
-        "name": "Melons",
-        "value": 27
-      }, {
-        "parent": "01",
-        "id": "15",
-        "name": "Apricots",
-        "value": 25
-      }, {
-        "parent": "01",
-        "id": "16",
-        "name": "Plums",
-        "value": 36
-      }, {
-        "parent": "01",
-        "id": "17",
-        "name": "Pineapples",
-        "value": 70
-      }, {
-        "parent": "01",
-        "id": "18",
-        "name": "Cherries",
-        "value": 73
-      }, {
-        "parent": "01",
-        "id": "19",
-        "name": "Tangerines",
-        "value": 25
-      }, {
-        "parent": "02",
-        "id": "21",
-        "name": "Potato",
-        "value": 26
-      }, {
-        "parent": "02",
-        "id": "22",
-        "name": "Eggplants",
-        "value": 28
-      }, {
-        "parent": "02",
-        "id": "23",
-        "name": "Tomatoes",
-        "value": 0
-      }, {
-        "parent": "02",
-        "id": "24",
-        "name": "Cucumbers",
-        "value": 35
-      }, {
-        "parent": "02",
-        "id": "25",
-        "name": "Cabbage",
-        "value": 10
-      }, {
-        "parent": "02",
-        "id": "26",
-        "name": "Carrot",
-        "value": 66
-      }, {
-        "parent": "02",
-        "id": "27",
-        "name": "Squash",
-        "value": 8
-      }, {
-        "parent": "02",
-        "id": "28",
-        "name": "Capsicums",
-        "value": 7
-      }, {
-        "parent": "03",
-        "id": "31",
-        "name": "Milk",
-        "value": 5
-      }, {
-        "parent": "03",
-        "id": "32",
-        "name": "Curd",
-        "value": 1
-      }, {
-        "parent": "03",
-        "id": "33",
-        "name": "Cheese",
-        "value": 0
-      }, {
-        "parent": "03",
-        "id": "34",
-        "name": "Yogurt",
-        "value": 11
-      }, {
-        "parent": "03",
-        "id": "35",
-        "name": "Kefir",
-        "value": 76
-      }, {
-        "parent": "04",
-        "id": "41",
-        "name": "Mutton",
-        "value": 65
-      }, {
-        "parent": "04",
-        "id": "42",
-        "name": "Beef",
-        "value": 35
-      }, {
-        "parent": "04",
-        "id": "43",
-        "name": "Pork",
-        "value": 12
-      }, {
-        "parent": "04",
-        "id": "44",
-        "name": "Veal",
-        "value": 45
-      }
-    ];
-    dataTable1 = anychart.data.tree(data1, 'as-table');
-    dataTable2 = anychart.data.tree(data1, 'as-table');
-    dataTable3 = anychart.data.tree(data1, 'as-table');
-    dataTable4 = anychart.data.tree(data1, 'as-table');
-    dataTable5 = anychart.data.tree(data1, 'as-table');
+  anychart.onDocumentLoad(function() { //в консоли ничего нет
+    anytest.setUp();
 
+    chart = anychart.scatter();
+    chart.line([1,2,3]);
+    chart.yAxis(2);
 
-    chart1 = anychart.sunburst(dataTable1);
-    chart1.center().fill({keys: ['green', 'red'], mode: false, angle: 80});
-    chart1.innerRadius('35%');
-    chart1.bounds(0, 0, '50%', '50%');
-    anytest.drawInStage(chart1);
-
-    chart2 = anychart.sunburst(dataTable2);
-    chart2.center().fill(['blue .2', 'gray'], 0.6, 0.7, null, 1, .5, .3);
-    chart2.innerRadius('35%');
-    chart2.bounds('50%', 0, '50%', '50%');
-    anytest.drawInStage(chart2);
-
-
-    chart3 = anychart.sunburst(dataTable3);
-    chart3.center().fill('black .6');
-    chart3.innerRadius('35%');
-    chart3.bounds(0, '50%', '50%', '50%');
-    anytest.drawInStage(chart3);
-
-    chart4 = anychart.sunburst(dataTable4);
-    chart4.center().fill(['black', 'yellow', 'blue']);
-    chart4.innerRadius('35%');
-    chart4.bounds('50%', '50%', '50%', '50%');
-    anytest.drawInStage(chart4);
-
-    anytest.stageListen(function() {
-      // anytest.step(function() {
-      //   anytest.CAT.getScreen();
-      // });
-      // anytest.step(function() {
-      //   chart1.center().fill('#ADFF5C');
-      //   chart2.center().fill({
-      //     keys: ["#99FF33", "#FF33FF", "#f77"],
-      //     angle: -45
-      //   });
-      //   chart3.center().fill('pink');
-      //   chart4.center().fill({
-      //     src: "http://static.anychart.com/images/underwater.jpg",
-      //     mode: "stretch"
-      //   });
-      //   anytest.CAT.getScreen('ChangeFill', -1);
-      // });
-      // anytest.step(function() {
-      //   chart1.center().fill({keys: ['green', 'red'], mode: false, angle: 80});
-      //   chart2.center().fill(['blue .2', 'gray'], 0.6, 0.7, null, 1, .5, .3);
-      //   chart3.center().fill('black .6');
-      //   chart4.center().fill(['black', 'yellow', 'blue']);
-      //   anytest.CAT.getScreen('backToInitialState', 1);
-      // });
-      anytest.exit();
-    }).charts4modes('chart1','chart2','chart3','chart4');
-//        anytest.createPanel('interactive');
+    anytest.stageListen().charts4modes();
+    anytest.drawInStage(chart);
     stage.resume();
   });
+
 </script>
 </html>
