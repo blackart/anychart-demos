@@ -15,8 +15,8 @@ anychart.onDocumentReady(function () {
   ]);
   // chart.padding(0).margin(0);
 
-  // var position = 'inside';
-  var position = 'center';
+  var position = 'inside';
+  // var position = 'center';
   // var position = 'outside';
 
   //bottom
