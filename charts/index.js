@@ -14,14 +14,23 @@ anychart.onDocumentReady(function () {
 
 
   chart.xGrid(false).yGrid(false);
-  chart.xAxis(false);
+  // chart.yAxis(false);
   // chart.yAxis(false);
 
+  chart.xScale().ticks().count(9);
+
+  chart.startAngle(0)
+
   // Get X-axis.
-  var axis = chart.yAxis();
-  axis.stroke("#2196F3");
+  axis = chart.xAxis();
+  axis.stroke("1 #2196F3");
+  // axis.labels().position('inside');
   axis.labels().position('outside');
-  axis.ticks().position('outside');
+  // axis.labels().position('center');
+  axis.ticks().position('inside');
+  // axis.ticks().position('outside');
+  // axis.ticks().position('center');
+
 
   chart.container("container");
   chart.draw();
