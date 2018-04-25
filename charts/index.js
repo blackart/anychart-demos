@@ -1,5 +1,5 @@
 anychart.onDocumentReady(function () {
-  var chart = anychart.polar([
+  var chart = anychart.radar([
     {x: 0, value: 14},
     {x: 1, value: 28},
     {x: 2, value: 20},
@@ -17,18 +17,20 @@ anychart.onDocumentReady(function () {
   // chart.yAxis(false);
   // chart.yAxis(false);
 
-  chart.xScale().ticks().count(9);
+  // chart.xScale().ticks().count(9);
 
   chart.startAngle(0)
 
   // Get X-axis.
   axis = chart.xAxis();
+  axis.ticks().length(20);
+
   axis.stroke("1 #2196F3");
   // axis.labels().position('inside');
-  axis.labels().position('outside');
-  // axis.labels().position('center');
-  axis.ticks().position('inside');
-  // axis.ticks().position('outside');
+  // axis.labels().position('outside');
+  axis.labels().position('center');
+  // axis.ticks().position('inside');
+  axis.ticks().position('outside');
   // axis.ticks().position('center');
 
 
