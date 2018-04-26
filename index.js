@@ -27,6 +27,7 @@ anychart.onDocumentReady(function () {
   var firstPlot = chart.plot(0);
   var yScale = firstPlot.yScale();
   yScale.ticks().count(10);
+
   var yAxis = firstPlot.yAxis();
   yAxis.labels().position('inside');
   yAxis.labels().padding().left(20)
@@ -36,7 +37,13 @@ anychart.onDocumentReady(function () {
 
   firstPlot.legend().margin().bottom(20);
 
-  firstPlot.xAxis().ticks().enabled(true);
+  var xAxis = firstPlot.xAxis();
+  xAxis.labels().position('inside');
+  xAxis.labels().padding().bottom(20);
+  xAxis.minorLabels().position('inside');
+  xAxis.minorLabels().padding().bottom(20);
+  xAxis.height(0);
+  xAxis.showHelperLabel(false);
 
   firstPlot.crosshair().xLabel().enabled(false);
   firstPlot.crosshair().xLabel().anchor('center-bottom');
@@ -83,14 +90,9 @@ anychart.onDocumentReady(function () {
   })
   msftSeries.hovered().markers().enabled(true);
 
+  chart.scroller(false);
+  // chart.selectRange('2005-01-03', '2005-11-20');
 
-  // create scroller series with mapped data
-  chart.scroller();
-
-  // set chart selected date/time range
-  chart.selectRange('2005-01-03', '2005-11-20');
-  // set container id for the chart
   chart.container('container');
-  // initiate chart drawing
   chart.draw();
 });
