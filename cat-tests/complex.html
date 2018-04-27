@@ -1,6 +1,6 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="anyChart"/>
+    <meta name="x-cat-tags" content="resource actualBugXml actualBugJson"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -12,22 +12,86 @@
     </script>
     <script src="utils/anytest.min.js"></script>
 
+
 </head>
 <body>
 <div id="container"></div>
 </body>
 <script>
-  anychart.onDocumentLoad(function() { //в консоли ничего нет
-    anytest.setUp();
+  var chart, series, atext, atext2, atext3, formattedTime;
+  anychart.onDocumentLoad(function() { // DVF-2920 HC problem
+    anytest.setUp(700, 400); // DVF-2925 Xml-Json
+    anychart.format.inputDateTimeFormat('yyyy-MM-dd');
+    anychart.format.outputDateTimeFormat("dd.MM.yy");
+    dataSet = [
+      {
+        "name": "Elia Viviani",
+        "description": "Rider",
+        "activities": [
+          {
+            "name": "Paris - Tours",
+            "start": '2016-10-09',
+            "end":   '2016-10-13',
+            "minutesPerDay": 200
+          },
+          {
+            "name": "World Championships",
+            "start": '2016-10-09',
+            "end":   '2016-10-12',
+            "minutesPerDay": 300
+          },
+          {
+            "name": "World Championships",
+            "start": '2016-10-16',
+            "end":   '2016-10-18'
+          },
+          {
+            "name": "Abu Dhabi Tour",
+            "start": '2016-10-20',
+            "end":   '2016-10-23'
+          }
+        ]
+      },
+      {
+        "name": "Ben Swift",
+        "description": "Rider",
+        "activities": [
+          {
+            "name": "World Championships",
+            "start": '2016-10-09',
+            "end":   '2016-10-13'
+          },
+          {
+            "name": "World Championships",
+            "start": '2016-10-16',
+            "end":   '2016-10-20'
+          }
+        ]
+      }
+    ];
+    chart = anychart.resource();
+    chart.data(dataSet);
+    chart.zoomLevel(2);
+    chart.xScale({skipHolidays: true, inverted: true, softMinimum: new Date("02-Oct-2016")});
 
-    chart = anychart.scatter();
-    chart.line([1,2,3]);
-    chart.yAxis(2);
-
-    anytest.stageListen().charts4modes();
+    anytest.asserts.deepEqual(chart.calendar().weekendRange(),[5,6]);
     anytest.drawInStage(chart);
+
+    anytest.stageListen(function () {
+      anytest.step(function(){
+        anytest.CAT.getScreen();
+      });
+      anytest.step(function(){
+        chart.xScale().skipHolidays(false);
+        anytest.CAT.getScreen('changeXScale', -1);
+        chart.xScale().skipHolidays(true);
+      });
+      anytest.step(function(){
+        anytest.CAT.getScreen('def', 1);
+      });
+      anytest.exit();
+    }).charts4modes('chart');
     stage.resume();
   });
-
 </script>
 </html>

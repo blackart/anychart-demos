@@ -1,74 +1,26 @@
-anychart.onDocumentReady(function () {
-  chart = anychart.column([
-    {x: 'январь', value: 1},
-    {x: 'февраль', value: 2},
-    {x: 'март', value: 3},
-    {x: 'апрель', value: 4},
-    {x: 'май', value: 5},
-    {x: 'июнь', value: 6},
-    {x: 'июль', value: 7},
-    {x: 'август', value: 8},
-    {x: 'сентябрь', value: 9},
-    {x: 'октябрь', value: 10},
-    {x: 'ноябрь', value: 11},
-    {x: 'декабрь', value: 12}
+anychart.onDocumentReady(function() {
+  var data = anychart.data.set([
+    ['January', 0],
+    ['February', 500],
+    {x: 'March', value: 10000, marker:{type:'star5', fill:'gold', size: 12}, hoverMarker: {size: 22}},
+    ['April', 500],
+    ['May', 0]
   ]);
-  // chart.padding(0).margin(0);
 
-  var position = 'inside';
-  // var position = 'center';
-  // var position = 'outside';
+  chart = anychart.line();
+  chart.padding(50);
 
-  //bottom
-  chart.xAxis()
-      .staggerMode(true)
-      .staggerMaxLines(10)
-      .title(true)
-      .ticks().position(position);
-  chart.xAxis()
-      .labels().position(position);
+  chart.yScale().maximum(10000);
 
-  // chart.xAxis().zIndex(chart.getSeries(0).zIndex() - 1);
+  var series = chart.spline(data);
+  chart.labels()
+      .anchor('center-bottom')
+      .clip(false)
+      .enabled(true);
 
-  // chart.yAxis(false);
-  // chart.xAxis(false);
+  var axisZIndex = series.zIndex() - 1;
+  chart.xAxis().zIndex(axisZIndex);
+  chart.yAxis().zIndex(axisZIndex);
 
-  //left
-  chart.yAxis()
-  // .title(true)
-      .ticks().position(position);
-  chart.yAxis()
-      .labels().position(position);
-
-  // chart.yAxis(2)
-  //     .title(true)
-  //     .ticks().position('outside');
-  // chart.yAxis(2)
-  //     .labels().position('outside');
-  //
-  // chart.yAxis(3)
-  //     .title(true)
-  //     .ticks().position(position);
-  // chart.yAxis(3)
-  //     .labels().position(position);
-
-  //top
-  chart.xAxis(1)
-  // .staggerMode(true)
-  // .staggerMaxLines(10)
-  // .title(true)
-      .orientation('top')
-      .ticks().position(position);
-  chart.xAxis(1)
-      .labels().position(position);
-
-  //right
-  chart.yAxis(1)
-  // .title(true)
-      .orientation('right')
-      .ticks().position(position);
-  chart.yAxis(1)
-      .labels().position(position);
-
-  chart.container("container").draw();
+  chart.container('container').draw();
 });
