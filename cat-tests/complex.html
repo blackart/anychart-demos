@@ -1,6 +1,6 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="resource actualBugXml actualBugJson"/>
+    <meta name="x-cat-tags" content="cartesian labels anyChart actualBugResize actualBugJson actualBugXml annotations"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -13,85 +13,98 @@
     <script src="utils/anytest.min.js"></script>
 
 
+
+    <script src="http://cat.anychart.com/static/sessions/15879/branch/out/local-cdn/msft-daily-short.js" data-export="true"></script>
 </head>
 <body>
 <div id="container"></div>
 </body>
-<script>
-  var chart, series, atext, atext2, atext3, formattedTime;
-  anychart.onDocumentLoad(function() { // DVF-2920 HC problem
-    anytest.setUp(700, 400); // DVF-2925 Xml-Json
-    anychart.format.inputDateTimeFormat('yyyy-MM-dd');
-    anychart.format.outputDateTimeFormat("dd.MM.yy");
-    dataSet = [
-      {
-        "name": "Elia Viviani",
-        "description": "Rider",
-        "activities": [
-          {
-            "name": "Paris - Tours",
-            "start": '2016-10-09',
-            "end":   '2016-10-13',
-            "minutesPerDay": 200
-          },
-          {
-            "name": "World Championships",
-            "start": '2016-10-09',
-            "end":   '2016-10-12',
-            "minutesPerDay": 300
-          },
-          {
-            "name": "World Championships",
-            "start": '2016-10-16',
-            "end":   '2016-10-18'
-          },
-          {
-            "name": "Abu Dhabi Tour",
-            "start": '2016-10-20',
-            "end":   '2016-10-23'
-          }
-        ]
-      },
-      {
-        "name": "Ben Swift",
-        "description": "Rider",
-        "activities": [
-          {
-            "name": "World Championships",
-            "start": '2016-10-09',
-            "end":   '2016-10-13'
-          },
-          {
-            "name": "World Championships",
-            "start": '2016-10-16',
-            "end":   '2016-10-20'
-          }
-        ]
-      }
-    ];
-    chart = anychart.resource();
-    chart.data(dataSet);
-    chart.zoomLevel(2);
-    chart.xScale({skipHolidays: true, inverted: true, softMinimum: new Date("02-Oct-2016")});
+<script type="text/javascript">
+  var chart, formatLabels1, ann1;
+  anychart.onDocumentLoad(function() {
+    anytest.setUp(400, 400);
+    var dataTable = anychart.data.table();
+    dataTable.addData(get_msft_daily_short_data());
+    var mapping = dataTable.mapAs({"value": 4});
+    chart = anychart.stock();
 
-    anytest.asserts.deepEqual(chart.calendar().weekendRange(),[5,6]);
+    var plot = chart.plot(0);
+    var lineSeries = plot.line(mapping);
+    lineSeries.name("MSFT");
+
+    formatLabels1 = function() {
+      return this.rawLevelValue.toFixed(3)
+    };
+    chart.plot(0).crosshair(false);
+    chart.listenOnce("click", function(){
+      ann1 = chart.plot().annotations().startDrawing({
+        type: "fibonacci-arc",
+        fill: "#4CAF50 0.5",
+        stroke: "3 #E666FF",
+        labels: {
+          format: formatLabels1,
+          anchor: 'left-bottom'
+        }
+      });
+    });
     anytest.drawInStage(chart);
 
     anytest.stageListen(function () {
-      anytest.step(function(){
-        anytest.CAT.getScreen();
-      });
-      anytest.step(function(){
-        chart.xScale().skipHolidays(false);
-        anytest.CAT.getScreen('changeXScale', -1);
-        chart.xScale().skipHolidays(true);
-      });
-      anytest.step(function(){
-        anytest.CAT.getScreen('def', 1);
-      });
+      // anytest.step(function () {
+      //   anytest.CAT.getScreen();
+      // });
+      // anytest.step(function () {
+      //   anytest.CAT.action(153, 75, 'click');
+      // });
+      // anytest.step(function(){
+      //   anytest.CAT.getScreen('firstClick', -1);
+      // });
+      // anytest.step(function () {
+      //   anytest.CAT.action(153, 75, 'click');
+      // });
+      // anytest.step(function(){
+      //   anytest.CAT.getScreen('secondClick', -1, 'firstClick');
+      // });
+      // anytest.step(function () {
+      //   anytest.CAT.action(300, 300, 'mousemove');
+      // });
+      // anytest.step(function(){
+      //   anytest.CAT.getScreen('mouseMoveToPoint', -1, 'secondClick');
+      // });
+      // anytest.step(function () {
+      //   anytest.CAT.action(300, 300, 'click');
+      // });
+      // anytest.step(function(){
+      //   anytest.CAT.getScreen('finishAnn1', 1, 'mouseMoveToPoint');
+      // });
+      // anytest.step(function(){
+      //   ann1.labels().format('{%level}');
+      //   anytest.CAT.getScreen('labelsFormatlevel', -1);
+      // });
+      // anytest.step(function(){
+      //   ann1.labels().format('{%rawLevelValue}{decimalsCount:3, zeroFillDecimals: true}');
+      //   anytest.CAT.getScreen('labelsFormat', 1, 'finishAnn1');
+      // });
+      // anytest.step(function () {
+      //   anytest.CAT.action(10, 10, 'click');
+      // });
+      // anytest.step(function () {
+      //   chart.annotations().cancelDrawing();
+      // });
+      // anytest.step(function(){
+      //   chart.annotations().removeAllAnnotations();
+      //   anytest.CAT.getScreen('backToInitialState', 1);
+      // });
       anytest.exit();
-    }).charts4modes('chart');
+    }).charts4modes("chart");
+//        anytest.createPanel('interactive');
     stage.resume();
+    /*<< methods
+     anychart.core.ChartWithAxes.annotations
+     anychart.core.annotations.PlotController.startDrawing
+     anychart.core.annotations.PlotController.cancelDrawing
+     anychart.core.annotations.PlotController.getAnnotationAt
+     >>*/
   });
 </script>
 </html>
