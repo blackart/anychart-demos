@@ -13,16 +13,16 @@ anychart.onDocumentReady(function() {
   chart.yScale().maximum(10000);
 
   var series = chart.spline(data);
+  // series.clip(true);
 
   chart.labels()
       .anchor('center-bottom')
-      .clip(false)
-      .enabled(true);
+      .enabled(true)
+      // .clip(true);
+
   chart.markers()
       .enabled(true)
-      .clip(false);
-
-  chart.markers().enabled(true);
+      // .clip(false);
 
   var axisZIndex = series.zIndex() - 1;
   chart.xAxis().zIndex(axisZIndex);
