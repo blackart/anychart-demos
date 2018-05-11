@@ -1,10 +1,10 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="cartesian labels anyChart actualBugResize actualBugJson actualBugXml annotations"/>
+    <meta name="x-cat-tags" content="pie labelsFactory  anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
-    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
+    <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
     <script>
       goog.require("anychart.bundle.entry");
       goog.require("anychart.themes.defaultTheme.entry");
@@ -12,99 +12,92 @@
     </script>
     <script src="utils/anytest.min.js"></script>
 
-
-
-    <script src="http://cat.anychart.com/static/sessions/15879/branch/out/local-cdn/msft-daily-short.js" data-export="true"></script>
 </head>
 <body>
+<input type="range" name="angle" min="-1000" max="1000" style="width: 500px;" id="startAngle"
+       oninput="startAngle(this.value);">
+<input type="text" id="startAngleInp" onchange="startAngleInp(this.value);" style="width: 30px;"/>
 <div id="container"></div>
 </body>
-<script type="text/javascript">
-  var chart, formatLabels1, ann1;
+<script>
+  var chart1, chart2, chart3, chart4;
+  function startAngle(value) {
+    chart1.startAngle(value);
+    // chart2.startAngle(value);
+    // chart3.startAngle(value);
+    // chart4.startAngle(value);
+    document.getElementById('startAngleInp').value = value;
+    // input.value = chart1.startAngle();
+  }
+
+  function startAngleInp(value) {
+    chart1.startAngle(value);
+    // chart2.startAngle(value);
+    // chart3.startAngle(value);
+    // chart4.startAngle(value);
+    ranger.value = chart1.startAngle();
+  }
   anychart.onDocumentLoad(function() {
-    anytest.setUp(400, 400);
-    var dataTable = anychart.data.table();
-    dataTable.addData(get_msft_daily_short_data());
-    var mapping = dataTable.mapAs({"value": 4});
-    chart = anychart.stock();
+    anytest.setCheckMsg("Info: 3 Description: It is not recommended to use more then 5 - 7 points in Pie Chart." +
+        " Currently there are '19' points. Expert opinion at http://cdn.anychart.com/warning/3.html");
+    anytest.setUp(500, 500);
 
-    var plot = chart.plot(0);
-    var lineSeries = plot.line(mapping);
-    lineSeries.name("MSFT");
+    var dataSet = [109, 100, 1024, 223, 107, 103, 120, 107, 102, 1030, 55, 48, 54, 66, 8, 90, 50, 45, 100];
+    chart1 = anychart.pie();
+    chart1.labels().position('outside');
+    chart1.data(dataSet)
+        .legend(null)
+        .outsideLabelsCriticalAngle(10)
+        .bounds(0, 0, '50%', '50%')
+        .labels().fontColor('black');
+    chart1.title().text('Angle 10');
+    anytest.drawInStage(chart1);
 
-    formatLabels1 = function() {
-      return this.rawLevelValue.toFixed(3)
-    };
-    chart.plot(0).crosshair(false);
-    chart.listenOnce("click", function(){
-      ann1 = chart.plot().annotations().startDrawing({
-        type: "fibonacci-arc",
-        fill: "#4CAF50 0.5",
-        stroke: "3 #E666FF",
-        labels: {
-          format: formatLabels1,
-          anchor: 'left-bottom'
-        }
-      });
-    });
-    anytest.drawInStage(chart);
+    // chart2 = anychart.pie3d();
+    // chart2.labels().position('outside');
+    // chart2.data(dataSet)
+    //     .legend(null)
+    //     .outsideLabelsCriticalAngle(180)
+    //     .bounds('50%', 0, '50%', '50%')
+    //     .labels()
+    //     .fontColor('black');
+    // chart2.title().text('Angle 180');
+    // anytest.drawInStage(chart2);
+    //
+    // chart3 = anychart.pie3d();
+    // chart3.labels().position('outside');
+    // chart3.data(dataSet)
+    //     .outsideLabelsCriticalAngle('70')
+    //     .legend(null)
+    //     .bounds(0, '50%', '50%', '50%')
+    //     .labels().fontColor('black');
+    // chart3.title().text('Angle 70');
+    // anytest.drawInStage(chart3);
+    //
+    // chart4 = anychart.pie3d();
+    // chart4.labels().position('outside');
+    // chart4.data(dataSet)
+    //     .outsideLabelsCriticalAngle('32.4')
+    //     .legend(null)
+    //     .bounds('50%', '50%', '50%', '50%')
+    //     .labels().fontColor('black');
+    // chart4.title().text('Angle 32.4');
+    // anytest.drawInStage(chart4);
 
-    anytest.stageListen(function () {
-      // anytest.step(function () {
-      //   anytest.CAT.getScreen();
-      // });
-      // anytest.step(function () {
-      //   anytest.CAT.action(153, 75, 'click');
-      // });
-      // anytest.step(function(){
-      //   anytest.CAT.getScreen('firstClick', -1);
-      // });
-      // anytest.step(function () {
-      //   anytest.CAT.action(153, 75, 'click');
-      // });
-      // anytest.step(function(){
-      //   anytest.CAT.getScreen('secondClick', -1, 'firstClick');
-      // });
-      // anytest.step(function () {
-      //   anytest.CAT.action(300, 300, 'mousemove');
-      // });
-      // anytest.step(function(){
-      //   anytest.CAT.getScreen('mouseMoveToPoint', -1, 'secondClick');
-      // });
-      // anytest.step(function () {
-      //   anytest.CAT.action(300, 300, 'click');
-      // });
-      // anytest.step(function(){
-      //   anytest.CAT.getScreen('finishAnn1', 1, 'mouseMoveToPoint');
-      // });
-      // anytest.step(function(){
-      //   ann1.labels().format('{%level}');
-      //   anytest.CAT.getScreen('labelsFormatlevel', -1);
-      // });
-      // anytest.step(function(){
-      //   ann1.labels().format('{%rawLevelValue}{decimalsCount:3, zeroFillDecimals: true}');
-      //   anytest.CAT.getScreen('labelsFormat', 1, 'finishAnn1');
-      // });
-      // anytest.step(function () {
-      //   anytest.CAT.action(10, 10, 'click');
-      // });
-      // anytest.step(function () {
-      //   chart.annotations().cancelDrawing();
-      // });
-      // anytest.step(function(){
-      //   chart.annotations().removeAllAnnotations();
-      //   anytest.CAT.getScreen('backToInitialState', 1);
-      // });
-      anytest.exit();
-    }).charts4modes("chart");
-//        anytest.createPanel('interactive');
+    // anytest.stageListen(function() {
+    //   anytest.step(function() {
+    //     ranger = document.getElementById('startAngle').value = chart1.startAngle();
+    //     input = document.getElementById('startAngleInp').value = chart1.startAngle();
+    //     anytest.CAT.getScreen();
+    //   });
+    //   anytest.step(function() {
+    //     chart3.outsideLabelsCriticalAngle('30');
+    //     anytest.CAT.getScreen('afterDrawChangeCriticalAngle', -1);
+    //     chart3.outsideLabelsCriticalAngle('70');
+    //   });
+    //   anytest.exit();
+    // }).charts4modes("chart1", "chart2", "chart3", "chart4");
     stage.resume();
-    /*<< methods
-     anychart.core.ChartWithAxes.annotations
-     anychart.core.annotations.PlotController.startDrawing
-     anychart.core.annotations.PlotController.cancelDrawing
-     anychart.core.annotations.PlotController.getAnnotationAt
-     >>*/
   });
 </script>
 </html>

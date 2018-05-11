@@ -8,5 +8,6 @@ anychart.onDocumentReady(function() {
   ]);
 
   chart = anychart.pie(data);
+  // chart.labels().position('outside');
   chart.container('container').draw();
 });
