@@ -1,10 +1,11 @@
 <html>
-<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="pie labelsFactory  anyChart"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="radar line ticks axis labelsFactory anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
-    <!--<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">-->
+    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
     <script>
       goog.require("anychart.bundle.entry");
       goog.require("anychart.themes.defaultTheme.entry");
@@ -12,92 +13,98 @@
     </script>
     <script src="utils/anytest.min.js"></script>
 
+
 </head>
 <body>
-<input type="range" name="angle" min="-1000" max="1000" style="width: 500px;" id="startAngle"
-       oninput="startAngle(this.value);">
-<input type="text" id="startAngleInp" onchange="startAngleInp(this.value);" style="width: 30px;"/>
 <div id="container"></div>
 </body>
 <script>
-  var chart1, chart2, chart3, chart4;
-  function startAngle(value) {
-    chart1.startAngle(value);
-    // chart2.startAngle(value);
-    // chart3.startAngle(value);
-    // chart4.startAngle(value);
-    document.getElementById('startAngleInp').value = value;
-    // input.value = chart1.startAngle();
-  }
-
-  function startAngleInp(value) {
-    chart1.startAngle(value);
-    // chart2.startAngle(value);
-    // chart3.startAngle(value);
-    // chart4.startAngle(value);
-    ranger.value = chart1.startAngle();
-  }
+  var chart0, chart1, chart2, chart3, chart4;
   anychart.onDocumentLoad(function() {
-    anytest.setCheckMsg("Info: 3 Description: It is not recommended to use more then 5 - 7 points in Pie Chart." +
-        " Currently there are '19' points. Expert opinion at http://cdn.anychart.com/warning/3.html");
-    anytest.setUp(500, 500);
+    anytest.setUp(600, 1100);
 
-    var dataSet = [109, 100, 1024, 223, 107, 103, 120, 107, 102, 1030, 55, 48, 54, 66, 8, 90, 50, 45, 100];
-    chart1 = anychart.pie();
-    chart1.labels().position('outside');
-    chart1.data(dataSet)
-        .legend(null)
-        .outsideLabelsCriticalAngle(10)
-        .bounds(0, 0, '50%', '50%')
-        .labels().fontColor('black');
-    chart1.title().text('Angle 10');
+    // chart0 = anychart.radar();
+    // chart0.yAxis().enabled(false);
+    // chart0.line(['5', 5, 10, 5, 5]);
+    // chart0.line([10, 10, 15, 10, 10]);
+    // chart0.line([15, 15, 20, 15, 15]);
+    // chart0.line([20, 20, 25, 20, 20]);
+    // chart0.line([25, 25, 30, 25, 25]);
+    // chart0.title().text('yAxis - enabled(false)');
+    // chart0.bounds(new acgraph.math.Rect(0, 0, 300, 300));
+    // anytest.drawInStage(chart0);
+
+    chart1 = anychart.radar();
+    chart1.line([
+      {x: 'Point 1', value: 4},
+      {x: 'Point 2', value: 10},
+      {x: 'Point 3', value: -1},
+      {x: 'Point 4', value: 10},
+      {x: 'Point 5', value: 4}
+    ]);
+    chart1.yAxis().ticks().stroke('3 green').length(10);
+    chart1.yAxis().stroke('2 red .6');
+    // var labels1 = anychart.standalones.labelsFactory();
+    // labels1.fontSize(9).padding(5).rotation(-90);
+    // labels1.background({fill: 'blue .1', stroke: '1 black', corners: 5, cornerType: 'cut'});
+    chart1.yAxis().labels({
+      fontSize: 9,
+      padding: 5,
+      rotation: -90,
+      background: {
+        fill: 'blue .1',
+        stroke: '1 black',
+        corners: 5,
+        cornersType: 'cut'
+      }
+    });
+    // chart1.title().text('ticks, stroke, labels');
+    chart1.bounds(new acgraph.math.Rect(300, 0, 300, 300));
     anytest.drawInStage(chart1);
 
-    // chart2 = anychart.pie3d();
-    // chart2.labels().position('outside');
-    // chart2.data(dataSet)
-    //     .legend(null)
-    //     .outsideLabelsCriticalAngle(180)
-    //     .bounds('50%', 0, '50%', '50%')
-    //     .labels()
-    //     .fontColor('black');
-    // chart2.title().text('Angle 180');
+    // chart2 = anychart.radar();
+    // chart2.yAxis().minorTicks().length(4).stroke('red');
+    // chart2.yAxis().drawFirstLabel(false).drawLastLabel(false);
+    // chart2.line([4, 10, -1, 10, 4]);
+    // chart2.title().text('yAxis - drawFirstLabel, drawLastLabel, minorTicks');
+    // chart2.bounds(new acgraph.math.Rect(0, 300, 300, 300));
     // anytest.drawInStage(chart2);
     //
-    // chart3 = anychart.pie3d();
-    // chart3.labels().position('outside');
-    // chart3.data(dataSet)
-    //     .outsideLabelsCriticalAngle('70')
-    //     .legend(null)
-    //     .bounds(0, '50%', '50%', '50%')
-    //     .labels().fontColor('black');
-    // chart3.title().text('Angle 70');
+    // chart3 = anychart.radar();
+    // chart3.line([49994, 10000, 11590, 44440]);
+    // var labels3 = anychart.standalones.labelsFactory();
+    // labels3.rotation(-90);
+    // chart3.yAxis().labels({rotation: '-90'}).overlapMode('allow-overlap');
+    // chart3.title('yAxis - overlapmode');
+    // chart3.bounds(new acgraph.math.Rect(300, 300, 300, 300));
     // anytest.drawInStage(chart3);
     //
-    // chart4 = anychart.pie3d();
-    // chart4.labels().position('outside');
-    // chart4.data(dataSet)
-    //     .outsideLabelsCriticalAngle('32.4')
-    //     .legend(null)
-    //     .bounds('50%', '50%', '50%', '50%')
-    //     .labels().fontColor('black');
-    // chart4.title().text('Angle 32.4');
-    // anytest.drawInStage(chart4);
+    // chart4 = anychart.radar();
+    // chart4.line([2, 4, 6]);
+    // chart4.yAxis().labels().enabled(false);
+    // chart4.yAxis().minorLabels().enabled(true).fontSize(8).rotation(-45);
+    // chart4.title().text('yAxis - minorLabels');
+    // chart4.bounds(new acgraph.math.Rect(0, 600, 600, 500));
+    anytest.stageListen(function() {
+      // anytest.step(function() {
+      //   anytest.CAT.getScreen();
+      // });
+      // anytest.step(function() {
+      //   chart0.yAxis().enabled(true);
+      //   chart0.yAxis().labels({rotation: '-90'}).overlapMode('allow-overlap');
+      //   anytest.CAT.getScreen('afterDrawChangeYAxis', -1);
+      //   chart0.yAxis().enabled(false);
+      // });
+      // anytest.exit();
+    }).drawInStage(chart4);
+    anytest.charts4modes("chart0", "chart1", "chart2", "chart3", "chart4");
 
-    // anytest.stageListen(function() {
-    //   anytest.step(function() {
-    //     ranger = document.getElementById('startAngle').value = chart1.startAngle();
-    //     input = document.getElementById('startAngleInp').value = chart1.startAngle();
-    //     anytest.CAT.getScreen();
-    //   });
-    //   anytest.step(function() {
-    //     chart3.outsideLabelsCriticalAngle('30');
-    //     anytest.CAT.getScreen('afterDrawChangeCriticalAngle', -1);
-    //     chart3.outsideLabelsCriticalAngle('70');
-    //   });
-    //   anytest.exit();
-    // }).charts4modes("chart1", "chart2", "chart3", "chart4");
     stage.resume();
+    /*<< methods
+     anychart.charts.Radar.yAxis
+     anychart.core.axes.Radial.drawFirstLabel
+     anychart.core.axes.Radial.drawLastLabel
+     >>*/
   });
 </script>
 </html>
