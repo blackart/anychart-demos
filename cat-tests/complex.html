@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="radar line ticks axis labelsFactory anyChart"/>
+    <meta name="x-cat-tags" content="grid  anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -19,92 +19,45 @@
 <div id="container"></div>
 </body>
 <script>
-  var chart0, chart1, chart2, chart3, chart4;
+  var chart, grid0, grid1;
   anychart.onDocumentLoad(function() {
-    anytest.setUp(600, 1100);
+    anytest.setUp(400, 450);
 
-    // chart0 = anychart.radar();
-    // chart0.yAxis().enabled(false);
-    // chart0.line(['5', 5, 10, 5, 5]);
-    // chart0.line([10, 10, 15, 10, 10]);
-    // chart0.line([15, 15, 20, 15, 15]);
-    // chart0.line([20, 20, 25, 20, 20]);
-    // chart0.line([25, 25, 30, 25, 25]);
-    // chart0.title().text('yAxis - enabled(false)');
-    // chart0.bounds(new acgraph.math.Rect(0, 0, 300, 300));
-    // anytest.drawInStage(chart0);
+    chart = anychart.polar();
+    chart.area(['0', 10, -1, 10, 4]);
 
-    chart1 = anychart.radar();
-    chart1.line([
-      {x: 'Point 1', value: 4},
-      {x: 'Point 2', value: 10},
-      {x: 'Point 3', value: -1},
-      {x: 'Point 4', value: 10},
-      {x: 'Point 5', value: 4}
-    ]);
-    chart1.yAxis().ticks().stroke('3 green').length(10);
-    chart1.yAxis().stroke('2 red .6');
-    // var labels1 = anychart.standalones.labelsFactory();
-    // labels1.fontSize(9).padding(5).rotation(-90);
-    // labels1.background({fill: 'blue .1', stroke: '1 black', corners: 5, cornerType: 'cut'});
-    chart1.yAxis().labels({
-      fontSize: 9,
-      padding: 5,
-      rotation: -90,
-      background: {
-        fill: 'blue .1',
-        stroke: '1 black',
-        corners: 5,
-        cornersType: 'cut'
-      }
-    });
-    // chart1.title().text('ticks, stroke, labels');
-    chart1.bounds(new acgraph.math.Rect(300, 0, 300, 300));
-    anytest.drawInStage(chart1);
+    grid0 = chart.yGrid(0);
+    grid0.fill("blue 0.3");
+    grid0.axis(chart.yAxis());
+    grid0.stroke("white");
 
-    // chart2 = anychart.radar();
-    // chart2.yAxis().minorTicks().length(4).stroke('red');
-    // chart2.yAxis().drawFirstLabel(false).drawLastLabel(false);
-    // chart2.line([4, 10, -1, 10, 4]);
-    // chart2.title().text('yAxis - drawFirstLabel, drawLastLabel, minorTicks');
-    // chart2.bounds(new acgraph.math.Rect(0, 300, 300, 300));
-    // anytest.drawInStage(chart2);
-    //
-    // chart3 = anychart.radar();
-    // chart3.line([49994, 10000, 11590, 44440]);
-    // var labels3 = anychart.standalones.labelsFactory();
-    // labels3.rotation(-90);
-    // chart3.yAxis().labels({rotation: '-90'}).overlapMode('allow-overlap');
-    // chart3.title('yAxis - overlapmode');
-    // chart3.bounds(new acgraph.math.Rect(300, 300, 300, 300));
-    // anytest.drawInStage(chart3);
-    //
-    // chart4 = anychart.radar();
-    // chart4.line([2, 4, 6]);
-    // chart4.yAxis().labels().enabled(false);
-    // chart4.yAxis().minorLabels().enabled(true).fontSize(8).rotation(-45);
-    // chart4.title().text('yAxis - minorLabels');
-    // chart4.bounds(new acgraph.math.Rect(0, 600, 600, 500));
-    anytest.stageListen(function() {
-      // anytest.step(function() {
-      //   anytest.CAT.getScreen();
-      // });
-      // anytest.step(function() {
-      //   chart0.yAxis().enabled(true);
-      //   chart0.yAxis().labels({rotation: '-90'}).overlapMode('allow-overlap');
-      //   anytest.CAT.getScreen('afterDrawChangeYAxis', -1);
-      //   chart0.yAxis().enabled(false);
-      // });
-      // anytest.exit();
-    }).drawInStage(chart4);
-    anytest.charts4modes("chart0", "chart1", "chart2", "chart3", "chart4");
+    grid1 = chart.xGrid(1);
+    grid1.axis(chart.xAxis());
+    grid1.stroke("gray 0.8");
+    grid1.palette(['none', "red 0.3"]);
 
+    yTicks = chart.xScale().ticks();
+    yTicks.interval(0.3);
+
+    anytest.drawInStage(chart);
+
+
+    anytest.stageListen(function(){
+      anytest.step(function(){
+        anytest.CAT.getScreen();
+        grid0 = chart.yGrid(0);
+      });
+      anytest.step(function(){
+        grid0.axis(chart.xAxis());
+        anytest.CAT.getScreen('changeAxis', -1);
+        grid0.axis(chart.yAxis());
+      });
+      anytest.step(function(){
+        anytest.CAT.getScreen('def');
+      });
+      anytest.exit();
+    }).charts4modes();
     stage.resume();
-    /*<< methods
-     anychart.charts.Radar.yAxis
-     anychart.core.axes.Radial.drawFirstLabel
-     anychart.core.axes.Radial.drawLastLabel
-     >>*/
   });
 </script>
 </html>
