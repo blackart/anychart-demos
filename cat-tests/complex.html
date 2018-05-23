@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="grid  anyChart"/>
+    <meta name="x-cat-tags" content="radar polar anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -17,46 +17,109 @@
 </head>
 <body>
 <div id="container"></div>
+<img src="http://static.anychart.com/kitty.png" style="display:none;">
 </body>
 <script>
-  var chart, grid0, grid1;
+  var chart1, chart2, firstSeries, secondSeries, formatLabels1, formatLabels2;
   anychart.onDocumentLoad(function() {
-    anytest.setUp(400, 450);
+    anytest.setUp(600, 300);
+    function labelsSettings1() {
+      var count =  chart1.xAxis().labels().getLabelsCount();
+      for (var i = 0; i < count; i++) {
+        var label =  chart1.xAxis().labels().getLabel(i);
+        if (label) {
+          label.background().enabled(true).fill('orange .6');
+          label.fontColor('green').fontSize(15);
+          label.draw();
+        }
+      }
+      var countY =  chart1.yAxis().labels().getLabelsCount();
+      for (var i1 = 0; i1 < countY; i1++) {
+        var labely =  chart1.yAxis().labels().getLabel(i1);
+        if (labely) {
+          labely.background().enabled(true).fill( {keys: ['#CC99FF', 'red'], mode: false, angle: 80});
+          labely.fontColor('blue').fontSize(15);
+          labely.draw();
+        }
+      }
+    }
+    function labelsSettings2() {
+      var count =  chart2.xAxis().labels().getLabelsCount();
+      for (var i = 0; i < count; i++) {
+        var label =  chart2.xAxis().labels().getLabel(i);
+        if (label) {
+          label.background().enabled(true).fill( {
+            keys: ["#fff", "#66f", "#fff"],
+            angle: 130
+          });
+          label.fontColor('green').fontSize(15);
+          label.draw();
+        }
+      }
+      var countY =  chart2.yAxis().labels().getLabelsCount();
+      for (var i1 = 0; i1 < countY; i1++) {
+        var labely =  chart2.yAxis().labels().getLabel(i1);
+        if (labely) {
+          labely.background().enabled(true).fill(['blue .2', 'yellow'], 0.6, 0.7, null, 1, .5, .3);
+          labely.fontColor('blue').fontSize(15);
+          labely.draw();
+        }
+      }
+    }
+    chart1 = anychart.polar();
+    firstSeries = chart1.line([-6, -15, 3, 12, 32, 44]);
+    firstSeries
+        .markers(true)
+        .selected()
+        .stroke('10 purple')
+        .markers({fill: 'yellow'});
+    chart1.xAxis().labels().position('normal');
+    chart1.bounds(0,0,'50%', '100%');
+    formatLabels1 = function(){
+      var currentValue = this.value;
+      if (currentValue >= 10)
+      {currentValue = currentValue + '%';}
+      return currentValue;
+    };
+    chart1.xAxis().labels().position('byPath');
+    chart1.yAxis().labels().format(formatLabels1);
+    anytest.drawInStage(chart1);
 
-    chart = anychart.polar();
-    chart.area(['0', 10, -1, 10, 4]);
+    chart2 = anychart.polar();
+    secondSeries = chart2.line([-6, -15, 3, 12, 32, 44]);
+    secondSeries
+        .markers(true);
+    formatLabels2 = function(){
+      var currentValue = this.value;
+      if (currentValue >= 2)
+      {currentValue = currentValue + '%';}
+      return currentValue;
+    };
+    chart2.xAxis().labels().format(formatLabels2);
+    chart2.bounds('50%',0,'50%', '100%');
+    anytest.drawInStage(chart2);
 
-    grid0 = chart.yGrid(0);
-    grid0.fill("blue 0.3");
-    grid0.axis(chart.yAxis());
-    grid0.stroke("white");
-
-    grid1 = chart.xGrid(1);
-    grid1.axis(chart.xAxis());
-    grid1.stroke("gray 0.8");
-    grid1.palette(['none', "red 0.3"]);
-
-    yTicks = chart.xScale().ticks();
-    yTicks.interval(0.3);
-
-    anytest.drawInStage(chart);
-
-
-    anytest.stageListen(function(){
-      anytest.step(function(){
+    anytest.stageListen(function() {
+      anytest.step(function() {
+        chart1.yAxis().labels().format(formatLabels1);
+        chart2.xAxis().labels().format(formatLabels2);
+        labelsSettings1(); // for xml
+        labelsSettings2(); // for xml
+        chart1.listen('signal', labelsSettings1); // for resize
+        chart2.listen('signal', labelsSettings2); // for resize
         anytest.CAT.getScreen();
-        grid0 = chart.yGrid(0);
       });
-      anytest.step(function(){
-        grid0.axis(chart.xAxis());
-        anytest.CAT.getScreen('changeAxis', -1);
-        grid0.axis(chart.yAxis());
-      });
-      anytest.step(function(){
-        anytest.CAT.getScreen('def');
-      });
+      // anytest.step(function() {
+      //   chart1.xAxis().labels().position('byPath');
+      //   anytest.CAT.getScreen('byPath');
+      // });
+      // anytest.step(function() {
+      //   chart1.xAxis().labels().position('normal');
+      //   anytest.CAT.getScreen('backToInitialState', 1);
+      // });
       anytest.exit();
-    }).charts4modes();
+    }).charts4modes('chart1', 'chart2');
+
     stage.resume();
   });
 </script>

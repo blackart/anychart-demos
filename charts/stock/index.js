@@ -74,15 +74,15 @@ anychart.onDocumentReady(function() {
   // initiate chart drawing
   chart.draw();
 
-  // create range picker
-  rangePicker = anychart.ui.rangePicker();
-  // init range picker
-  rangePicker.render(chart);
-
-  // create range selector
-  rangeSelector = anychart.ui.rangeSelector();
-  // init range selector
-  rangeSelector.render(chart);
+  // // create range picker
+  // rangePicker = anychart.ui.rangePicker();
+  // // init range picker
+  // rangePicker.render(chart);
+  //
+  // // create range selector
+  // rangeSelector = anychart.ui.rangeSelector();
+  // // init range selector
+  // rangeSelector.render(chart);
 });
 
 function setupDrawer(series) {
