@@ -42,7 +42,7 @@ anychart.onDocumentReady(function() {
   // secondPlot.yMinorGrid().enabled(true);
   secondPlot.yAxis().labels().format('{%tickValue}{scale:(1)(1000)(1000)(1000)|( d)( th)( M)( B)}');
 
-  var series = secondPlot.column(mapping).name('MSFT');
+  var series = secondPlot.line(mapping).name('MSFT');
 
   // setupDrawer(series);
   // series.risingFill(candlestick.risingFill());
@@ -52,12 +52,42 @@ anychart.onDocumentReady(function() {
   // series.risingHatchFill(candlestick.risingHatchFill());
   // series.fallingHatchFill(candlestick.fallingHatchFill());
 
+  var colorScale = anychart.scales.ordinalColor();
+  colorScale.ranges([
+    {
+      less: 50000000,
+      color: '2 red'
+    },
+    {
+      greater: 50000000,
+      color: '2 blue'
+    }
+  ])
+
+  series.colorScale(colorScale);
+
   // series.allowPointSettings(true);
   series.fill(function(arg) {
     // console.log(this.x, this.value, this.index);
     // console.log(this.getData('open'), this.getData('close'));
     var rising = +this.getData('open') < +this.getData('close');
     return rising ? candlestick.risingFill() : candlestick.fallingFill();
+    // return this.sourceColor;
+  });
+
+  series.stroke(function(arg) {
+    // console.log(this.x, this.value, this.index);
+    // console.log(this.getData('open'), this.getData('close'));
+    var rising = +this.getData('open') < +this.getData('close');
+    return rising ? candlestick.risingFill() : candlestick.fallingFill();
+    // return this.sourceColor;
+  });
+
+  series.hovered().fill(function(arg) {
+    // console.log(this.x, this.value, this.index);
+    // console.log(this.getData('open'), this.getData('close'));
+    var rising = +this.getData('open') < +this.getData('close');
+    return rising ? 'green' : 'red';
     // return this.sourceColor;
   });
 
