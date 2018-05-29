@@ -16,9 +16,9 @@ anychart.onDocumentReady(function() {
   // series.clip(true);
 
   chart.labels()
-      .anchor('center-bottom')
+      // .anchor('center-bottom')
       .enabled(true)
-      // .clip(true);
+      // .clip(false);
 
   chart.markers()
       .enabled(true)

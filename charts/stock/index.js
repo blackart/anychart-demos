@@ -34,8 +34,8 @@ anychart.onDocumentReady(function() {
 
   // var candlestick = firstPlot.candlestick(mapping).name('MSFT');
 
-  var secondPlot = chart.plot(1);
-  secondPlot.height('30%');
+  var secondPlot = chart.plot(0);
+  // secondPlot.height('30%');
   secondPlot.xAxis().background().enabled(true);
   // secondPlot.xGrid().enabled(true);
   // secondPlot.yGrid().enabled(true);

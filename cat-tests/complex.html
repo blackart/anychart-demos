@@ -1,7 +1,6 @@
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="x-cat-tags" content="charts anyChart"/>
+<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="title legend pie  anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -13,6 +12,7 @@
     </script>
     <script src="utils/anytest.min.js"></script>
 
+
 </head>
 <body>
 <div id="container"></div>
@@ -20,114 +20,22 @@
 <script>
   var chart;
   anychart.onDocumentLoad(function() {
-    anytest.setUp(400, 500);
-    chart = anychart.column([
-      {x: 'январь', value: 1},
-      {x: 'февраль', value: 2000},
-      {x: 'март', value: 3},
-      {x: 'апрель', value: -640},
-      {x: 'май', value: 5},
-      {x: 'июнь', value: 6},
-      {x: 'июль', value: 7},
-      {x: 'август', value: 8},
-      {x: 'сентябрь', value: 900},
-      {x: 'октябрь', value: 1000},
-      {x: 'ноябрь', value: 11},
-      {x: 'декабрь', value: 12}
+    //--------
+    // DVF-2444
+    //--------
+    anytest.setUp();
+    chart = anychart.pie();
+    chart.data([
+      {name: 'Candidate', value: 10},
+      {name: 'Candidate2', value:7}
     ]);
-
-    var position = 'inside';
-
-    //bottom
-    chart.xAxis()
-        .staggerMode(true)
-        .staggerMaxLines(10)
-        .title(true)
-        .ticks().position(position);
-    chart.xAxis()
-        .labels().position(position);
-
-    //left
-    chart.yAxis()
-        .ticks().position(position);
-    chart.yAxis()
-        .labels().position(position);
-
-    chart.yAxis(2)
-        .title(true)
-        .ticks().position(position);
-    chart.yAxis(2)
-        .labels().position(position);
-
-    chart.yAxis(3)
-        .title(true)
-        .ticks().position(position);
-    chart.yAxis(3)
-        .labels().position(position);
-
-    //top
-    chart.xAxis(1)
-        .orientation('top')
-        .ticks().position(position);
-    chart.xAxis(1)
-        .labels().position(position);
-
-    //right
-    chart.yAxis(1)
-        .orientation('right')
-        .ticks().position('center').stroke('2 red 0.5');
-
-    chart.yAxis(1)
-        .labels({position: 'inside', fontColor: 'blue', background: {stroke: 'grey', fill: 'none'}});
-
-    anytest.drawInStage(chart);
-
-    console.log(chart.toXml());
-
-    anytest.stageListen(function() {
-      anytest.step(function() {
-        axis = chart.yAxis(1);
-        anytest.CAT.getScreen();
-      });
-      // anytest.step(function(){
-      //   axis.labels().position('outside');
-      //   anytest.CAT.getScreen('ticksCenterLabelsOutside', -1);
-      // });
-      // anytest.step(function(){
-      //   axis.labels({position: 'center'});
-      //   anytest.CAT.getScreen('ticksCenterLabelsCenter', -1, 'ticksCenterLabelsOutside');
-      // });
-      // anytest.step(function(){
-      //   axis.labels().position('inside');
-      //   axis.ticks({position: 'inside'});
-      //   anytest.CAT.getScreen('ticksInsideLabelsInside', -1);
-      // });
-      // anytest.step(function(){
-      //   axis.labels().position('outside');
-      //   anytest.CAT.getScreen('ticksInsideLabelsOutside', -1, 'ticksCenterLabelsOutside');
-      // });
-      // anytest.step(function(){
-      //   axis.labels({position: 'center'});
-      //   anytest.CAT.getScreen('ticksInsideLabelsCenter', -1, 'ticksCenterLabelsCenter');
-      // });
-      // anytest.step(function(){
-      //   axis.ticks().position('outside');
-      //   anytest.CAT.getScreen('ticksOutsideLabelsCenter', -1, 'ticksInsideLabelsCenter');
-      // });
-      // anytest.step(function(){
-      //   axis.labels().position('outside');
-      //   anytest.CAT.getScreen('ticksOutsideLabelsOutside', -1, 'ticksInsideLabelsOutside');
-      // });
-      // anytest.step(function(){
-      //   axis.labels({position: 'inside'});
-      //   anytest.CAT.getScreen('ticksOutsideLabelsInside', -1);
-      // });
-      // anytest.step(function(){
-      //   axis.ticks().position('center');
-      //   anytest.CAT.getScreen('back', 1);
-      // });
-      anytest.exit();
-    }).charts4modes("chart");
+    chart.legend().title()
+        .text('Candidates in Russian Federation by 2010 year. In sibirean district by wooomans.').enabled(true)
+        .letterSpacing('2px')
+        .margin(5)
+        .fontSize(11);
+    anytest.stageListen().drawInStage(chart);
+    anytest.charts4modes();
     stage.resume();
   });
 </script>
