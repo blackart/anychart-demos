@@ -1,7 +1,7 @@
 var series;
 
 var changeBaseLine = function(value) {
-  series.baseLine(value);
+  secondPlot.baseLine(value);
 }
 
 anychart.onDocumentReady(function() {
@@ -19,10 +19,10 @@ anychart.onDocumentReady(function() {
 
   chart = anychart.stock();
 
-  var secondPlot = chart.plot(0);
-  series = secondPlot.line(mapping).name('MSFT');
-  // series.baseLine(0);
-  series.baseLine(-300);
+  secondPlot = chart.plot(0);
+  series = secondPlot.area(mapping).name('MSFT');
+  // secondPlot.baseLine(0);
+  // secondPlot.baseLine(-300);
   //
   // series.risingStroke('3 green');
   // series.fallingStroke('3 red');
