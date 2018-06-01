@@ -11,15 +11,17 @@
     <!--<script src="//cdn.anychart.com/geodata/1.2.0/custom/world_source/world_source.js"></script>-->
 
     <!--<script src="https://cdn.anychart.com/js/7.13.1/anychart-bundle.min.js"></script>-->
-    <!--<script src="https://cdn.anychart.com/js/8.2.1/anychart-bundle.min.js"></script>-->
+    <!--<script src="../../../out/anychart-bundle.min.js"></script>-->
 
-    <script src="https://cdn.anychart.com/csv-data/msft-daily-short.js"></script>
+    <!--<script src="https://cdn.anychart.com/csv-data/msft-daily-short.js"></script>-->
+    <!--<script src="../../../out/anychart-bundle.min.js"></script>-->
 
     <link rel="stylesheet" href="https://cdn.anychart.com/css/8.2.1/anychart-ui.min.css" />
 
     <script src="./index.js"></script>
 </head>
 <body>
+    <input type="range" min="-1000" max="1000" value="0" oninput="changeBaseLine(this.value)">
     <div id="container"></div>
 </body>
 </html>
