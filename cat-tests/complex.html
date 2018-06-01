@@ -1,6 +1,6 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="title legend pie  anyChart"/>
+    <meta name="x-cat-tags" content="line interactive skipmodes anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -10,33 +10,75 @@
       goog.require("anychart.themes.defaultTheme.entry");
       window.ACDVF = true;
     </script>
+
+
+    <!--<script src="https://cdn.anychart.com/releases/develop/js/anychart-bundle.min.js"></script>-->
     <script src="utils/anytest.min.js"></script>
 
 
 </head>
 <body>
-<div id="container"></div>
+<!--<input type="button" onclick="removeContainer();" value="remove container actualBug">-->
+<!--<input type="button" onclick="resize(1);" value="increase">-->
+<!--<input type="button" onclick="resize(-1);" value="decrease">-->
+<!--<input type="text" id="step" value="20"/>px-->
+<div id="wrapper">
+    <div id="container"></div>
+    <div id="controlDiv"></div>
+</div>
+<div id="otherWrapper"></div>
 </body>
 <script>
-  var chart;
+  var chart, stage, width = 400, height = 300;
   anychart.onDocumentLoad(function() {
-    //--------
-    // DVF-2444
-    //--------
-    anytest.setUp();
-    chart = anychart.pie();
-    chart.data([
-      {name: 'Candidate', value: 10},
-      {name: 'Candidate2', value:7}
-    ]);
-    chart.legend().title()
-        .text('Candidates in Russian Federation by 2010 year. In sibirean district by wooomans.').enabled(true)
-        .letterSpacing('2px')
-        .margin(5)
-        .fontSize(11);
-    anytest.stageListen().drawInStage(chart);
-    anytest.charts4modes();
-    stage.resume();
+    anytest.init();
+    anychart.licenseKey('Irina-d43a427a-1985961f');
+    chart = anychart.line();
+    chart.line([1, 3, 4]).markers(true);
+    chart.credits(null);
+    anytest.chartListen(chart, function() {
+      // anytest.step(function () {
+      //   resize(+2);
+      //   anytest.CAT.getScreen();
+      // });
+      // anytest.step(function () {
+      //   anytest.CAT.action(238, 119, 'mousemove');
+      // });
+      // anytest.step(function () {
+      //   anytest.CAT.getScreen('hoverMarker', -1);
+      // });
+      // anytest.step(function () {
+      //   anytest.CAT.action(1,1, 'mousemove');
+      // });
+//       anytest.step(function () {
+//         resize(-2);
+// //            убираем контейнер и все падает
+//         removeContainer();
+//         resize(+2);
+//         anytest.CAT.getScreen('afterRemoveContainer', 1);
+//       });
+      // anytest.step(function () {
+      //   anytest.CAT.action(238, 119, 'mousemove');
+      // });
+      // anytest.step(function () {
+      //   anytest.CAT.getScreen('hoverMarker2', 1, 'hoverMarker');
+      // });
+      anytest.exit();
+    });
+    chart.container('container').draw();
+//        anytest.createPanel('interactive')
   });
+  function removeContainer() {
+    var container = document.getElementById('container');
+    document.getElementById('wrapper').removeChild(container);
+    document.getElementById('otherWrapper').appendChild(container);
+  }
+
+  function resize(val) {
+    width += val * 20;
+    height += val * 20;
+    chart.width(width);
+    chart.height(height);
+  }
 </script>
 </html>
