@@ -18,10 +18,22 @@
 
     <link rel="stylesheet" href="https://cdn.anychart.com/css/8.2.1/anychart-ui.min.css" />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="./index.js"></script>
 </head>
 <body>
     <input type="range" min="-1000" max="1000" value="0" oninput="changeBaseLine(this.value)">
+
+    <input type="radio" id="type1" name="series" value="line">
+    <label for="type1">Line</label>
+    <input type="radio" id="type2" name="series" value="area">
+    <label for="type2">Area</label>
+
+     <input type="radio" id="color1" name="color" value="negative-positive" checked>
+    <label for="type1">Negative / Positive</label>
+    <input type="radio" id="color2" name="color" value="rising-falling">
+    <label for="type2">Rising / Falling</label>
+
     <div id="container"></div>
 </body>
 </html>

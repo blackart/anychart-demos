@@ -1,42 +1,36 @@
-var series;
+var serie, coloringFunc;
 
 var changeBaseLine = function(value) {
   secondPlot.baseLine(value);
 }
 
-anychart.onDocumentReady(function() {
-  var dataTable = anychart.data.table(0);
-  dataTable.addData(get_msft_daily_short_data());
 
-  // map loaded data
-  var mapping = dataTable.mapAs({
-    open: 1,
-    high: 2,
-    low: 3,
-    close: 4,
-    value: 5
-  });
-
-  chart = anychart.stock();
-
-  secondPlot = chart.plot(0);
-  series = secondPlot.area(mapping).name('MSFT');
-  // secondPlot.baseLine(0);
-  // secondPlot.baseLine(-300);
-  //
-  // series.risingStroke('3 green');
-  // series.fallingStroke('3 red');
-  // series.stroke('3 yellow');
-
+negativeColoring = function(series) {
+  series.negativeFill('gray .3');
   series.negativeStroke('3 grey');
   series.stroke('3 yellow');
+  series.fill('yellow .3');
+}
+
+risingFalingColoring = function(series) {
+  series.risingStroke('5 lime');
+  series.fallingStroke('5 orange');
+  series.risingFill('green');
+  series.fallingFill('red');
+}
+
+coloringFunc = negativeColoring;
+
+
+configureSeries = function(series) {
+  coloringFunc(series);
 
   series.hovered()
       .negativeStroke('15 red')
       .risingStroke('13 green')
       .fallingStroke('13 red')
       .stroke(function() {
-          return anychart.color.setThickness(this.sourceColor, 20)
+        return anychart.color.setThickness(this.sourceColor, 20)
       });
 
   // series.risingHatchFill(candlestick.risingHatchFill());
@@ -62,9 +56,62 @@ anychart.onDocumentReady(function() {
   ])
 
   series.colorScale(colorScale);
+}
+
+anychart.onDocumentReady(function() {
+  var dataTable = anychart.data.table(0);
+  dataTable.addData(get_msft_daily_short_data());
+
+  // map loaded data
+  var mapping = dataTable.mapAs({
+    open: 1,
+    high: 2,
+    low: 3,
+    close: 4,
+    value: 5
+  });
+
+  chart = anychart.stock();
+
+  secondPlot = chart.plot(0);
+  series = secondPlot.area(mapping).name('MSFT');
+  // secondPlot.baseLine(0);
+  // secondPlot.baseLine(500);
+
+  configureSeries(series);
 
   chart.container('container');
   chart.draw();
+
+
+  $('[name=color]').click(function() {
+    chart.container().getStage().suspend();
+
+    var seriesType = $('[name=series]:checked').val();
+    var series;
+    if (this.value == 'negative-positive') {
+      coloringFunc = negativeColoring;
+    } else if (this.value == 'rising-falling') {
+      coloringFunc = risingFalingColoring;
+    }
+
+    secondPlot.removeSeriesAt(0);
+    series = secondPlot[seriesType](mapping);
+    configureSeries(series);
+
+    chart.container().getStage().resume();
+  });
+
+
+  $('[name=series][value=' + series.getType() + ']').attr('checked', 'checked');
+  $('[name=series]').click(function() {
+    chart.container().getStage().suspend();
+    secondPlot.removeSeriesAt(0);
+    var series = secondPlot[this.value](mapping);
+
+    configureSeries(series);
+    chart.container().getStage().resume();
+  });
 });
 
 function get_msft_daily_short_data() {

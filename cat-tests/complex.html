@@ -34,6 +34,7 @@
     anytest.init();
     anychart.licenseKey('Irina-d43a427a-1985961f');
     chart = anychart.line();
+    chart.yAxis(false);
     chart.line([1, 3, 4]).markers(true);
     chart.credits(null);
     anytest.chartListen(chart, function() {
