@@ -76,7 +76,7 @@ anychart.onDocumentReady(function() {
   secondPlot = chart.plot(0);
   series = secondPlot.area(mapping).name('MSFT');
   // secondPlot.baseLine(0);
-  secondPlot.baseLine(405);
+  // secondPlot.baseline(405);
 
   configureSeries(series);
 
