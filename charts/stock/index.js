@@ -1,7 +1,7 @@
 var serie, coloringFunc;
 
 var changeBaseLine = function(value) {
-  secondPlot.baseLine(value);
+  secondPlot.baseline(value);
 }
 
 
@@ -13,10 +13,40 @@ negativeColoring = function(series) {
 }
 
 risingFalingColoring = function(series) {
-  series.risingStroke('5 lime');
-  series.fallingStroke('5 orange');
-  series.risingFill('green');
-  series.fallingFill('red');
+  series.risingStroke('3 lime');
+  series.fallingStroke('3 orange');
+  series.risingFill('lime .3');
+  series.fallingFill('orange .3');
+}
+
+colorScale = function(series) {
+  var tLimit = 600;
+  var lLimit = -550;
+  var colorScale = anychart.scales.ordinalColor();
+  colorScale.ranges([
+    {
+      less: lLimit,
+      color: 'red'
+    },
+    {
+      from: tLimit,
+      to: lLimit,
+      color: 'green'
+    },
+    {
+      greater: tLimit,
+      color: 'blue'
+    }
+  ])
+
+  series.colorScale(colorScale);
+
+  series.stroke(function() {
+    return anychart.color.setThickness(this.scaledColor, 3);
+  });
+  series.fill(function() {
+    return anychart.color.setOpacity(this.scaledColor, .3);
+  });
 }
 
 coloringFunc = negativeColoring;
@@ -32,30 +62,6 @@ configureSeries = function(series) {
       .stroke(function() {
         return anychart.color.setThickness(this.sourceColor, 20)
       });
-
-  // series.risingHatchFill(candlestick.risingHatchFill());
-  // series.fallingHatchFill(candlestick.fallingHatchFill());
-
-  var tLimit = 600;
-  var lLimit = -550;
-  var colorScale = anychart.scales.ordinalColor();
-  colorScale.ranges([
-    {
-      less: lLimit,
-      color: '2 red'
-    },
-    {
-      from: tLimit,
-      to: lLimit,
-      color: '2 green'
-    },
-    {
-      greater: tLimit,
-      color: '2 blue'
-    }
-  ])
-
-  series.colorScale(colorScale);
 }
 
 anychart.onDocumentReady(function() {
@@ -75,8 +81,6 @@ anychart.onDocumentReady(function() {
 
   secondPlot = chart.plot(0);
   series = secondPlot.area(mapping).name('MSFT');
-  // secondPlot.baseLine(0);
-  secondPlot.baseLine(405);
 
   configureSeries(series);
 
@@ -93,6 +97,8 @@ anychart.onDocumentReady(function() {
       coloringFunc = negativeColoring;
     } else if (this.value == 'rising-falling') {
       coloringFunc = risingFalingColoring;
+    } else if (this.value == 'color-scale') {
+      coloringFunc = colorScale;
     }
 
     secondPlot.removeSeriesAt(0);
