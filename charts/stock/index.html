@@ -22,17 +22,24 @@
     <script src="./index.js"></script>
 </head>
 <body>
-    <input type="range" min="-1000" max="1000" value="0" oninput="changeBaseLine(this.value)">
+    <input type="range" min="-1000" max="1000" value="0" step="1" id="baseline" oninput="changeBaseLine(this.value)">
 
     <input type="radio" id="type1" name="series" value="line">
     <label for="type1">Line</label>
     <input type="radio" id="type2" name="series" value="area">
     <label for="type2">Area</label>
+    <input type="radio" id="type3" name="series" value="spline">
+    <label for="type3">Spline</label>
 
      <input type="radio" id="color1" name="color" value="negative-positive" checked>
-    <label for="type1">Negative / Positive</label>
+    <label for="color1">Negative / Positive</label>
     <input type="radio" id="color2" name="color" value="rising-falling">
-    <label for="type2">Rising / Falling</label>
+    <label for="color2">Rising / Falling</label>
+    <input type="radio" id="color3" name="color" value="color-scale">
+    <label for="color3">Color scale</label>
+
+    <input type="button" id="interactBaseLine" value="go">
+    <input type="range" min="0" max="10" value="1" step=".1" id="interactBaseLineStep">
 
     <div id="container"></div>
 </body>

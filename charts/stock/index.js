@@ -1,7 +1,8 @@
-var serie, coloringFunc;
+var serie, coloringFunc, lineMarker;
 
 var changeBaseLine = function(value) {
-  secondPlot.baseLine(value);
+  secondPlot.baseline(value);
+  lineMarker.value(value);
 }
 
 
@@ -13,10 +14,40 @@ negativeColoring = function(series) {
 }
 
 risingFalingColoring = function(series) {
-  series.risingStroke('5 lime');
-  series.fallingStroke('5 orange');
-  series.risingFill('green');
-  series.fallingFill('red');
+  series.risingStroke('3 lime');
+  series.fallingStroke('3 orange');
+  series.risingFill('lime .3');
+  series.fallingFill('orange .3');
+}
+
+colorScale = function(series) {
+  var tLimit = 600;
+  var lLimit = -550;
+  var colorScale = anychart.scales.ordinalColor();
+  colorScale.ranges([
+    {
+      less: lLimit,
+      color: 'red'
+    },
+    {
+      from: tLimit,
+      to: lLimit,
+      color: 'green'
+    },
+    {
+      greater: tLimit,
+      color: 'blue'
+    }
+  ])
+
+  series.colorScale(colorScale);
+
+  series.stroke(function() {
+    return anychart.color.setThickness(this.scaledColor, 3);
+  });
+  series.fill(function() {
+    return anychart.color.setOpacity(this.scaledColor, .3);
+  });
 }
 
 coloringFunc = negativeColoring;
@@ -32,30 +63,6 @@ configureSeries = function(series) {
       .stroke(function() {
         return anychart.color.setThickness(this.sourceColor, 20)
       });
-
-  // series.risingHatchFill(candlestick.risingHatchFill());
-  // series.fallingHatchFill(candlestick.fallingHatchFill());
-
-  var tLimit = 600;
-  var lLimit = -550;
-  var colorScale = anychart.scales.ordinalColor();
-  colorScale.ranges([
-    {
-      less: lLimit,
-      color: '2 red'
-    },
-    {
-      from: tLimit,
-      to: lLimit,
-      color: '2 green'
-    },
-    {
-      greater: tLimit,
-      color: '2 blue'
-    }
-  ])
-
-  series.colorScale(colorScale);
 }
 
 anychart.onDocumentReady(function() {
@@ -74,9 +81,12 @@ anychart.onDocumentReady(function() {
   chart = anychart.stock();
 
   secondPlot = chart.plot(0);
-  series = secondPlot.area(mapping).name('MSFT');
-  // secondPlot.baseLine(0);
-  // secondPlot.baseline(405);
+  secondPlot.baseline(-571);
+  secondPlot.legend(false);
+
+  lineMarker = secondPlot.lineMarker().value(secondPlot.baseline());
+
+  series = secondPlot.spline(mapping).name('MSFT');
 
   configureSeries(series);
 
@@ -93,6 +103,8 @@ anychart.onDocumentReady(function() {
       coloringFunc = negativeColoring;
     } else if (this.value == 'rising-falling') {
       coloringFunc = risingFalingColoring;
+    } else if (this.value == 'color-scale') {
+      coloringFunc = colorScale;
     }
 
     secondPlot.removeSeriesAt(0);
@@ -103,6 +115,7 @@ anychart.onDocumentReady(function() {
   });
 
 
+  $('#baseline').val(secondPlot.baseline());
   $('[name=series][value=' + series.getType() + ']').attr('checked', 'checked');
   $('[name=series]').click(function() {
     chart.container().getStage().suspend();
@@ -112,16 +125,52 @@ anychart.onDocumentReady(function() {
     configureSeries(series);
     chart.container().getStage().resume();
   });
+
+
+  var max = 1000;
+  var min = -1000;
+  var multi = 1;
+  var direction = 1;
+  var interactBaseLineHandler = function() {
+    value = secondPlot.baseline();
+    if (value < -1000)
+      direction = 1;
+    else if (value > 1000)
+      direction = -1;
+    value += multi * direction;
+
+    secondPlot.baseline(value);
+    lineMarker.value(value);
+    $('#baseline').val(value);
+  }
+  var interactBaseLineInterval;
+
+  var active = false;
+  $('#interactBaseLine').click(function() {
+    if (!active) {
+      interactBaseLineInterval = setInterval(interactBaseLineHandler, 4);
+      $('#interactBaseLine').val('stop!');
+    } else {
+      clearInterval(interactBaseLineInterval);
+      $('#interactBaseLine').val('go!');
+    }
+    active = !active;
+  });
+  $('#interactBaseLineStep').on('input', function() {
+    multi = this.value;
+  });
+
 });
 
 function get_msft_daily_short_data() {
   return [
     ['2004-01-02', 27.58, 27.77, 27.33, 27.45, 444],
+    ['2004-01-03', 27.58, 27.77, 27.33, 27.45, -197],
     ['2004-01-05', 27.73, 28.18, 27.72, 28.14, -673],
     ['2004-01-06', 28.19, 28.28, 28.07, 28.24, -469],
     ['2004-01-07', 28.17, 28.31, 28.01, 28.21, -542],
     ['2004-01-08', 28.39, 28.48, 28, 28.16, 588],
-    ['2004-01-09', 28.03, 28.06, 27.59, 27.66, 670],
+    ['2004-01-09', 28.03, 28.06, 27.59, 27.66, 600],
     ['2004-01-12', 27.67, 27.73, 27.35, 27.57, 558],
     ['2004-01-13', 27.55, 27.64, 27.26, 27.43, -515],
     ['2004-01-14', 27.52, 27.73, 27.47, 27.7, -439],
@@ -142,6 +191,11 @@ function get_msft_daily_short_data() {
     ['2004-02-03', 27.4, 27.55, 27.18, 27.29, -479],
     ['2004-02-04', 27.22, 27.43, 27.01, 27.01, -606],
     ['2004-02-05', 27.06, 27.17, 26.83, 26.96, 555],
-    ['2004-02-06', 27.03, 27.19, 26.93, 27.08, 472]
+    ['2004-02-06', 27.03, 27.19, 26.93, 27.08, 472],
+    ['2004-02-07', 27.03, 27.19, 26.93, 27.08, 472],
+    ['2004-02-08', 27.03, 27.19, 26.93, 27.08, 472],
+    ['2004-02-09', 27.03, 27.19, 26.93, 27.08, 472],
+    ['2004-02-10', 27.03, 27.19, 26.93, 27.08, 472],
+    ['2004-02-11', 27.03, 27.19, 26.93, 27.08, 472]
   ];
 }
