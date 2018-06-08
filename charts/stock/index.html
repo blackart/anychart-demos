@@ -20,26 +20,51 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="./index.js"></script>
+
+    <style>
+        fieldset {
+            display: inline-block;
+            float: left;
+            margin: 2px;
+            border: 1px solid silver;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        #container {
+            height: 90%;
+        }
+    </style>
 </head>
 <body>
-    <input type="range" min="-1000" max="1000" value="0" step="1" id="baseline" oninput="changeBaseLine(this.value)">
+    <fieldset>
+        <input type="range" min="-1000" max="1000" value="0" step="1" id="baseline" oninput="changeBaseLine(this.value)">
+    </fieldset>
 
-    <input type="radio" id="type1" name="series" value="line">
-    <label for="type1">Line</label>
-    <input type="radio" id="type2" name="series" value="area">
-    <label for="type2">Area</label>
-    <input type="radio" id="type3" name="series" value="spline">
-    <label for="type3">Spline</label>
+    <fieldset>
+        <input type="radio" id="type1" name="series" value="line">
+        <label for="type1">Line</label>
+        <input type="radio" id="type2" name="series" value="area">
+        <label for="type2">Area</label>
+        <input type="radio" id="type3" name="series" value="spline">
+        <label for="type3">Spline</label>
+        <input type="radio" id="type4" name="series" value="splineArea">
+        <label for="type4">splineArea</label>
+    </fieldset>
 
-     <input type="radio" id="color1" name="color" value="negative-positive" checked>
-    <label for="color1">Negative / Positive</label>
-    <input type="radio" id="color2" name="color" value="rising-falling">
-    <label for="color2">Rising / Falling</label>
-    <input type="radio" id="color3" name="color" value="color-scale">
-    <label for="color3">Color scale</label>
+    <fieldset>
+        <input type="radio" id="color1" name="color" value="negative-positive" checked>
+        <label for="color1">Negative / Positive</label>
+        <input type="radio" id="color2" name="color" value="rising-falling">
+        <label for="color2">Rising / Falling</label>
+        <input type="radio" id="color3" name="color" value="color-scale">
+        <label for="color3">Color scale</label>
+    </fieldset>
 
-    <input type="button" id="interactBaseLine" value="go">
-    <input type="range" min="0" max="10" value="1" step=".1" id="interactBaseLineStep">
+    <fieldset>
+        <input type="button" id="interactBaseLine" value="1">
+        <input type="range" min="0" max="10" value="1" step=".1" id="interactBaseLineStep">
+    </fieldset>
 
     <div id="container"></div>
 </body>

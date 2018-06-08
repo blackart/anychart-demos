@@ -81,7 +81,7 @@ anychart.onDocumentReady(function() {
   chart = anychart.stock();
 
   secondPlot = chart.plot(0);
-  secondPlot.baseline(-571);
+  secondPlot.baseline(558);
   secondPlot.legend(false);
 
   lineMarker = secondPlot.lineMarker().value(secondPlot.baseline());
@@ -149,10 +149,10 @@ anychart.onDocumentReady(function() {
   $('#interactBaseLine').click(function() {
     if (!active) {
       interactBaseLineInterval = setInterval(interactBaseLineHandler, 4);
-      $('#interactBaseLine').val('stop!');
+      $('#interactBaseLine').val('0');
     } else {
       clearInterval(interactBaseLineInterval);
-      $('#interactBaseLine').val('go!');
+      $('#interactBaseLine').val('1');
     }
     active = !active;
   });
