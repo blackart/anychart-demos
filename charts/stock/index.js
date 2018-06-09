@@ -1,7 +1,7 @@
-var serie, coloringFunc, lineMarker;
+var serie, coloringFunc, lineMarker, plot;
 
 var changeBaseLine = function(value) {
-  secondPlot.baseline(value);
+  plot.baseline(value);
   lineMarker.value(value);
 }
 
@@ -50,7 +50,8 @@ colorScale = function(series) {
   });
 }
 
-coloringFunc = negativeColoring;
+coloringFuncName = 'negativeColoring';
+coloringFunc = this[coloringFuncName];
 
 
 configureSeries = function(series) {
@@ -80,66 +81,61 @@ anychart.onDocumentReady(function() {
 
   chart = anychart.stock();
 
-  secondPlot = chart.plot(0);
-  secondPlot.baseline(558);
-  secondPlot.legend(false);
+  plot = chart.plot(0);
+  // plot.baseline(558);
+  plot.legend(false);
 
-  lineMarker = secondPlot.lineMarker().value(secondPlot.baseline());
+  lineMarker = plot.lineMarker().value(plot.baseline());
 
-  series = secondPlot.spline(mapping).name('MSFT');
+  series = plot.splineArea(mapping).name('MSFT');
 
   configureSeries(series);
 
   chart.container('container');
   chart.draw();
 
-
+  $('#baseline').val(plot.baseline());
+  $('[name=series][series-type=' + series.getType() + ']').attr('checked', 'checked');
+  $('[name=color][value=' + coloringFuncName + ']').attr('checked', 'checked');
+  $('[name=series]').click(function() {
+    chart.container().getStage().suspend();
+    plot.removeSeriesAt(0);
+    var selectedRange = chart.getSelectedRange();
+    var series = plot[this.value](mapping);
+    configureSeries(series);
+    chart.selectRange(selectedRange.firstSelected, selectedRange.lastSelected);
+    chart.container().getStage().resume();
+  });
   $('[name=color]').click(function() {
     chart.container().getStage().suspend();
 
     var seriesType = $('[name=series]:checked').val();
     var series;
-    if (this.value == 'negative-positive') {
-      coloringFunc = negativeColoring;
-    } else if (this.value == 'rising-falling') {
-      coloringFunc = risingFalingColoring;
-    } else if (this.value == 'color-scale') {
-      coloringFunc = colorScale;
-    }
 
-    secondPlot.removeSeriesAt(0);
-    series = secondPlot[seriesType](mapping);
+    coloringFunc = window[this.value];
+    var selectedRange = chart.getSelectedRange();
+
+    plot.removeSeriesAt(0);
+    series = plot[seriesType](mapping);
     configureSeries(series);
 
+    chart.selectRange(selectedRange.firstSelected, selectedRange.lastSelected);
     chart.container().getStage().resume();
   });
-
-
-  $('#baseline').val(secondPlot.baseline());
-  $('[name=series][value=' + series.getType() + ']').attr('checked', 'checked');
-  $('[name=series]').click(function() {
-    chart.container().getStage().suspend();
-    secondPlot.removeSeriesAt(0);
-    var series = secondPlot[this.value](mapping);
-
-    configureSeries(series);
-    chart.container().getStage().resume();
-  });
-
 
   var max = 1000;
   var min = -1000;
   var multi = 1;
   var direction = 1;
   var interactBaseLineHandler = function() {
-    value = secondPlot.baseline();
+    value = plot.baseline();
     if (value < -1000)
       direction = 1;
     else if (value > 1000)
       direction = -1;
     value += multi * direction;
 
-    secondPlot.baseline(value);
+    plot.baseline(value);
     lineMarker.value(value);
     $('#baseline').val(value);
   }
@@ -159,7 +155,6 @@ anychart.onDocumentReady(function() {
   $('#interactBaseLineStep').on('input', function() {
     multi = this.value;
   });
-
 });
 
 function get_msft_daily_short_data() {
