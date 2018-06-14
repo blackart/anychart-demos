@@ -83,7 +83,8 @@ anychart.onDocumentReady(function() {
   chart.yAxis(true);
 
   // chart.baseline(558);
-  chart.legend(false);
+  //chart.legend(true);
+  series.markers(true);
 
   lineMarker = chart.lineMarker().value(chart.baseline());
 
