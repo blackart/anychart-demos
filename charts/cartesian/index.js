@@ -57,6 +57,8 @@ coloringFunc = this[coloringFuncName];
 configureSeries = function(series) {
   coloringFunc(series);
 
+  series.markers(true);
+
   // series.hovered()
   //     .negativeStroke('15 red')
   //     .risingStroke('13 green')
@@ -81,14 +83,13 @@ anychart.onDocumentReady(function() {
   chart = anychart.cartesian();
   chart.xAxis(true);
   chart.yAxis(true);
+  chart.interactivity().hoverMode('by-x');
 
-  // chart.baseline(558);
-  //chart.legend(true);
-  series.markers(true);
+  chart.legend(true);
 
   lineMarker = chart.lineMarker().value(chart.baseline());
 
-  series = chart.splineArea(mapping).name('MSFT');
+  series = chart.stepLine(mapping).name('MSFT');
 
   configureSeries(series);
 
