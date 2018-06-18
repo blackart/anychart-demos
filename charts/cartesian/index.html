@@ -8,20 +8,19 @@
       goog.require('anychart.themes.defaultTheme.entry');
     </script>
 
-    <!--<script src="//cdn.anychart.com/geodata/1.2.0/custom/world_source/world_source.js"></script>-->
-
-    <!--<script src="https://cdn.anychart.com/js/7.13.1/anychart-bundle.min.js"></script>-->
-    <!--<script src="../../../out/anychart-bundle.min.js"></script>-->
-
-    <!--<script src="https://cdn.anychart.com/csv-data/msft-daily-short.js"></script>-->
-    <!--<script src="../../../out/anychart-bundle.min.js"></script>-->
-
     <link rel="stylesheet" href="https://cdn.anychart.com/css/8.2.1/anychart-ui.min.css" />
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script src="./index.js"></script>
 
     <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         fieldset {
             display: inline-block;
             float: left;
@@ -32,43 +31,50 @@
         }
 
         #container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
             height: 90%;
         }
     </style>
 </head>
 <body>
-<fieldset>
-    <input type="range" min="-1000" max="1000" value="0" step="1" id="baseline" oninput="changeBaseLine(this.value)">
-</fieldset>
+    <fieldset>
+        <input type="range" min="-1000" max="1000" value="0" step="1" id="baseline" oninput="changeBaseLine(this.value)">
+    </fieldset>
 
-<fieldset>
-    <input type="radio" id="type1" name="series" series-type="line" value="line">
-    <label for="type1">Line</label>
-    <input type="radio" id="type2" name="series" series-type="area" value="area">
-    <label for="type2">Area</label>
-    <input type="radio" id="type3" name="series" series-type="spline" value="spline">
-    <label for="type3">Spline</label>
-    <input type="radio" id="type4" name="series" series-type="spline-area" value="splineArea">
-    <label for="type4">splineArea</label>
-    <input type="radio" id="type5" name="series" series-type="step-line" value="stepLine">
-    <label for="type5">stepLine</label>
-</fieldset>
+    <fieldset>
+        <input type="radio" id="type1" name="series" series-type="line" value="line">
+        <label for="type1">Line</label>
+        <input type="radio" id="type2" name="series" series-type="area" value="area">
+        <label for="type2">Area</label>
+        <input type="radio" id="type3" name="series" series-type="spline" value="spline">
+        <label for="type3">Spline</label>
+        <input type="radio" id="type4" name="series" series-type="spline-area" value="splineArea">
+        <label for="type4">splineArea</label>
+        <input type="radio" id="type5" name="series" series-type="step-line" value="stepLine">
+        <label for="type5">stepLine</label>
+        <input type="radio" id="type6" name="series" series-type="step-area" value="stepArea">
+        <label for="type6">stepArea</label>
+        <input type="radio" id="type7" name="series" series-type="range-area" value="rangeArea">
+        <label for="type7">rangeArea</label>
+    </fieldset>
 
-<fieldset>
-    <input type="radio" id="color1" name="color" value="negativeColoring">
-    <label for="color1">Negative / Positive</label>
-    <input type="radio" id="color2" name="color" value="risingFalingColoring">
-    <label for="color2">Rising / Falling</label>
-    <input type="radio" id="color3" name="color" value="colorScale">
-    <label for="color3">Color scale</label>
-</fieldset>
+    <fieldset>
+        <input type="radio" id="color1" name="color" value="negativeColoring">
+        <label for="color1">Negative / Positive</label>
+        <input type="radio" id="color2" name="color" value="risingFalingColoring">
+        <label for="color2">Rising / Falling</label>
+        <input type="radio" id="color3" name="color" value="colorScale">
+        <label for="color3">Color scale</label>
+    </fieldset>
 
-<fieldset>
-    <input type="button" id="interactBaseLine" value="1">
-    <input type="range" min="0" max="10" value="1" step=".1" id="interactBaseLineStep">
-</fieldset>
+    <fieldset>
+        <input type="button" id="interactBaseLine" value="1">
+        <input type="range" min="0" max="10" value="1" step=".1" id="interactBaseLineStep">
+    </fieldset>
 
-<div id="container"></div>
+    <div id="container"></div>
 </body>
 </html>
 

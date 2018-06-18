@@ -1,4 +1,6 @@
 var serie, coloringFunc, lineMarker, chart;
+var max = 1000;
+var min = -1000;
 
 var changeBaseLine = function(value) {
   chart.baseline(value);
@@ -59,6 +61,11 @@ configureSeries = function(series) {
 
   series.markers(true);
 
+  if (series.stepDirection) {
+    // series.stepDirection(anychart.enums.StepDirection.FORWARD);
+    // series.stepDirection(anychart.enums.StepDirection.BACKWARD);
+  }
+
   // series.hovered()
   //     .negativeStroke('15 red')
   //     .risingStroke('13 green')
@@ -66,6 +73,19 @@ configureSeries = function(series) {
   //     .stroke(function() {
   //       return anychart.color.setThickness(this.sourceColor, 20)
   //     });
+  min = chart.yScale().minimum();
+  max = chart.yScale().maximum()
+
+  var mid = min + (max - min) / 2;
+
+  $('#baseline')
+      .attr('min', min)
+      .attr('max', max)
+      .attr('step', Math.max((max - min) / 2000, .1))
+      .attr('value', mid)
+
+  chart.baseline(mid)
+  lineMarker = chart.lineMarker().value(mid);
 }
 
 anychart.onDocumentReady(function() {
@@ -83,15 +103,14 @@ anychart.onDocumentReady(function() {
   chart = anychart.cartesian();
   chart.xAxis(true);
   chart.yAxis(true);
-  chart.interactivity().hoverMode('by-x');
+  chart.legend(false);
+  chart.interactivity().hoverMode('by-x')
 
-  chart.legend(true);
-
-  lineMarker = chart.lineMarker().value(chart.baseline());
-
-  series = chart.stepLine(mapping).name('MSFT');
+  series = chart.rangeArea(mapping).name('MSFT');
 
   configureSeries(series);
+
+  lineMarker = chart.lineMarker().value(chart.baseline());
 
   chart.container('container');
   chart.draw();
@@ -121,15 +140,13 @@ anychart.onDocumentReady(function() {
     chart.container().getStage().resume();
   });
 
-  var max = 1000;
-  var min = -1000;
   var multi = 1;
   var direction = 1;
   var interactBaseLineHandler = function() {
     value = chart.baseline();
-    if (value < -1000)
+    if (value < min)
       direction = 1;
-    else if (value > 1000)
+    else if (value > max)
       direction = -1;
     value += multi * direction;
 
