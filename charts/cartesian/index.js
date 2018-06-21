@@ -10,14 +10,14 @@ var changeBaseLine = function(value) {
 
 negativeColoring = function(series) {
   series.negativeFill('gray .3');
-  series.negativeStroke('3 grey');
-  series.stroke('3 yellow');
+  series.negativeStroke('grey');
+  series.stroke('yellow');
   series.fill('yellow .3');
 }
 
 risingFalingColoring = function(series) {
-  series.risingStroke('3 lime');
-  series.fallingStroke('3 orange');
+  series.risingStroke('lime');
+  series.fallingStroke('orange');
   series.risingFill('lime .3');
   series.fallingFill('orange .3');
 }
@@ -45,7 +45,7 @@ colorScale = function(series) {
   series.colorScale(colorScale);
 
   series.stroke(function() {
-    return anychart.color.setThickness(this.scaledColor, 3);
+    return anychart.color.setThickness(this.scaledColor, 1);
   });
   series.fill(function() {
     return anychart.color.setOpacity(this.scaledColor, .3);
@@ -58,8 +58,8 @@ coloringFunc = this[coloringFuncName];
 
 configureSeries = function(series) {
   coloringFunc(series);
-  series.highStroke('2 red');
-  series.lowStroke('2 blue');
+  series.highStroke('red');
+  series.lowStroke('blue');
   series.highFill('red .2');
   series.lowFill('blue .2');
 
