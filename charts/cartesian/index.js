@@ -58,10 +58,10 @@ coloringFunc = this[coloringFuncName];
 
 configureSeries = function(series) {
   coloringFunc(series);
-  series.highStroke('red');
-  series.lowStroke('blue');
-  series.highFill('red .2');
-  series.lowFill('blue .2');
+  // series.highStroke('red');
+  // series.lowStroke('blue');
+  // series.highFill('red .2');
+  // series.lowFill('blue .2');
 
   series.markers(true);
 

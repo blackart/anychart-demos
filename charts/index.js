@@ -6,7 +6,7 @@ anychart.onDocumentReady(function (){
       // .negativeFill('orange')
       // .negativeStroke('orange')
       .risingFill('orange')
-      // .fallingFill('yellow');
+      .fallingFill('yellow');
 
 
   series.hovered().risingFill('green')
