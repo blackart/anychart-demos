@@ -7,7 +7,6 @@ var changeBaseLine = function(value) {
   lineMarker.value(value);
 }
 
-
 negativeColoring = function(series) {
   series.negativeFill('gray .3');
   series.negativeStroke('grey');
@@ -58,10 +57,11 @@ coloringFunc = this[coloringFuncName];
 
 configureSeries = function(series) {
   coloringFunc(series);
+
   // series.highStroke('red');
   // series.lowStroke('blue');
   // series.highFill('red .2');
-  // series.lowFill('blue .2');
+  series.lowFill('blue .2');
 
   series.markers(true);
 
@@ -107,8 +107,8 @@ anychart.onDocumentReady(function() {
   chart = anychart.cartesian();
   chart.xAxis(true);
   chart.yAxis(true);
-  chart.legend(false);
-  chart.interactivity().hoverMode('by-x')
+  chart.legend(true);
+  chart.interactivity().hoverMode('by-x');
 
   series = chart.rangeSplineArea(mapping).name('MSFT');
 

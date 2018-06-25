@@ -9,9 +9,12 @@ anychart.onDocumentReady(function (){
       .fallingFill('yellow');
 
 
-  series.hovered().risingFill('green')
+  series.hovered()
+      .risingFill('green')
       .fallingFill('blue');
-  series.selected().risingFill('pink')
+
+  series.selected()
+      .risingFill('pink')
       .fallingFill('red');
 
   series.markers(true);
