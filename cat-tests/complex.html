@@ -1,6 +1,6 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="skipmodes anyChart"/>
+    <meta name="x-cat-tags" content="area markers  anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -12,64 +12,43 @@
     </script>
     <script src="utils/anytest.min.js"></script>
 
+
 </head>
 <body>
 <div id="container"></div>
-<input type="button" onclick="resize(2)" value="increase">
-<input type="button" onclick="resize(-2)" value="decrease">
 </body>
 <script>
-  var chart, stage, width = 400, height = 300;
-  anychart.onDocumentLoad(function () {
-    anytest.init();
-    var data1 = [
-      [1, 760, 801, 848, 895, 965, [650, 1000]],
-      [2, 733, 853, 939, 980, 1080, [1120, 630]],
-      [3, 760, 801, 848, 895, 965, [650]],
-      [4, 724, 802, 806, 871, 950, [1000, 600]],
-      [5, 820, 836, 864, 882, 910, [980]]
-    ];
+  var chart;
+  anychart.onDocumentLoad(function() {
+    anytest.setUp('100%', '100%');
+    var dataSet = anychart.data.set([
+      ['P1', 42, 13, -75, -43],
+      ['P2', 34, 25, -56, -49],
+      ['P3', 56, 76, -67, -46],
+      ['P4', 22, 86, -42, -49],
+      ['P5', 48, 95, -17, 17],
+      ['P6', 71, 71, -71, 74],
+      ['P7', 55, 55, 55, 35],
+      ['P8', 34, 34, 34, 34],
+      ['P9', 19, 19, 19, 19],
+      ['P10', 22, 22, 22, 42]
+    ]);
+    var seriesData_1 = dataSet.mapAs({x: [0], value: [1]});
+    var seriesData_2 = dataSet.mapAs({x: [0], value: [2]});
+    var seriesData_3 = dataSet.mapAs({x: [0], value: [3]});
+    var seriesData_4 = dataSet.mapAs({x: [0], value: [4]});
 
-    var chart0 = anychart.cartesian();
-    var box1 = chart0.box(data1);
-    box1.outlierMarkers()
-        .enabled(true)
-        .type('star7')
-        .size(10);
-    box1.hovered().outlierMarkers().size(10);
-    chart0.title("enabled/disabled after draw");
-    box1.markers().enabled(true).fill('red');
+    chart = anychart.area();
+    chart.title().text('Stacked Area Chart');
+    chart.yScale().stackMode('value');
+    chart.splineArea(seriesData_1).markers(true);
+    chart.splineArea(seriesData_2).markers(true);
+    chart.splineArea(seriesData_3).markers(true).negativeFill('blue .7');
+    chart.splineArea(seriesData_4).markers(true).negativeFill('black .7');
 
-    anytest.chartListen(chart0, function () {
-      // anytest.step(function () {
-      //   anytest.CAT.getScreen();
-      //   resize(+2);
-      // });
-      // anytest.step(function () {
-      //   anytest.CAT.getScreen('afterResizeIncrese2', -1);
-      // }, true, 110); // триггер на ресайз теперь с задержкой в 100ms
-      // anytest.step(function () {
-      //   resize(-2);
-      // });
-      // anytest.step(function () {
-      //   anytest.CAT.getScreen('afterResize', 1);
-      // }, true, 110); // триггер на ресайз теперь с задержкой в 100ms
-      anytest.exit();
-    });
-    chart0.container('container').draw();
+    anytest.stageListen().drawInStage(chart);
+    anytest.charts4modes('chart');
+    stage.resume();
   });
-
-  function removeContainer() {
-    var container = document.getElementById('container');
-    document.getElementById('wrapper').removeChild(container);
-    document.getElementById('otherWrapper').appendChild(container);
-  }
-
-  function resize(val) {
-    width += val * 20;
-    height += val * 20;
-    document.getElementById('container').style.width = width;
-    document.getElementById('container').style.height = height;
-  }
 </script>
 </html>
