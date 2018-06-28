@@ -1,9 +1,12 @@
-var serie, coloringFunc, lineMarker, chart;
+var serie, coloringFunc, lineMarker, chart, plot, mapping;
 var max = 1000;
 var min = -1000;
+var defaultSeriesType = 'range-spline-area';
+var defaultChartType = 'stock';
+
 
 var changeBaseLine = function(value) {
-  chart.baseline(value);
+  plot.baseline(value);
   lineMarker.value(value);
 }
 
@@ -14,7 +17,7 @@ negativeColoring = function(series) {
   series.fill('yellow .3');
 }
 
-risingFalingColoring = function(series) {
+risingFallingColoring = function(series) {
   series.risingStroke('lime');
   series.fallingStroke('orange');
   series.risingFill('lime .3');
@@ -43,7 +46,7 @@ colorScale = function(series) {
 
   series.colorScale(colorScale);
 
-  // series.stroke(function() {
+  // series.stroke(function() {                                                                                                                        
   //   return anychart.color.setThickness(this.scaledColor, 1);
   // });
   // series.fill(function() {
@@ -55,7 +58,7 @@ coloringFuncName = 'negativeColoring';
 coloringFunc = this[coloringFuncName];
 
 
-configureSeries = function(series) {
+function configureSeries(series) {
   coloringFunc(series);
 
   series.highStroke('red');
@@ -77,8 +80,9 @@ configureSeries = function(series) {
   //     .stroke(function() {
   //       return anychart.color.setThickness(this.sourceColor, 20)
   //     });
-  min = chart.yScale().minimum();
-  max = chart.yScale().maximum()
+
+  min = plot.yScale().minimum();
+  max = plot.yScale().maximum()
 
   var mid = min + (max - min) / 2;
 
@@ -88,40 +92,57 @@ configureSeries = function(series) {
       .attr('step', Math.max((max - min) / 2000, .1))
       .attr('value', mid)
 
-  chart.baseline(mid)
-  lineMarker = chart.lineMarker().value(mid);
+  plot.baseline(mid)
+  lineMarker = plot.lineMarker().value(mid);
 }
 
-anychart.onDocumentReady(function() {
-  var dataSet = anychart.data.set(get_msft_daily_short_data());
 
-  // map loaded data
-  var mapping = dataSet.mapAs({
+function constructChart(type) {
+  var map = {
     size: 1,
     open: 2,
     high: 3,
     low: 4,
     close: 5,
     value: 6
-  });
+  };
+  var data;
 
-  chart = anychart.cartesian();
-  chart.xAxis(true);
-  chart.yAxis(true);
-  chart.legend(true);
+  switch (type) {
+    case 'cartesian':
+      var dataSet = anychart.data.set(get_msft_daily_short_data());
+      mapping = dataSet.mapAs(map);
+      chart = plot = anychart.cartesian();
+      chart.xAxis(true).yAxis(true);
+      chart.crosshair(true);
+      break;
+    case 'stock':
+      var dataTable = anychart.data.table(0);
+      dataTable.addData(get_msft_daily_short_data());
+      mapping = dataTable.mapAs(map);
+      chart = anychart.stock();
+      plot = chart.plot(0);
+      break;
+  }
+
+  plot.legend(true);
+
   chart.interactivity().hoverMode('by-x');
 
-  series = chart.rangeSplineArea(mapping).name('MSFT');
+  var seriesName = $(seriesList).val().replace(/-(.)/g, function(match, p1) {return p1.toUpperCase()});
+  if (plot[seriesName]) {
+    series = plot[seriesName](mapping).name('MSFT');
+    configureSeries(series);
+  }
 
-  configureSeries(series);
-
-  lineMarker = chart.lineMarker().value(chart.baseline());
+  lineMarker = plot.lineMarker().value(plot.baseline());
 
   chart.container('container');
   chart.draw();
+}
 
-
-  var seriesList = $('<select></select>');
+anychart.onDocumentReady(function() {
+  seriesList = $('<select></select>');
   var seriesTypes = ['area', 'bar', 'box', 'bubble', 'candlestick', 'column', 'jump-line', 'line', 'marker', 'ohlc', 'range-area', 'range-bar', 'range-column', 'range-spline-area', 'range-step-area', 'spline', 'spline-area', 'step-area', 'step-line', 'stick', 'hilo'];
   for (var i = 0, len = seriesTypes.length; i < len; i++) {
     var seriesListElement = seriesTypes[i];
@@ -130,44 +151,62 @@ anychart.onDocumentReady(function() {
   $('#series').append(seriesList);
 
   $(seriesList).change(function(e) {
-
     var name = $(this).val().replace(/-(.)/g, function(match, p1) {return p1.toUpperCase()});
-    // chart.container().getStage().suspend();
-    chart.removeSeriesAt(0);
-    var series = chart[name](mapping);
-    configureSeries(series);
-    // chart.container().getStage().resume();
+    plot.removeSeriesAt(0);
+    if (plot[name]) {
+      configureSeries(plot[name](mapping));
+    }
   });
+  $(seriesList).val(defaultSeriesType);
 
-  $('#baseline').val(chart.baseline());
-  $(seriesList).val(series.getType());
+
+  chartsList = $('<select></select>');
+  var chartsTypes = ['stock', 'cartesian'];
+  for (var i = 0, len = chartsTypes.length; i < len; i++) {
+    var chartsListElement = chartsTypes[i];
+    chartsList.append('<option value="' + chartsListElement + '">' + chartsListElement + '</option>');
+  }
+  $('#charts').append(chartsList);
+
+  $(chartsList).change(function(e) {
+    chart.dispose();
+    constructChart($(this).val());
+  });
+  $(chartsList).val(defaultChartType);
+
+
+  constructChart($(chartsList).val());
+
+
+  $('#baseline').val(plot.baseline());
+
   $('[name=color][value=' + coloringFuncName + ']').attr('checked', 'checked');
   $('[name=color]').click(function() {
-    chart.container().getStage().suspend();
+    // chart.container().getStage().suspend();
 
     var seriesType = $(seriesList).val().replace(/-(.)/g, function(match, p1) {return p1.toUpperCase()});
     var series;
 
     coloringFunc = window[this.value];
 
-    chart.removeSeriesAt(0);
-    series = chart[seriesType](mapping);
+    plot.removeSeriesAt(0);
+    series = plot[seriesType](mapping);
     configureSeries(series);
 
-    chart.container().getStage().resume();
+    // chart.container().getStage().resume();
   });
 
   var multi = 1;
   var direction = 1;
   var interactBaseLineHandler = function() {
-    value = chart.baseline();
+    value = plot.baseline();
     if (value < min)
       direction = 1;
     else if (value > max)
       direction = -1;
     value += multi * direction;
 
-    chart.baseline(value);
+    plot.baseline(value);
     lineMarker.value(value);
     $('#baseline').val(value);
   }
