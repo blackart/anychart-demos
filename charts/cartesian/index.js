@@ -1,9 +1,12 @@
 var serie, coloringFunc, lineMarker, chart, plot, mapping;
 var max = 1000;
 var min = -1000;
-var defaultSeriesType = 'range-spline-area';
-var defaultChartType = 'stock';
-
+var defaultSeriesType = 'column';
+var defaultChartType = 'cartesian';
+var coloringFuncName = 'colorScale';
+// var coloringFuncName = 'negativeColoring';
+var range;
+// var range = ['2004-01-09 9:00', '2004-01-12 3:00'];
 
 var changeBaseLine = function(value) {
   plot.baseline(value);
@@ -54,7 +57,6 @@ colorScale = function(series) {
   // });
 }
 
-coloringFuncName = 'negativeColoring';
 coloringFunc = this[coloringFuncName];
 
 
@@ -120,7 +122,7 @@ function constructChart(type) {
       var dataTable = anychart.data.table(0);
       dataTable.addData(get_msft_daily_short_data());
       mapping = dataTable.mapAs(map);
-      chart = anychart.stock();
+      chart = anychart.stock(true);
       plot = chart.plot(0);
       break;
   }
@@ -136,6 +138,9 @@ function constructChart(type) {
   }
 
   lineMarker = plot.lineMarker().value(plot.baseline());
+
+  if (chart.selectRange &&range)
+    chart.selectRange(range[0], range[1]);
 
   chart.container('container');
   chart.draw();

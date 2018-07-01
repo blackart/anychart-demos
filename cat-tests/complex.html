@@ -1,80 +1,107 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta charset="UTF-8"/>
-    <meta name="x-cat-tags" content="anyStock actualBugJson actualBugXml"/>
+    <meta name="x-cat-tags" content="rangeColumn anyChart"/>
 
-<script src="../../libs/closure-library/closure/goog/base.js"></script>
-<script src="../../src/deps.js"></script>
-<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
-<script>
-    goog.require("anychart.bundle.entry");
-    goog.require("anychart.themes.defaultTheme.entry");
-    window.ACDVF = true;
-</script>
-<script src="utils/anytest.min.js"></script>
+    <script src="../../libs/closure-library/closure/goog/base.js"></script>
+    <script src="../../src/deps.js"></script>
+    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
+    <script>
+      goog.require("anychart.bundle.entry");
+      goog.require("anychart.themes.defaultTheme.entry");
+      window.ACDVF = true;
+    </script>
+    <script src="utils/anytest.min.js"></script>
 
 
-    <script src="http://tests.anychart.com/static/sessions/5603/branch/out/local-cdn/dji-daily-short.js" data-export="true"></script>
 </head>
 <body>
 <div id="container"></div>
 </body>
 <script>
-    var chart;
-    anychart.onDocumentReady(function() {
-        anytest.setUp(600, 500);
-        var dataTable = anychart.data.table();
-        dataTable.addData(get_dji_daily_short_data());
+  var chart1, chart2, chart3, chart4, chart5;
+  anychart.onDocumentLoad(function() {
+    anytest.setUp(600, 600).description('Проверяем различные настройки на серии');
 
-        var mapping = dataTable.mapAs();
-        mapping.addField('value', 4);
+    chart1 = anychart.polar();
+    chart1.title('fill, hatchFill, stroke');
+    chart1.rangeColumn([
+      [10, 6, 3],
+      [15, 1, 7],
+      [21, 2, 4],
+      [30, 4, 8]
+    ])
+        .fill('red .6')
+        .hatchFill('dashed-vertical')
+        .stroke('5 green');
+    chart1.bounds(new acgraph.math.Rect(0, 0, 300, 200));
+    anytest.drawInStage(chart1);
 
-        chart = anychart.stock();
-        chart.padding(10, 10, 10, 50);
+    chart2 = anychart.polar();
+    chart2.title('Color, clip');
+    chart2.rangeColumn([
+      [10, 6, 3],
+      [15, 1, 7],
+      [21, 2, 4],
+      [30, 4, 8]
+    ])
+        .color('green')
+        .clip(new acgraph.math.Rect(300, 0, 200, 150));
+    chart2.bounds(new acgraph.math.Rect(300, 0, 300, 200));
+    anytest.drawInStage(chart2);
 
-        var Plot = chart.plot();
-        var series = Plot.column(mapping);
-        series.risingFill('pink');
+    chart3 = anychart.polar();
+    chart3.title('Name');
+    var series0 = chart3.rangeColumn([
+      [10, 6, 3],
+      [15, 1, 7],
+      [21, 2, 4],
+      [30, 4, 8]
+    ]);
+    series0.name('rangeColumn series name');
+    chart3.legend().enabled(true);
+    chart3.bounds(new acgraph.math.Rect(0, 200, 300, 200));
+    anytest.drawInStage(chart3);
 
-        var scroll = chart.scroller().height(100);
-        var mma = scroll.mma(mapping, 20, 'stepLine');
+    var oScale = anychart.scales.ordinal();
+    var lScale = anychart.scales.linear();
+    chart4 = anychart.polar();
+    chart4.title('xScale, yScale');
+    chart4.rangeColumn([
+      [10, 6, 3],
+      [15, 1, 7],
+      [21, 2, 4],
+      [30, 4, 8]
+    ]);
+    chart4.xScale(oScale);
+    chart4.yScale(lScale);
+    chart4.bounds(new acgraph.math.Rect(0, 400, 600, 200));
+    anytest.drawInStage(chart4);
 
-        // anytest.asserts.equal(mma.series().seriesType(), 'column', true);
-        // anytest.asserts.equal(mma.period(), 20, true);
+    var dataSet = anychart.data.set([
+      ['1', 4, 6, 2, 5, 9, 2, 9, 13, 14],
+      [2, 20, 3, 10, 6, 10, 11, 10, 12, 22],
+      [3, 8, 15, 9, 7, 11, 19, 11, 14, 20],
+      [4, 17, 9, 2, 8, 12, 13, 12, 11, 12]
+    ]);
+    var seriesData_1 = dataSet.mapAs({x: [4], value: [1], low: [2], high: [3]});
+    var seriesData_2 = dataSet.mapAs({x: [1], value: [4], low: [5], high: [6]});
+    var seriesData_3 = dataSet.mapAs({x: [2], value: [7], low: [8], high: [9]});
 
-        anytest.drawInStage(chart);
+    chart5 = anychart.polar();
+    chart5.title('zIndex, xPointPosition');
+    chart5.rangeColumn(seriesData_1).zIndex(1);
+    chart5.rangeColumn(seriesData_2).zIndex(0);
+    chart5.rangeColumn(seriesData_3).zIndex(2);
+    chart5.bounds(new acgraph.math.Rect(300, 200, 300, 200));
 
-        anytest.stageListen(function() {
-            // anytest.step(function(){
-            //     anytest.CAT.getScreen();
-            // });
-            // anytest.step(function(){
-            //     mma.series('marker');
-            //     anytest.asserts.equal(mma.series().seriesType(), 'marker', true);
-            //     anytest.CAT.getScreen('mmaMarker', -1);
-            // });
-            // anytest.step(function(){
-            //     mma.period(5);
-            //     anytest.asserts.equal(mma.period(), 5, true);
-            //     anytest.CAT.getScreen('mmaPeriod5', -1, 'mmaMarker');
-            // });
-            // anytest.step(function(){
-            //     mma.period(10);
-            //     anytest.asserts.equal(mma.period(), 10, true);
-            //     anytest.CAT.getScreen('mmaPeriod10', -1, 'mmaPeriod5');
-            // });
-            // anytest.step(function(){
-            //     mma.series('column');
-            //     mma.period(20);
-            //     anytest.CAT.getScreen('backToInitialState', 1);
-            // });
-            anytest.exit();
-        }).charts4modes('chart');
-        stage.resume();
-        /*<< methods
-         anychart.core.stock.Scroller.mma
-         >>*/
-    });
+    anytest.stageListen().drawInStage(chart5)
+        .charts4modes('chart1', 'chart2', 'chart3', 'chart4', 'chart5');
+
+    stage.resume();
+    /*<< methods
+     anychart.core.polar.series.RangeColumn.fill
+     >>*/
+  });
 </script>
 </html>
