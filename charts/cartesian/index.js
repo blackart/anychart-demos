@@ -1,11 +1,12 @@
 var serie, coloringFunc, lineMarker, chart, plot, mapping;
 var max = 1000;
 var min = -1000;
-// var defaultSeriesType = 'range-spline-area';
 var defaultSeriesType = 'column';
 var defaultChartType = 'cartesian';
-coloringFuncName = 'colorScale';
-
+var coloringFuncName = 'colorScale';
+// var coloringFuncName = 'negativeColoring';
+var range;
+// var range = ['2004-01-09 9:00', '2004-01-12 3:00'];
 
 var changeBaseLine = function(value) {
   plot.baseline(value);
@@ -117,7 +118,7 @@ function constructChart(type) {
     value: 6,
 
   };
-  chart = anychart[type]();
+  chart = anychart[type](true);
   plot = chart;
   var data = get_msft_daily_short_data();
 
@@ -156,6 +157,9 @@ function constructChart(type) {
 
   if (plot.lineMarker)
     lineMarker = plot.lineMarker().value(plot.baseline());
+
+  if (chart.selectRange &&range)
+    chart.selectRange(range[0], range[1]);
 
   chart.container('container');
   chart.draw();
