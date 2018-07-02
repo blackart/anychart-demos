@@ -1,6 +1,6 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="cartesian area interactive anyChart"/>
+    <meta name="x-cat-tags" content="cartesian rangeBar interactive anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -22,77 +22,77 @@
   anychart.onDocumentLoad(function() {
     anytest.setUp();
     dataSet1 = anychart.data.set([
-      {value: -6, state: 'selected'},
-      {value: -15},
-      {value: 3},
-      {value: 12},
-      {value: 32},
-      {value: 44}
+      {high: 6, low: 3},
+      {high: 7, low: 1, state: 'selected'},
+      {high: 4, low: 2},
+      {high: 8, low: 4}
     ]);
 
     chart = anychart.cartesian();
-    firstSeries = chart.area([-6, -15, 3, 12, 32, 44]);
-    firstSeries.selected()
-        .markers({
-          fill: '#F44336'
-        })
-        .fill('red');
-    firstSeries.tooltip(null).markers(true);
-    firstSeries.hovered().fill('red');
+    firstSeries = chart.rangeBar([
+      [10, 6, 3],
+      [15, 7, 1],
+      [21, 4, 2],
+      [30, 8, 4]
+    ]);
+    firstSeries
+        .selected()
+        .fill('red')
+        .markers({fill: '#F44336'});
+    firstSeries.tooltip(null);
 
 //        anytest.createPanel('interactive');
-    anytest.stageListen(function(){
-      // anytest.step(function(){
-      //   anytest.CAT.getScreen();
-      //   firstSeries = chart.getSeries(0);
-      // });
-      // anytest.step(function(){
-      //   firstSeries.data(dataSet1);
-      //   anytest.CAT.getScreen('selectByData', -1);
-      //   firstSeries.unselect();
-      // });
-      // anytest.step(function(){
-      //   firstSeries.select();
-      //   anytest.CAT.getScreen('selectAllSeries', -1);
-      // });
-      // anytest.step(function(){
-      //   firstSeries.unselect();
-      //   anytest.CAT.getScreen('unselectAllSeries', 1);
-      // });
-      // anytest.step(function(){
-      //   firstSeries.select(3);
-      //   anytest.CAT.getScreen('select3Point', -1, 'unselectAllSeries');
-      // });
-      // anytest.step(function(){
-      //   firstSeries.select([1,2,3]);
-      //   anytest.CAT.getScreen('select1,2,3Point', -1, 'select3Point');
-      // });
-      // anytest.step(function(){
-      //   firstSeries.unselect();
-      //   anytest.CAT.action(240, 166);
-      // });
-      // anytest.step(function(){
-      //   anytest.CAT.getScreen('select3PointMouse', 1, 'select3Point');
-      //   firstSeries.unselect();
-      // });
-      // anytest.step(function(){
-      //   anytest.CAT.action(0, 0);
-      // });
-      // anytest.step(function(){
-      //   firstSeries.select(8);
-      //   anytest.CAT.getScreen('outOfRange', -1, 'selectAllSeries');
-      //   firstSeries.data([-6, -15, 3, 12, 32, 44]);
-      // });
+    anytest.stageListen(function() {
+      anytest.step(function() {
+        firstSeries = chart.getSeries(0);
+        anytest.CAT.getScreen();
+      });
       anytest.step(function(){
-        anytest.CAT.getScreen('def', 1);
+        firstSeries.data(dataSet1);
+        anytest.CAT.getScreen('selectByData', -1);
+        firstSeries.unselect();
+      });
+      anytest.step(function() {
+        firstSeries.select();
+        anytest.CAT.getScreen('selectAllSeries', -1);
+      });
+      anytest.step(function() {
+        firstSeries.unselect();
+        anytest.CAT.getScreen('unselectAllSeries', 1);
+      });
+      anytest.step(function() {
+        firstSeries.select(3);
+        anytest.CAT.getScreen('select3Point', -1, 'unselectAllSeries');
+      });
+      anytest.step(function() {
+        firstSeries.select([1, 2, 3]);
+        anytest.CAT.getScreen('select1,2,3Point', -1, 'select3Point');
+      });
+      anytest.step(function() {
+        firstSeries.unselect();
+        anytest.CAT.action(288, 52);
+      });
+      anytest.step(function() {
+        anytest.CAT.getScreen('select3PointMouse', 1, 'select3Point');
+      });
+      anytest.step(function() {
+        firstSeries.unselect();
+        anytest.CAT.action(0, 0);
+      });
+      anytest.step(function() {
+        firstSeries.select(8);
+        anytest.CAT.getScreen('outOfRange', 1);
+        firstSeries.data([
+          [10, 6, 3],
+          [15, 7, 1],
+          [21, 4, 2],
+          [30, 8, 4]
+        ]);
       });
       anytest.exit();
-    }).drawInStage(chart).charts4modes('chart');
+    }).drawInStage(chart);
+    anytest.charts4modes('chart');
     stage.resume();
-    /*<< methods
-     anychart.core.SeriesBase.select
-     anychart.core.SeriesBase.unselect
-     >>*/
   });
 </script>
 </html>

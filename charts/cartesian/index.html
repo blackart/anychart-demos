@@ -45,22 +45,9 @@
         <input type="range" min="-1000" max="1000" value="0" step="1" id="baseline" oninput="changeBaseLine(this.value)">
     </fieldset>
 
-    <fieldset id="series">
-
-    </fieldset>
-
-    <fieldset id="charts">
-
-    </fieldset>
-
-    <fieldset>
-        <input type="radio" id="color1" name="color" value="negativeColoring">
-        <label for="color1">Negative / Positive</label>
-        <input type="radio" id="color2" name="color" value="risingFallingColoring">
-        <label for="color2">Rising / Falling</label>
-        <input type="radio" id="color3" name="color" value="colorScale">
-        <label for="color3">Color scale</label>
-    </fieldset>
+    <fieldset id="series"></fieldset>
+    <fieldset id="charts"></fieldset>
+    <fieldset id="coloring"></fieldset>
 
     <fieldset>
         <input type="button" id="interactBaseLine" value="1">

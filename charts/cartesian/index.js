@@ -3,8 +3,8 @@ var max = 1000;
 var min = -1000;
 var defaultSeriesType = 'column';
 var defaultChartType = 'cartesian';
-var coloringFuncName = 'colorScale';
-// var coloringFuncName = 'negativeColoring';
+// var coloringFuncName = 'colorScale';
+var coloringFuncName = 'negativeColoring';
 var range;
 // var range = ['2004-01-09 9:00', '2004-01-12 3:00'];
 
@@ -199,26 +199,31 @@ anychart.onDocumentReady(function() {
   $(chartsList).val(defaultChartType);
 
 
-  constructChart($(chartsList).val());
+  coloringsList = $('<select></select>');
+  var coloring = ['negativeColoring', 'risingFallingColoring', 'colorScale', 'defaultColoring'];
+  for (var i = 0, len = coloring.length; i < len; i++) {
+    var coloringsListElement = coloring[i];
+    coloringsList.append('<option value="' + coloringsListElement + '">' + coloringsListElement + '</option>');
+  }
+  $('#coloring').append(coloringsList);
 
-
-  $('#baseline').val(plot.baseline());
-
-  $('[name=color][value=' + coloringFuncName + ']').attr('checked', 'checked');
-  $('[name=color]').click(function() {
-    // chart.container().getStage().suspend();
-
+  $(coloringsList).change(function(e) {
     var seriesType = $(seriesList).val().replace(/-(.)/g, function(match, p1) {return p1.toUpperCase()});
     var series;
 
     coloringFunc = window[this.value];
 
-    plot.removeSeriesAt(0);
+    plot.removeAllSeries();
     series = plot[seriesType](mapping);
     configureSeries(series);
-
-    // chart.container().getStage().resume();
   });
+  $(coloringsList).val(coloringFuncName);
+
+
+  constructChart($(chartsList).val());
+
+
+  $('#baseline').val(plot.baseline());
 
   var multi = 1;
   var direction = 1;
