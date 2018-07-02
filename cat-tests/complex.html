@@ -1,80 +1,98 @@
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta charset="UTF-8"/>
-    <meta name="x-cat-tags" content="anyStock actualBugJson actualBugXml"/>
+<head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+    <meta name="x-cat-tags" content="cartesian area interactive anyChart"/>
 
-<script src="../../libs/closure-library/closure/goog/base.js"></script>
-<script src="../../src/deps.js"></script>
-<link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
-<script>
-    goog.require("anychart.bundle.entry");
-    goog.require("anychart.themes.defaultTheme.entry");
-    window.ACDVF = true;
-</script>
-<script src="utils/anytest.min.js"></script>
+    <script src="../../libs/closure-library/closure/goog/base.js"></script>
+    <script src="../../src/deps.js"></script>
+    <link href="../../out/anychart-ui.min.css" type="text/css" rel="stylesheet">
+    <script>
+      goog.require("anychart.bundle.entry");
+      goog.require("anychart.themes.defaultTheme.entry");
+      window.ACDVF = true;
+    </script>
+    <script src="utils/anytest.min.js"></script>
 
 
-    <script src="http://tests.anychart.com/static/sessions/5603/branch/out/local-cdn/dji-daily-short.js" data-export="true"></script>
 </head>
 <body>
 <div id="container"></div>
 </body>
 <script>
-    var chart;
-    anychart.onDocumentReady(function() {
-        anytest.setUp(600, 500);
-        var dataTable = anychart.data.table();
-        dataTable.addData(get_dji_daily_short_data());
+  var chart, firstSeries, dataSet1;
+  anychart.onDocumentLoad(function() {
+    anytest.setUp();
+    dataSet1 = anychart.data.set([
+      {value: -6, state: 'selected'},
+      {value: -15},
+      {value: 3},
+      {value: 12},
+      {value: 32},
+      {value: 44}
+    ]);
 
-        var mapping = dataTable.mapAs();
-        mapping.addField('value', 4);
+    chart = anychart.cartesian();
+    firstSeries = chart.area([-6, -15, 3, 12, 32, 44]);
+    firstSeries.selected()
+        .markers({
+          fill: '#F44336'
+        })
+        .fill('red');
+    firstSeries.tooltip(null).markers(true);
+    firstSeries.hovered().fill('red');
 
-        chart = anychart.stock();
-        chart.padding(10, 10, 10, 50);
-
-        var Plot = chart.plot();
-        var series = Plot.column(mapping);
-        series.risingFill('pink');
-
-        var scroll = chart.scroller().height(100);
-        var mma = scroll.mma(mapping, 20, 'stepLine');
-
-        // anytest.asserts.equal(mma.series().seriesType(), 'column', true);
-        // anytest.asserts.equal(mma.period(), 20, true);
-
-        anytest.drawInStage(chart);
-
-        anytest.stageListen(function() {
-            // anytest.step(function(){
-            //     anytest.CAT.getScreen();
-            // });
-            // anytest.step(function(){
-            //     mma.series('marker');
-            //     anytest.asserts.equal(mma.series().seriesType(), 'marker', true);
-            //     anytest.CAT.getScreen('mmaMarker', -1);
-            // });
-            // anytest.step(function(){
-            //     mma.period(5);
-            //     anytest.asserts.equal(mma.period(), 5, true);
-            //     anytest.CAT.getScreen('mmaPeriod5', -1, 'mmaMarker');
-            // });
-            // anytest.step(function(){
-            //     mma.period(10);
-            //     anytest.asserts.equal(mma.period(), 10, true);
-            //     anytest.CAT.getScreen('mmaPeriod10', -1, 'mmaPeriod5');
-            // });
-            // anytest.step(function(){
-            //     mma.series('column');
-            //     mma.period(20);
-            //     anytest.CAT.getScreen('backToInitialState', 1);
-            // });
-            anytest.exit();
-        }).charts4modes('chart');
-        stage.resume();
-        /*<< methods
-         anychart.core.stock.Scroller.mma
-         >>*/
-    });
+//        anytest.createPanel('interactive');
+    anytest.stageListen(function(){
+      // anytest.step(function(){
+      //   anytest.CAT.getScreen();
+      //   firstSeries = chart.getSeries(0);
+      // });
+      // anytest.step(function(){
+      //   firstSeries.data(dataSet1);
+      //   anytest.CAT.getScreen('selectByData', -1);
+      //   firstSeries.unselect();
+      // });
+      // anytest.step(function(){
+      //   firstSeries.select();
+      //   anytest.CAT.getScreen('selectAllSeries', -1);
+      // });
+      // anytest.step(function(){
+      //   firstSeries.unselect();
+      //   anytest.CAT.getScreen('unselectAllSeries', 1);
+      // });
+      // anytest.step(function(){
+      //   firstSeries.select(3);
+      //   anytest.CAT.getScreen('select3Point', -1, 'unselectAllSeries');
+      // });
+      // anytest.step(function(){
+      //   firstSeries.select([1,2,3]);
+      //   anytest.CAT.getScreen('select1,2,3Point', -1, 'select3Point');
+      // });
+      // anytest.step(function(){
+      //   firstSeries.unselect();
+      //   anytest.CAT.action(240, 166);
+      // });
+      // anytest.step(function(){
+      //   anytest.CAT.getScreen('select3PointMouse', 1, 'select3Point');
+      //   firstSeries.unselect();
+      // });
+      // anytest.step(function(){
+      //   anytest.CAT.action(0, 0);
+      // });
+      // anytest.step(function(){
+      //   firstSeries.select(8);
+      //   anytest.CAT.getScreen('outOfRange', -1, 'selectAllSeries');
+      //   firstSeries.data([-6, -15, 3, 12, 32, 44]);
+      // });
+      anytest.step(function(){
+        anytest.CAT.getScreen('def', 1);
+      });
+      anytest.exit();
+    }).drawInStage(chart).charts4modes('chart');
+    stage.resume();
+    /*<< methods
+     anychart.core.SeriesBase.select
+     anychart.core.SeriesBase.unselect
+     >>*/
+  });
 </script>
 </html>
