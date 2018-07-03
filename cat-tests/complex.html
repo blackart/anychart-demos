@@ -1,6 +1,6 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
-    <meta name="x-cat-tags" content="cartesian rangeBar interactive anyChart"/>
+    <meta name="x-cat-tags" content="box interactive anyChart"/>
 
     <script src="../../libs/closure-library/closure/goog/base.js"></script>
     <script src="../../src/deps.js"></script>
@@ -18,81 +18,65 @@
 <div id="container"></div>
 </body>
 <script>
-  var chart, firstSeries, dataSet1;
+  var chart1, chart2;
   anychart.onDocumentLoad(function() {
-    anytest.setUp();
-    dataSet1 = anychart.data.set([
-      {high: 6, low: 3},
-      {high: 7, low: 1, state: 'selected'},
-      {high: 4, low: 2},
-      {high: 8, low: 4}
+    anytest.setUp(500,500);
+    var data1 = [
+      [1, 760, 801, 848, 895, 965, [650, 1000]] ,
+      [2, 733, 853, 939, 980, 1080, [1120, 630]],
+      [3, 760, 801, 848, 895, 965, [650]],
+      [4, 724, 802, 806, 871, 950, [1000, 600]],
+      [5, 820, 836, 864, 882, 910, [980]]
+    ];
+
+    var data2 = anychart.data.set([
+      {x: '1', low: 760, q1: 801, median: 848, q3: 895, high: 965} ,
+      {x: '2', low: 733, q1: 853, median: 939, q3: 980, high: 1080,outliers:[1120, 630]},
+      {x: '3', low: 760, q1: 801, median: 848, q3: 895, high: 965, outliers:[700]},
+      {x: '4', low: 724, q1: 802, median: 806, q3: 871, high: 950, outliers:[1000, 600]},
+      {x: '5', low: 834, q1: 836, median: 864, q3: 882, high: 910, outliers:[980]}
     ]);
 
-    chart = anychart.cartesian();
-    firstSeries = chart.rangeBar([
-      [10, 6, 3],
-      [15, 7, 1],
-      [21, 4, 2],
-      [30, 8, 4]
-    ]);
-    firstSeries
-        .selected()
-        .fill('red')
-        .markers({fill: '#F44336'});
-    firstSeries.tooltip(null);
+    chart1 = anychart.cartesian();
+    var box1 = chart1.box(data1);
+    var box3 = chart1.box(data1);
+    box1.outlierMarkers().type('star7').size(10);
+    box3.outlierMarkers({fill:'red .7', size:6});
+    chart1.bounds(0,0, 500, 250);
+    chart1.title("outlierMarkers().type('star7').size(10)\noutlierMarkers({fill:'red .7', size:6})");
+    anytest.drawInStage(chart1);
 
-//        anytest.createPanel('interactive');
+    chart2 = anychart.cartesian();
+    var box2 = chart2.box(data2);
+    var box4 = chart2.box(data2);
+    box2.hovered().outlierMarkers().type('circle').size(14);
+    box4.hovered().outlierMarkers({stroke:'2 yellow', position:'left-center'});
+    chart2.bounds(0,250, 500, 250);
+    chart2.title(null);
+    anytest.drawInStage(chart2);
+
     anytest.stageListen(function() {
-      anytest.step(function() {
-        firstSeries = chart.getSeries(0);
+      anytest.step(function(){
         anytest.CAT.getScreen();
       });
       anytest.step(function(){
-        firstSeries.data(dataSet1);
-        anytest.CAT.getScreen('selectByData', -1);
-        firstSeries.unselect();
+        anytest.CAT.action(133, 364, 'mousemove');
       });
-      anytest.step(function() {
-        firstSeries.select();
-        anytest.CAT.getScreen('selectAllSeries', -1);
+      anytest.step(function(){
+        anytest.CAT.getScreen('hoverMarker', -1);
       });
-      anytest.step(function() {
-        firstSeries.unselect();
-        anytest.CAT.getScreen('unselectAllSeries', 1);
+      anytest.step(function(){
+        anytest.CAT.action(0, 0, 'mousemove');
       });
-      anytest.step(function() {
-        firstSeries.select(3);
-        anytest.CAT.getScreen('select3Point', -1, 'unselectAllSeries');
-      });
-      anytest.step(function() {
-        firstSeries.select([1, 2, 3]);
-        anytest.CAT.getScreen('select1,2,3Point', -1, 'select3Point');
-      });
-      anytest.step(function() {
-        firstSeries.unselect();
-        anytest.CAT.action(288, 52);
-      });
-      anytest.step(function() {
-        anytest.CAT.getScreen('select3PointMouse', 1, 'select3Point');
-      });
-      anytest.step(function() {
-        firstSeries.unselect();
-        anytest.CAT.action(0, 0);
-      });
-      anytest.step(function() {
-        firstSeries.select(8);
-        anytest.CAT.getScreen('outOfRange', 1);
-        firstSeries.data([
-          [10, 6, 3],
-          [15, 7, 1],
-          [21, 4, 2],
-          [30, 8, 4]
-        ]);
+      anytest.step(function(){
+        anytest.CAT.getScreen('unhoverMarker', 1);
       });
       anytest.exit();
-    }).drawInStage(chart);
-    anytest.charts4modes('chart');
+    }).drawInStage(chart2).charts4modes('chart1', 'chart2');
     stage.resume();
+    /*<< methods
+     anychart.core.cartesian.series.Box.hoverOutlierMarkers
+     >>*/
   });
 </script>
 </html>

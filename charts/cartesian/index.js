@@ -15,7 +15,7 @@ var changeBaseLine = function(value) {
 }
 
 defaultColoring = function(series) {
-  series.hovered().fill('red');
+  // series.hovered().fill('red').stroke('red');
 }
 
 negativeColoring = function(series) {
@@ -147,7 +147,7 @@ function constructChart(type) {
   }
 
   plot.legend(true);
-  // chart.interactivity().hoverMode('by-x');
+  chart.interactivity().hoverMode('by-x');
 
   var seriesName = $(seriesList).val().replace(/-(.)/g, function(match, p1) {return p1.toUpperCase()});
   if (plot[seriesName]) {
