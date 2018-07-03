@@ -19,7 +19,12 @@ defaultColoring = function(series) {
 }
 
 negativeColoring = function(series) {
-  series.negativeFill('gray .3');
+  // series.negativeFill('gray .3');
+  // series.negativeStroke('grey');
+  // series.stroke('yellow');
+  // series.fill('yellow .3');
+
+  series.negativeFill(['red', 'grey'], 90);
   series.negativeStroke('grey');
   series.stroke('yellow');
   series.fill('yellow .3');
