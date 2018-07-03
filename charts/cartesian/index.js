@@ -2,7 +2,7 @@ var serie, coloringFunc, lineMarker, chart, plot, mapping;
 var max = 1000;
 var min = -1000;
 var defaultSeriesType = 'column';
-var defaultChartType = 'cartesian';
+var defaultChartType = 'stock';
 // var coloringFuncName = 'colorScale';
 var coloringFuncName = 'negativeColoring';
 var range;
@@ -15,7 +15,7 @@ var changeBaseLine = function(value) {
 }
 
 defaultColoring = function(series) {
-  // series.hovered().fill('red').stroke('red');
+  series.hovered().fill('red').stroke('red');
 }
 
 negativeColoring = function(series) {
