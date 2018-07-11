@@ -1,25 +1,12 @@
 anychart.onDocumentReady(function (){
-  chart = anychart.line();
-  series = chart.splineArea([-10, 4, 0, -3, 7, 2, -8]);
+  var time1 = Date.now();
 
-  series
-      // .negativeFill('orange')
-      // .negativeStroke('orange')
-      .risingFill('orange')
-      .fallingFill('yellow');
-
-
-  series.hovered()
-      .risingFill('green')
-      .fallingFill('blue');
-
-  series.selected()
-      .risingFill('pink')
-      .fallingFill('red');
-
-  series.markers(true);
-
-  chart.baseline(-1);
-  chart.legend(true);
+  chart = anychart.line([-10, 4, 0, -3, 7, 2, -8]);
+  // chart.xAxis(false).yAxis(false);
+  // chart.xAxis().overlapMode(true);
+  // chart.yAxis().overlapMode(true);
   chart.container('container').draw();
+
+  var time2 = Date.now();
+  console.log(time2 - time1);
 });

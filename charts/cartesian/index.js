@@ -1,8 +1,8 @@
 var serie, coloringFunc, lineMarker, chart, plot, mapping;
 var max = 1000;
 var min = -1000;
-var defaultSeriesType = 'column';
-var defaultChartType = 'stock';
+var defaultSeriesType = 'line';
+var defaultChartType = 'cartesian';
 // var coloringFuncName = 'colorScale';
 var coloringFuncName = 'negativeColoring';
 var range;
