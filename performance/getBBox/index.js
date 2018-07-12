@@ -11,9 +11,22 @@ createSVGElement = function(tag) {
 
 function measure() {
   for (var i = 0; i < n; i++) {
+    alpha = 90 / n * i;
+    x = 100 * Math.cos(alpha * Math.PI / 180);
+    y = 100 * Math.sin(alpha * Math.PI / 180);
+
+    text = createSVGElement('path');
+    text.setAttribute('d', 'M0,0L' + x + ',' + y);
+    text.setAttribute('stroke', 'red');
+    svg.appendChild(text);
+
+
+
     var text = texts[i];
-    text.setAttribute('x', i * 10);
-    text.setAttribute('y', 100);
+    // text.setAttribute('x', i * 10);
+    // text.setAttribute('y', 100);
+
+    // text.setAttribute('transform', 'translate(' + i * 10 + ',' + 100 + ')');
     // t1 = Date.now();
     bbox = text.getBBox();
     // t2 = Date.now();
