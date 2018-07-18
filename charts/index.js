@@ -5,6 +5,7 @@ anychart.onDocumentReady(function (){
   // chart.xAxis(false).yAxis(false);
   // chart.xAxis().overlapMode(true);
   // chart.yAxis().overlapMode(true);
+  chart.background('#242424');
   chart.container('container').draw();
 
   var time2 = Date.now();
