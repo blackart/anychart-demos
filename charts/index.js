@@ -1,7 +1,8 @@
 anychart.onDocumentReady(function (){
   var time1 = Date.now();
 
-  chart = anychart.line([-10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, 4, 0, -3, 7, 2, -8]);
+  // chart = anychart.line([-10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, 4, 0, -3, 7, 2, -8]);
+  chart = anychart.line([-10, 4, 0, -3]);
   // chart.xAxis(false).yAxis(false);
   // chart.xAxis().overlapMode(true);
   // chart.yAxis().overlapMode(true);
