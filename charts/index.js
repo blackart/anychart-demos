@@ -4,8 +4,8 @@ var randomExt = function(a, b) {
 
 function getData() {
   var data = [];
-  for (var i = 0, len = 1000; i < len; i++) {
-    data.push(randomExt(0, 20));
+  for (var i = 0, len = 5; i < len; i++) {
+    data.push(randomExt(0, 1));
   }
   return data;
 }
@@ -14,6 +14,10 @@ anychart.onDocumentReady(function (){
   var time1 = Date.now();
 
   chart = anychart.line(getData());
+  var series = chart.getSeries(0);
+  series.labels(true);
+  chart.yAxis(false);
+  chart.xAxis(false);
   // chart = anychart.line([-10, 4, 0, -3]);
   // chart.xAxis(false).yAxis(false);
   // chart.xAxis().overlapMode(true);
