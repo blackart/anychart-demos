@@ -1,7 +1,19 @@
+var randomExt = function(a, b) {
+  return Math.round(Math.random() * (b - a + 1) + a);
+};
+
+function getData() {
+  var data = [];
+  for (var i = 0, len = 1000; i < len; i++) {
+    data.push(randomExt(0, 20));
+  }
+  return data;
+}
+
 anychart.onDocumentReady(function (){
   var time1 = Date.now();
 
-  chart = anychart.line([-10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, -10, 4, 0, -3, 7, 2, -8, 4, 0, -3, 7, 2, -8]);
+  chart = anychart.line(getData());
   // chart = anychart.line([-10, 4, 0, -3]);
   // chart.xAxis(false).yAxis(false);
   // chart.xAxis().overlapMode(true);
