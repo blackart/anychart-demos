@@ -16,8 +16,8 @@ anychart.onDocumentReady(function (){
   chart = anychart.line(getData());
   var series = chart.getSeries(0);
   series.labels(true);
-  chart.yAxis(false);
-  chart.xAxis(false);
+  // chart.yAxis(false);
+  // chart.xAxis(false);
   // chart = anychart.line([-10, 4, 0, -3]);
   // chart.xAxis(false).yAxis(false);
   // chart.xAxis().overlapMode(true);
